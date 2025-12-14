@@ -414,60 +414,52 @@ class _SummaryRow extends StatelessWidget {
 }
 
 // ============================================
-// Selector Example - Only rebuilds when itemCount changes
+// Selector Example - Only rebuilds when selected value changes
 // ============================================
 
 /// A badge widget that shows the cart item count.
-/// Uses Selector to only rebuild when itemCount changes,
+/// Uses context.selectCartViewModel to only rebuild when itemCount changes,
 /// not when other cart properties (like isLoading) change.
 class CartBadge extends StatelessWidget {
   const CartBadge({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Using Selector: only rebuilds when itemCount changes
-    return CartViewModelSelector<int>(
-      selector: (state) => state.itemCount,
-      builder: (context, count) {
-        if (count == 0) return const SizedBox.shrink();
-        return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.error,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Text(
-            '$count',
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        );
-      },
+    // Using select: only rebuilds when itemCount changes
+    final count = context.selectCartViewModel((s) => s.itemCount);
+    if (count == 0) return const SizedBox.shrink();
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.error,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Text(
+        '$count',
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
     );
   }
 }
 
 /// A widget showing only the cart total.
-/// Uses Selector to only rebuild when total changes.
+/// Uses context.selectCartViewModel to only rebuild when total changes.
 class CartTotalDisplay extends StatelessWidget {
   const CartTotalDisplay({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return CartViewModelSelector<double>(
-      selector: (state) => state.total,
-      builder: (context, total) {
-        return Text(
-          'Total: \$${total.toStringAsFixed(2)}',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Theme.of(context).colorScheme.primary,
-          ),
-        );
-      },
+    final total = context.selectCartViewModel((s) => s.total);
+    return Text(
+      'Total: \$${total.toStringAsFixed(2)}',
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+        color: Theme.of(context).colorScheme.primary,
+      ),
     );
   }
 }
