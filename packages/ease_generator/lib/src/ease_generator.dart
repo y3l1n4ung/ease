@@ -77,7 +77,6 @@ class EaseGenerator extends GeneratorForAnnotation<ease> {
     final providerName = '${className}Provider';
     final providerStateName = '_${className}ProviderState';
     final inheritedName = '_${className}Inherited';
-    final selectorName = '${className}Selector';
     final getterName = toCamelCase(className);
     final stateType = _getStateType(element) ?? 'dynamic';
 
@@ -161,81 +160,17 @@ extension ${className}Context on BuildContext {
     }
     return inherited.notifier!;
   }
-}
 
-/// Selector widget for $className that only rebuilds when selected value changes.
-///
-/// Example:
-/// ```dart
-/// $selectorName<int>(
-///   selector: (state) => state.itemCount,
-///   builder: (context, count) => Text('\$count'),
-/// )
-/// ```
-class $selectorName<T> extends StatefulWidget {
-  /// Function that selects the portion of state to watch.
-  final T Function($stateType state) selector;
-
-  /// Builder function called with the selected value.
-  final Widget Function(BuildContext context, T value) builder;
-
-  /// Optional equality function to compare selected values.
-  /// If not provided, uses `==` operator.
-  final bool Function(T previous, T next)? equals;
-
-  const $selectorName({
-    super.key,
-    required this.selector,
-    required this.builder,
-    this.equals,
-  });
-
-  @override
-  State<$selectorName<T>> createState() => _${selectorName}State<T>();
-}
-
-class _${selectorName}State<T> extends State<$selectorName<T>> {
-  $className? _notifier;
-  late T _selectedValue;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final notifier = context.read$className();
-    if (_notifier != notifier) {
-      _notifier?.removeListener(_onStateChange);
-      _notifier = notifier;
-      _selectedValue = widget.selector(notifier.state);
-      notifier.addListener(_onStateChange);
-    }
-  }
-
-  @override
-  void dispose() {
-    _notifier?.removeListener(_onStateChange);
-    super.dispose();
-  }
-
-  void _onStateChange() {
-    final newValue = widget.selector(_notifier!.state);
-    final areEqual = widget.equals?.call(_selectedValue, newValue) ?? _selectedValue == newValue;
-    if (!areEqual) {
-      setState(() => _selectedValue = newValue);
-    }
-  }
-
-  @override
-  void didUpdateWidget(covariant $selectorName<T> oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    // Recompute selected value if selector changed
-    if (_notifier != null) {
-      _selectedValue = widget.selector(_notifier!.state);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return widget.builder(context, _selectedValue);
+  /// Selects a portion of $className state and subscribes to changes.
+  /// Widget will rebuild only when the selected value changes.
+  ///
+  /// Example:
+  /// ```dart
+  /// final count = context.select$className((s) => s.itemCount);
+  /// ```
+  T select$className<T>(T Function($stateType state) selector) {
+    final notifier = $getterName;
+    return selector(notifier.state);
   }
 }
 ''';

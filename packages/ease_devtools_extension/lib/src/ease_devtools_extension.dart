@@ -296,7 +296,7 @@ class _StateListTile extends StatelessWidget {
 
     return ListTile(
       selected: isSelected,
-      selectedTileColor: theme.colorScheme.primaryContainer.withOpacity(0.3),
+      selectedTileColor: theme.colorScheme.primaryContainer.withValues(alpha: 0.3),
       onTap: onTap,
       title: Row(
         children: [
@@ -441,7 +441,7 @@ class _HistoryListTile extends StatelessWidget {
                   child: _StateValueBox(
                     label: 'After',
                     value: newState,
-                    color: theme.colorScheme.primaryContainer.withOpacity(0.5),
+                    color: theme.colorScheme.primaryContainer.withValues(alpha: 0.5),
                     textColor: theme.colorScheme.onPrimaryContainer,
                   ),
                 ),
@@ -483,7 +483,7 @@ class _StateValueBox extends StatelessWidget {
             style: TextStyle(
               fontSize: 10,
               fontWeight: FontWeight.w500,
-              color: textColor.withOpacity(0.7),
+              color: textColor.withValues(alpha: 0.7),
             ),
           ),
           const SizedBox(height: 4),

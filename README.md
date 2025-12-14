@@ -2,7 +2,8 @@
 
 A simple, performant Flutter state management library using InheritedWidget + code generation.
 
-**Author:** Ye Lin Aung
+[![Pub Version](https://img.shields.io/pub/v/ease)](https://pub.dev/packages/ease)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 ## Features
 
@@ -12,6 +13,8 @@ A simple, performant Flutter state management library using InheritedWidget + co
 - Type-safe state access
 - Automatic provider nesting
 - Watch (`context.myState`) and read (`context.readMyState()`) patterns
+- Selector pattern (`context.selectMyState((s) => s.field)`) for granular rebuilds
+- DevTools integration for debugging
 
 ## Installation
 
@@ -19,13 +22,18 @@ Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  ease:
-    path: ../ease  # or from pub.dev when published
+  ease: ^1.0.0
 
 dev_dependencies:
-  ease_generator:
-    path: ../ease_generator  # or from pub.dev when published
+  ease_generator: ^1.0.0
   build_runner: ^2.4.0
+```
+
+For DevTools support (optional):
+
+```yaml
+dev_dependencies:
+  ease_devtools_extension: ^1.0.0
 ```
 
 ## Quick Start
@@ -35,11 +43,11 @@ dev_dependencies:
 ```dart
 import 'package:ease/ease.dart';
 
-part 'counter_state.g.dart';
+part 'counter_view_model.ease.dart';
 
-@ease()
-class CounterState extends StateNotifier<int> {
-  CounterState() : super(0);
+@ease
+class CounterViewModel extends StateNotifier<int> {
+  CounterViewModel() : super(0);
 
   void increment() => state = state + 1;
   void decrement() => state = state - 1;
@@ -57,17 +65,23 @@ dart run build_runner build
 ```dart
 import 'ease.g.dart';
 
-void main() => runApp(const Ease(child: MyApp()));
+void main() {
+  initializeEase(); // Optional: enables DevTools
+  runApp(const Ease(child: MyApp()));
+}
 ```
 
 ### 4. Use the State
 
 ```dart
 // Watch - rebuilds when state changes
-final count = context.counterState.state;
+final count = context.counterViewModel.state;
 
 // Read - doesn't rebuild, use in callbacks
-onPressed: () => context.readCounterState().increment(),
+onPressed: () => context.readCounterViewModel().increment(),
+
+// Select - rebuilds only when selected value changes
+final itemCount = context.selectCartViewModel((s) => s.items.length);
 ```
 
 ## API
@@ -77,7 +91,7 @@ onPressed: () => context.readCounterState().increment(),
 Base class for all state objects:
 
 ```dart
-@ease()
+@ease
 class MyState extends StateNotifier<MyStateData> {
   MyState() : super(MyStateData.initial());
 
@@ -89,6 +103,11 @@ class MyState extends StateNotifier<MyStateData> {
   // Use update() for complex transformations
   void transform() {
     update((current) => current.copyWith(/* ... */));
+  }
+
+  // Named actions for DevTools
+  void increment() {
+    setState(state + 1, action: 'increment');
   }
 }
 ```
@@ -105,11 +124,74 @@ context.get<MyState>()  // generic version
 // Read - no rebuild, for callbacks
 context.readMyState()   // method, doesn't subscribe
 context.read<MyState>() // generic version
+
+// Select - granular rebuilds
+context.selectMyState((s) => s.field)  // only rebuilds when field changes
+```
+
+## DevTools
+
+Ease includes a DevTools extension for debugging state changes.
+
+1. Add `ease_devtools_extension` to your dev_dependencies
+2. Call `initializeEase()` before `runApp()`
+3. Open Flutter DevTools and look for the "Ease" tab
+
+Features:
+- View all registered states
+- Inspect current state values
+- Track state change history with timestamps
+- Filter history by state type
+
+## Development Setup
+
+This project uses [Melos](https://melos.invertase.dev/) for monorepo management.
+
+```bash
+# Install melos
+dart pub global activate melos
+
+# Bootstrap the project
+melos bootstrap
+
+# Run code generation
+melos run generate
+
+# Run tests
+melos run test:all
+
+# Analyze code
+melos run analyze
+
+# Format code
+melos run format
+```
+
+## Project Structure
+
+```
+packages/
+├── ease/                  # Core library
+│   └── lib/src/
+│       ├── state_notifier.dart   # Base StateNotifier class
+│       └── devtools.dart         # DevTools integration
+│
+├── ease_annotation/       # @ease annotation
+│
+├── ease_generator/        # Code generator
+│   └── lib/src/
+│       ├── ease_generator.dart      # Per-file generator
+│       └── aggregator_builder.dart  # Aggregates into ease.g.dart
+│
+└── ease_devtools_extension/  # DevTools UI
+
+apps/
+└── example/               # Example app with demos
 ```
 
 ## Examples
 
-The `example/` directory contains comprehensive examples:
+The `apps/example/` directory contains comprehensive examples:
 
 | Example | Description |
 |---------|-------------|
@@ -123,122 +205,27 @@ The `example/` directory contains comprehensive examples:
 | Pagination | Infinite scroll with load more |
 | Network | Real API calls with caching |
 
-## Architecture
+Run the example:
 
-```
-ease/                    # Core library
-  lib/
-    src/
-      state_notifier.dart  # Base StateNotifier class
-    ease.dart              # Public API
-
-ease_annotation/         # @ease annotation
-  lib/
-    ease_annotation.dart
-
-ease_generator/          # Code generator
-  lib/
-    src/
-      ease_generator.dart     # Per-file generator
-      aggregator_builder.dart # Aggregates all states
-    builder.dart
-
-example/                 # Example app
-  lib/
-    states/              # State classes
-    pages/               # UI pages
-    ease.g.dart          # Generated root widget
+```bash
+cd apps/example
+flutter run
 ```
 
-## How It Works
+## Contributing
 
-1. **Annotation**: `@ease()` marks a class for code generation
-2. **Per-file generation**: Creates `Provider`, `InheritedNotifier`, and context extensions
-3. **Aggregation**: Combines all providers into single `Ease` widget
-4. **Runtime**: Uses Flutter's `InheritedNotifier` for efficient rebuilds
+Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) first.
 
-### Generated Code
-
-For a `CounterState` class, generates:
-
-- `CounterStateProvider` - StatefulWidget that creates the notifier
-- `_CounterStateInherited` - InheritedNotifier for efficient updates
-- `CounterStateContext` extension - `context.counterState` and `context.readCounterState()`
-
-## Performance
-
-- Uses `InheritedNotifier` which only rebuilds widgets that actually depend on the state
-- State comparison uses `!=` - implement proper `==` for complex objects
-- Consider using immutable state classes with `copyWith()`
-
-## Best Practices
-
-### Do
-
-```dart
-// Use immutable state with copyWith
-state = state.copyWith(count: state.count + 1);
-
-// Use read() in callbacks
-onPressed: () => context.readCounterState().increment(),
-
-// Check hasListeners before async state updates
-Future<void> fetchData() async {
-  final data = await api.fetch();
-  if (!hasListeners) return;  // Check if disposed
-  state = state.copyWith(data: data);
-}
-```
-
-### Don't
-
-```dart
-// Don't mutate state directly
-state.items.add(item);  // Won't trigger rebuild!
-
-// Don't use watch in callbacks
-onPressed: () => context.counterState.increment(),  // Causes rebuild
-```
-
-## Roadmap
-
-### Planned Features
-
-- [ ] **Selector pattern** - Subscribe to only part of state for better performance
-  ```dart
-  // Only rebuilds when items.length changes
-  final count = context.select((CartState s) => s.state.items.length);
-  ```
-
-- [ ] **AsyncValue** - Built-in async state handling
-  ```dart
-  state.when(
-    loading: () => CircularProgressIndicator(),
-    error: (e) => Text('Error: $e'),
-    data: (users) => UserList(users),
-  );
-  ```
-
-- [ ] **DevTools integration** - State inspection in Flutter DevTools
-
-- [ ] **Middleware support** - Logging, analytics hooks
-  ```dart
-  Ease(
-    middleware: [LoggingMiddleware(), AnalyticsMiddleware()],
-    child: MyApp(),
-  )
-  ```
-
-- [ ] **State scoping** - Override state for subtree (like Provider's overrides)
-  ```dart
-  EaseScope(
-    overrides: [counterState.overrideWith(MockCounterState())],
-    child: TestWidget(),
-  )
-  ```
-
-- [ ] **Lazy initialization** - Create state only when first accessed
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## License
 
-MIT License - see LICENSE file for details.
+MIT License - see [LICENSE](LICENSE) file for details.
+
+## Author
+
+**Ye Lin Aung** - [@b14ckc0d3](https://github.com/b14ckc0d3)

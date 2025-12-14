@@ -1,4 +1,6 @@
 /// Barrel file for all ViewModels
+library;
+
 export 'auth_view_model.dart';
 export 'cart_view_model.dart';
 export 'counter_view_model.dart';

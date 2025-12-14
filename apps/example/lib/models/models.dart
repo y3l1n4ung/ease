@@ -1,4 +1,6 @@
 /// Barrel file for all models
+library;
+
 export 'api_user.dart';
 export 'form_field.dart';
 export 'post.dart';
