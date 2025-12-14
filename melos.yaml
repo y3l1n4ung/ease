@@ -79,6 +79,16 @@ scripts:
     packageFilters:
       dependsOn: build_runner
 
+  # DevTools extension
+  build:devtools:
+    description: Build DevTools extension
+    run: |
+      cd packages/ease_devtools_extension && \
+      flutter build web --release && \
+      rm -rf extension/devtools/build && \
+      cp -r build/web extension/devtools/build && \
+      echo "DevTools extension built!"
+
   # Maintenance
   clean:
     description: Clean Flutter packages

@@ -90,26 +90,22 @@ class StateNotifier<T> extends ChangeNotifier {
 
 For each `@ease()` class, the generator creates:
 
-- `context.yourViewModel` - Watch (subscribes to changes)
-- `context.readYourViewModel()` - Read (no subscription)
-- `context.get<YourViewModel>()` - Generic watch
-- `context.read<YourViewModel>()` - Generic read
-- `YourViewModelSelector<T>` - Select specific state (granular rebuilds)
+- `context.yourViewModel` - Watch (subscribes to all state changes)
+- `context.readYourViewModel()` - Read (no subscription, use for callbacks)
+- `context.selectYourViewModel((s) => s.field)` - Select specific state (granular rebuilds)
 
 ## Selector Pattern
 
-Use `Selector` when you only need part of the state. This prevents unnecessary rebuilds when other parts of the state change:
+Use `context.select*` when you only need part of the state. This prevents unnecessary rebuilds when other parts of the state change:
 
 ```dart
 // Problem: This rebuilds whenever ANY part of CartStatus changes
 final cart = context.cartViewModel;
 Text('${cart.state.itemCount} items');  // Rebuilds even if only isLoading changed
 
-// Solution: Use Selector to only rebuild when itemCount changes
-CartViewModelSelector<int>(
-  selector: (state) => state.itemCount,
-  builder: (context, count) => Text('$count items'),
-)
+// Solution: Use select to only rebuild when itemCount changes
+final count = context.selectCartViewModel((s) => s.itemCount);
+Text('$count items');
 ```
 
 ### Custom Equality
@@ -117,11 +113,11 @@ CartViewModelSelector<int>(
 For complex types like lists, provide a custom equality function:
 
 ```dart
-CartViewModelSelector<List<CartItem>>(
-  selector: (state) => state.items,
+final items = context.selectCartViewModel(
+  (s) => s.items,
   equals: (prev, next) => listEquals(prev, next),
-  builder: (context, items) => ItemList(items: items),
-)
+);
+ItemList(items: items);
 ```
 
 ## Complex State

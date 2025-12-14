@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 
+import 'devtools.dart';
+
 /// Base class for state management.
 ///
 /// Wraps a value of type [T] and notifies listeners when it changes.
@@ -19,9 +21,16 @@ import 'package:flutter/foundation.dart';
 ///
 /// The [state] setter automatically calls [notifyListeners] when the value
 /// changes, triggering rebuilds in widgets that depend on this state.
+///
+/// In debug mode, state changes are automatically tracked by DevTools.
+/// Use [setState] with an action name for better debugging visibility.
 class StateNotifier<T> extends ChangeNotifier {
   /// Creates a [StateNotifier] with an initial [state] value.
-  StateNotifier(this._state);
+  StateNotifier(this._state) {
+    if (kDebugMode) {
+      EaseDevTools().registerState(this);
+    }
+  }
 
   T _state;
 
@@ -31,13 +40,53 @@ class StateNotifier<T> extends ChangeNotifier {
   /// Use `context.get<T>()` to subscribe to changes.
   T get state => _state;
 
+  /// Whether this notifier has any registered listeners.
+  ///
+  /// Used by DevTools to show state subscription status.
+  bool get hasActiveListeners => hasListeners;
+
   /// Updates the state and notifies listeners if the value changed.
   ///
   /// Uses `!=` comparison to detect changes. For complex objects,
   /// ensure proper `==` implementation or use immutable state.
+  ///
+  /// In debug mode, state changes are automatically recorded for DevTools.
   set state(T value) {
     if (_state != value) {
+      final oldState = _state;
       _state = value;
+
+      if (kDebugMode) {
+        EaseDevTools().recordStateChange(this, oldState, value);
+      }
+
+      notifyListeners();
+    }
+  }
+
+  /// Updates state with an action name for better DevTools visibility.
+  ///
+  /// The [action] parameter appears in DevTools history, making it easier
+  /// to understand what caused each state change.
+  ///
+  /// Example:
+  /// ```dart
+  /// void addItem(Item item) {
+  ///   setState(
+  ///     state.copyWith(items: [...state.items, item]),
+  ///     action: 'addItem',
+  ///   );
+  /// }
+  /// ```
+  void setState(T value, {String? action}) {
+    if (_state != value) {
+      final oldState = _state;
+      _state = value;
+
+      if (kDebugMode) {
+        EaseDevTools().recordStateChange(this, oldState, value, action: action);
+      }
+
       notifyListeners();
     }
   }
@@ -48,7 +97,21 @@ class StateNotifier<T> extends ChangeNotifier {
   /// ```dart
   /// void increment() => update((s) => s + 1);
   /// ```
-  void update(T Function(T current) updater) {
-    state = updater(_state);
+  ///
+  /// Optionally provide an [action] name for DevTools visibility.
+  void update(T Function(T current) updater, {String? action}) {
+    if (action != null) {
+      setState(updater(_state), action: action);
+    } else {
+      state = updater(_state);
+    }
+  }
+
+  @override
+  void dispose() {
+    if (kDebugMode) {
+      EaseDevTools().unregisterState(this);
+    }
+    super.dispose();
   }
 }

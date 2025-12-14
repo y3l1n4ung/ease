@@ -1,3 +1,4 @@
+import 'package:ease/ease.dart';
 import 'package:ease_example/view_models/theme_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -6,7 +7,10 @@ import 'ease.g.dart';
 import 'router/app_router.dart';
 import 'view_models/auth_view_model.dart';
 
-void main() => runApp(const Ease(child: MyApp()));
+void main() {
+  initializeEase(); // Initialize DevTools (debug mode only)
+  runApp(const Ease(child: MyApp()));
+}
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});

@@ -1,0 +1,24 @@
+name: ease_devtools_extension
+description: DevTools extension for Ease state management library. Add this package to see Ease states in Flutter DevTools.
+version: 1.0.0
+homepage: https://github.com/b14ckc0d3/ease
+publish_to: none
+
+environment:
+  sdk: ^3.5.0
+  flutter: '>=3.22.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  devtools_extensions: ^0.3.0
+  ease:
+    path: ../ease
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true

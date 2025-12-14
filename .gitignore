@@ -10,9 +10,13 @@
 build/
 pubspec.lock
 
+# Keep DevTools extension build (needed for distribution)
+!packages/ease_devtools_extension/extension/devtools/build/
+
 # Generated
 *.g.dart
 !ease.g.dart
+*.ease.dart
 
 # macOS
 .DS_Store
