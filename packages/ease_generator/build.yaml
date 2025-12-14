@@ -1,0 +1,15 @@
+builders:
+  ease_builder:
+    import: "package:ease_generator/builder.dart"
+    builder_factories: ["easeBuilder"]
+    build_extensions: {".dart": [".ease.dart"]}
+    auto_apply: dependents
+    build_to: source
+
+  ease_aggregator:
+    import: "package:ease_generator/builder.dart"
+    builder_factories: ["easeAggregatorBuilder"]
+    build_extensions: {"lib/$lib$": ["lib/ease.g.dart"]}
+    auto_apply: dependents
+    build_to: source
+    required_inputs: [".ease.dart"]

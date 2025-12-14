@@ -1,0 +1,25 @@
+name: ease_example
+description: Example app demonstrating ease state management with Counter, Todo, and Form examples
+publish_to: none
+
+environment:
+  sdk: '>=3.5.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  ease:
+    path: ../../packages/ease
+  go_router: ^14.6.0
+  shared_preferences: ^2.2.2
+  http: ^1.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  ease_generator:
+    path: ../../packages/ease_generator
+  build_runner: ^2.4.0
+
+flutter:
+  uses-material-design: true

@@ -1,0 +1,20 @@
+name: ease
+description: Simple Flutter state management with InheritedWidget + code generation
+version: 1.0.0
+homepage: https://github.com/b14ckc0d3/ease
+publish_to: none
+
+environment:
+  sdk: '>=3.5.0 <4.0.0'
+  flutter: '>=3.22.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  ease_annotation:
+    path: ../ease_annotation
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0

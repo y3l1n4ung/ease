@@ -1,0 +1,87 @@
+name: ease
+repository: https://github.com/b14ckc0d3/ease
+
+packages:
+  - packages/*
+  - apps/*
+
+# ignore:
+#   - '**/example'  # uncomment if you have example packages to exclude
+
+command:
+  version:
+    linkToCommits: true
+    workspaceChangelog: true
+
+scripts:
+  # Dependencies
+  get:
+    description: Get dependencies
+    run: melos exec -- flutter pub get
+
+  upgrade:
+    description: Upgrade dependencies
+    run: melos exec -- flutter pub upgrade
+
+  # Code quality
+  analyze:
+    description: Analyze with fatal warnings
+    run: melos exec -- dart analyze . --fatal-infos
+
+  format:
+    description: Format Dart files
+    run: melos exec -- dart format .
+
+  format:check:
+    description: Check format (CI)
+    run: melos exec -- dart format . --set-exit-if-changed -o none
+
+  fix:
+    description: Apply dart fix
+    run: melos exec -- dart fix --apply
+
+  # Testing
+  test:all:
+    description: Run all tests
+    run: melos run test:dart && melos run test:flutter
+
+  test:dart:
+    description: Dart package tests
+    run: melos exec --fail-fast -- dart test
+    packageFilters:
+      dirExists: test
+      flutter: false
+
+  test:flutter:
+    description: Flutter package tests
+    run: melos exec --fail-fast -- flutter test
+    packageFilters:
+      flutter: true
+      dirExists: test
+
+  test:coverage:
+    description: Tests with coverage
+    run: melos exec --fail-fast -- flutter test --coverage
+    packageFilters:
+      flutter: true
+      dirExists: test
+
+  # Code generation
+  generate:
+    description: Run build_runner
+    run: melos exec --order-dependents --fail-fast -- dart run build_runner build -d
+    packageFilters:
+      dependsOn: build_runner
+
+  generate:watch:
+    description: build_runner watch
+    run: melos exec -- dart run build_runner watch -d
+    packageFilters:
+      dependsOn: build_runner
+
+  # Maintenance
+  clean:
+    description: Clean Flutter packages
+    run: melos exec -- flutter clean
+    packageFilters:
+      flutter: true
