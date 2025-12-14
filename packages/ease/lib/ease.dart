@@ -19,4 +19,5 @@
 library ease;
 
 export 'package:ease_annotation/ease_annotation.dart';
+export 'src/selector.dart' show Selector;
 export 'src/state_notifier.dart';

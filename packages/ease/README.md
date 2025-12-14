@@ -94,6 +94,35 @@ For each `@ease()` class, the generator creates:
 - `context.readYourViewModel()` - Read (no subscription)
 - `context.get<YourViewModel>()` - Generic watch
 - `context.read<YourViewModel>()` - Generic read
+- `YourViewModelSelector<T>` - Select specific state (granular rebuilds)
+
+## Selector Pattern
+
+Use `Selector` when you only need part of the state. This prevents unnecessary rebuilds when other parts of the state change:
+
+```dart
+// Problem: This rebuilds whenever ANY part of CartStatus changes
+final cart = context.cartViewModel;
+Text('${cart.state.itemCount} items');  // Rebuilds even if only isLoading changed
+
+// Solution: Use Selector to only rebuild when itemCount changes
+CartViewModelSelector<int>(
+  selector: (state) => state.itemCount,
+  builder: (context, count) => Text('$count items'),
+)
+```
+
+### Custom Equality
+
+For complex types like lists, provide a custom equality function:
+
+```dart
+CartViewModelSelector<List<CartItem>>(
+  selector: (state) => state.items,
+  equals: (prev, next) => listEquals(prev, next),
+  builder: (context, items) => ItemList(items: items),
+)
+```
 
 ## Complex State
 
