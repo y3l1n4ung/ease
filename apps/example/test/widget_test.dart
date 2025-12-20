@@ -5,6 +5,7 @@ import 'package:ease_example/ease.g.dart';
 import 'package:ease_example/view_models/counter_view_model.dart';
 import 'package:ease_example/view_models/cart_view_model.dart';
 import 'package:ease_example/view_models/todo_view_model.dart';
+import 'package:ease_example/view_models/local_form_view_model.dart';
 import 'package:ease_example/models/product.dart';
 
 void main() {
@@ -610,6 +611,321 @@ void main() {
       expect(find.text('Total: 2'), findsOneWidget);
       expect(find.text('Completed: 1'), findsOneWidget);
       expect(find.text('Pending: 1'), findsOneWidget);
+    });
+  });
+
+  group('Nested Local Provider', () {
+    testWidgets('local provider does not rebuild when parent rebuilds',
+        (tester) async {
+      var parentBuildCount = 0;
+      var localConsumerBuildCount = 0;
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: CounterViewModelProvider(
+            child: Column(
+              children: [
+                // Parent watcher - will rebuild on parent state change
+                Builder(
+                  builder: (context) {
+                    parentBuildCount++;
+                    final counter = context.counterViewModel;
+                    return Text('Parent: ${counter.state}');
+                  },
+                ),
+                // Local provider as sibling - should NOT rebuild on parent change
+                LocalFormViewModelProvider(
+                  child: Builder(
+                    builder: (context) {
+                      localConsumerBuildCount++;
+                      final form = context.localFormViewModel;
+                      return Text('Form: ${form.state.name}');
+                    },
+                  ),
+                ),
+                Builder(
+                  builder: (context) {
+                    return ElevatedButton(
+                      onPressed: () =>
+                          context.readCounterViewModel().increment(),
+                      child: const Text('Inc Parent'),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+
+      expect(parentBuildCount, 1);
+      expect(localConsumerBuildCount, 1);
+      expect(find.text('Parent: 0'), findsOneWidget);
+      expect(find.text('Form: '), findsOneWidget);
+
+      // Increment parent counter - should rebuild parent but NOT local provider
+      await tester.tap(find.text('Inc Parent'));
+      await tester.pump();
+
+      expect(parentBuildCount, 2, reason: 'Parent should rebuild');
+      expect(localConsumerBuildCount, 1,
+          reason: 'Local consumer should NOT rebuild when parent changes');
+      expect(find.text('Parent: 1'), findsOneWidget);
+      expect(find.text('Form: '), findsOneWidget);
+    });
+
+    testWidgets(
+        'local provider with const child does not rebuild on parent state change',
+        (tester) async {
+      var parentBuildCount = 0;
+      var localConsumerBuildCount = 0;
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: CounterViewModelProvider(
+            child: Column(
+              children: [
+                Builder(
+                  builder: (context) {
+                    parentBuildCount++;
+                    final counter = context.counterViewModel;
+                    return Text('Parent: ${counter.state}');
+                  },
+                ),
+                // Local provider as sibling (not child of watching Builder)
+                LocalFormViewModelProvider(
+                  child: Builder(
+                    builder: (context) {
+                      localConsumerBuildCount++;
+                      final form = context.localFormViewModel;
+                      return Text('Form: ${form.state.name}');
+                    },
+                  ),
+                ),
+                Builder(
+                  builder: (context) {
+                    return ElevatedButton(
+                      onPressed: () =>
+                          context.readCounterViewModel().increment(),
+                      child: const Text('Inc Parent'),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+
+      expect(parentBuildCount, 1);
+      expect(localConsumerBuildCount, 1);
+
+      // Increment parent counter
+      await tester.tap(find.text('Inc Parent'));
+      await tester.pump();
+
+      expect(parentBuildCount, 2, reason: 'Parent watcher should rebuild');
+      expect(localConsumerBuildCount, 1,
+          reason: 'Local consumer should NOT rebuild when parent changes');
+      expect(find.text('Parent: 1'), findsOneWidget);
+      expect(find.text('Form: '), findsOneWidget);
+    });
+
+    testWidgets('local provider rebuilds only its consumers on local state change',
+        (tester) async {
+      var parentBuildCount = 0;
+      var localConsumerBuildCount = 0;
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: CounterViewModelProvider(
+            child: Column(
+              children: [
+                Builder(
+                  builder: (context) {
+                    parentBuildCount++;
+                    final counter = context.counterViewModel;
+                    return Text('Parent: ${counter.state}');
+                  },
+                ),
+                LocalFormViewModelProvider(
+                  child: Builder(
+                    builder: (context) {
+                      localConsumerBuildCount++;
+                      final form = context.localFormViewModel;
+                      return Column(
+                        children: [
+                          Text('Name: ${form.state.name}'),
+                          ElevatedButton(
+                            onPressed: () =>
+                                context.readLocalFormViewModel().updateName('John'),
+                            child: const Text('Update Name'),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+
+      expect(parentBuildCount, 1);
+      expect(localConsumerBuildCount, 1);
+      expect(find.text('Name: '), findsOneWidget);
+
+      // Update local form state
+      await tester.tap(find.text('Update Name'));
+      await tester.pump();
+
+      expect(parentBuildCount, 1,
+          reason: 'Parent should NOT rebuild when local state changes');
+      expect(localConsumerBuildCount, 2,
+          reason: 'Local consumer should rebuild');
+      expect(find.text('Name: John'), findsOneWidget);
+    });
+
+    testWidgets('multiple nested local providers are independent',
+        (tester) async {
+      var form1BuildCount = 0;
+      var form2BuildCount = 0;
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Column(
+            children: [
+              LocalFormViewModelProvider(
+                child: Builder(
+                  builder: (context) {
+                    form1BuildCount++;
+                    final form = context.localFormViewModel;
+                    return Column(
+                      children: [
+                        Text('Form1: ${form.state.name}'),
+                        ElevatedButton(
+                          onPressed: () =>
+                              context.readLocalFormViewModel().updateName('Alice'),
+                          child: const Text('Update Form1'),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+              LocalFormViewModelProvider(
+                child: Builder(
+                  builder: (context) {
+                    form2BuildCount++;
+                    final form = context.localFormViewModel;
+                    return Column(
+                      children: [
+                        Text('Form2: ${form.state.name}'),
+                        ElevatedButton(
+                          onPressed: () =>
+                              context.readLocalFormViewModel().updateName('Bob'),
+                          child: const Text('Update Form2'),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+
+      expect(form1BuildCount, 1);
+      expect(form2BuildCount, 1);
+      expect(find.text('Form1: '), findsOneWidget);
+      expect(find.text('Form2: '), findsOneWidget);
+
+      // Update form1 only
+      await tester.tap(find.text('Update Form1'));
+      await tester.pump();
+
+      expect(form1BuildCount, 2, reason: 'Form1 consumer should rebuild');
+      expect(form2BuildCount, 1, reason: 'Form2 consumer should NOT rebuild');
+      expect(find.text('Form1: Alice'), findsOneWidget);
+      expect(find.text('Form2: '), findsOneWidget);
+
+      // Update form2 only
+      await tester.tap(find.text('Update Form2'));
+      await tester.pump();
+
+      expect(form1BuildCount, 2, reason: 'Form1 consumer should still be 2');
+      expect(form2BuildCount, 2, reason: 'Form2 consumer should rebuild');
+      expect(find.text('Form1: Alice'), findsOneWidget);
+      expect(find.text('Form2: Bob'), findsOneWidget);
+    });
+
+    testWidgets('local provider read pattern does not rebuild', (tester) async {
+      var buildCount = 0;
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: LocalFormViewModelProvider(
+            child: Builder(
+              builder: (context) {
+                buildCount++;
+                return ElevatedButton(
+                  onPressed: () =>
+                      context.readLocalFormViewModel().updateName('Test'),
+                  child: const Text('Update'),
+                );
+              },
+            ),
+          ),
+        ),
+      );
+
+      expect(buildCount, 1);
+
+      await tester.tap(find.text('Update'));
+      await tester.pump();
+
+      expect(buildCount, 1, reason: 'Should NOT rebuild with read pattern');
+    });
+
+    testWidgets('local provider is disposed when removed from tree',
+        (tester) async {
+      var showForm = true;
+
+      await tester.pumpWidget(
+        StatefulBuilder(
+          builder: (context, setState) {
+            return MaterialApp(
+              home: Column(
+                children: [
+                  if (showForm)
+                    LocalFormViewModelProvider(
+                      child: Builder(
+                        builder: (context) {
+                          final form = context.localFormViewModel;
+                          return Text('Name: ${form.state.name}');
+                        },
+                      ),
+                    ),
+                  ElevatedButton(
+                    onPressed: () => setState(() => showForm = false),
+                    child: const Text('Remove'),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      );
+
+      expect(find.text('Name: '), findsOneWidget);
+
+      await tester.tap(find.text('Remove'));
+      await tester.pump();
+
+      // Form should be removed (and internally disposed)
+      expect(find.text('Name: '), findsNothing);
     });
   });
 }
