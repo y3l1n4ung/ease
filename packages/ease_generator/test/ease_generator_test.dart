@@ -99,11 +99,13 @@ class CounterViewModel extends StateNotifier<int> {
             allOf([
               contains('class CounterViewModelProvider extends StatefulWidget'),
               contains('class _CounterViewModelProviderState'),
-              contains(
-                  'class _CounterViewModelInherited extends InheritedNotifier'),
+              contains('_CounterViewModelInherited'),
+              contains('extends InheritedModel<_CounterViewModelAspect>'),
               contains('extension CounterViewModelContext on BuildContext'),
               contains('CounterViewModel get counterViewModel'),
               contains('CounterViewModel readCounterViewModel()'),
+              contains('T selectCounterViewModel<T>'),
+              contains('_CounterViewModelAspect'),
             ]),
           ),
         },
@@ -195,8 +197,9 @@ class CartViewModel extends StateNotifier<List<String>> {
         outputs: {
           'a|lib/cart.ease.dart': decodedMatches(
             allOf([
-              contains('InheritedNotifier<CartViewModel>'),
-              contains('required CartViewModel notifier'),
+              contains('InheritedModel<_CartViewModelAspect>'),
+              contains('final CartViewModel notifier'),
+              contains('updateShouldNotifyDependent'),
             ]),
           ),
         },
@@ -336,10 +339,13 @@ class ThemeViewModel extends StateNotifier<bool> {
         outputs: {
           'a|lib/theme.ease.dart': decodedMatches(
             allOf([
-              contains(
-                  'dependOnInheritedWidgetOfExactType<_ThemeViewModelInherited>'),
+              // Full subscription uses InheritedModel.inheritFrom
+              contains('InheritedModel.inheritFrom<_ThemeViewModelInherited>'),
+              // Read uses getInheritedWidgetOfExactType (no subscription)
               contains(
                   'getInheritedWidgetOfExactType<_ThemeViewModelInherited>'),
+              // Select uses aspect for selective rebuilds
+              contains('_ThemeViewModelAspect'),
             ]),
           ),
         },

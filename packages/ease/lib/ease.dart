@@ -27,6 +27,8 @@ import 'src/devtools.dart';
 
 export 'package:ease_annotation/ease_annotation.dart';
 export 'src/devtools.dart' show EaseDevTools, StateChangeRecord, StateInfo;
+export 'src/middleware.dart';
+export 'src/middleware/logging_middleware.dart';
 export 'src/state_notifier.dart';
 
 /// Initialize Ease state management.

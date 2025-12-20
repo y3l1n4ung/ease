@@ -77,6 +77,7 @@ class EaseGenerator extends GeneratorForAnnotation<ease> {
     final providerName = '${className}Provider';
     final providerStateName = '_${className}ProviderState';
     final inheritedName = '_${className}Inherited';
+    final aspectName = '_${className}Aspect';
     final getterName = toCamelCase(className);
     final stateType = _getStateType(element) ?? 'dynamic';
 
@@ -85,10 +86,29 @@ class EaseGenerator extends GeneratorForAnnotation<ease> {
 // Generated for $className
 // ============================================
 
+/// Aspect for tracking selector dependencies in InheritedModel.
+/// Stores the selector function, its last computed value, and optional equality function.
+class $aspectName<T> {
+  final T Function($stateType state) selector;
+  final T value;
+  final bool Function(T a, T b)? equals;
+
+  const $aspectName(this.selector, this.value, [this.equals]);
+
+  /// Compare values using custom equals or default ==
+  bool hasChanged(T newValue) {
+    if (equals != null) {
+      return !equals!(value, newValue);
+    }
+    return value != newValue;
+  }
+}
+
 /// Provider widget that creates and manages $className.
 ///
-/// Uses InheritedNotifier for optimal performance - only widgets
-/// that call context.$getterName will rebuild on state changes.
+/// Uses InheritedModel for optimal performance:
+/// - context.$getterName subscribes to all changes
+/// - context.select$className subscribes only to selected value changes
 class $providerName extends StatefulWidget {
   final Widget child;
 
@@ -102,9 +122,20 @@ class $providerStateName extends State<$providerName> {
   late final $className _notifier = $className();
 
   @override
+  void initState() {
+    super.initState();
+    _notifier.addListener(_onStateChange);
+  }
+
+  @override
   void dispose() {
+    _notifier.removeListener(_onStateChange);
     _notifier.dispose();
     super.dispose();
+  }
+
+  void _onStateChange() {
+    setState(() {});
   }
 
   @override
@@ -116,23 +147,54 @@ class $providerStateName extends State<$providerName> {
   }
 }
 
-/// InheritedNotifier that efficiently notifies dependents when state changes.
+/// InheritedModel that supports both full and selective subscriptions.
 ///
-/// This automatically listens to the notifier and only rebuilds widgets
-/// that have registered a dependency via dependOnInheritedWidgetOfExactType.
-class $inheritedName extends InheritedNotifier<$className> {
+/// - Full subscription (no aspect): rebuilds on any state change
+/// - Selective subscription (with aspect): rebuilds only when selected value changes
+class $inheritedName extends InheritedModel<$aspectName> {
+  final $className notifier;
+
   const $inheritedName({
-    required $className notifier,
+    required this.notifier,
     required super.child,
-  }) : super(notifier: notifier);
+  });
+
+  @override
+  bool updateShouldNotify($inheritedName oldWidget) {
+    // Always return true - let updateShouldNotifyDependent handle granular checks
+    return true;
+  }
+
+  @override
+  bool updateShouldNotifyDependent(
+    $inheritedName oldWidget,
+    Set<$aspectName> dependencies,
+  ) {
+    // If no aspects registered (full subscription via context.$getterName),
+    // always rebuild on state change
+    if (dependencies.isEmpty) {
+      return true;
+    }
+
+    // Check each selector aspect to see if its selected value changed
+    for (final aspect in dependencies) {
+      final newValue = aspect.selector(notifier.state);
+      if (aspect.hasChanged(newValue)) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
 
 extension ${className}Context on BuildContext {
-  /// Gets $className and subscribes to changes.
-  /// Widget will rebuild when state changes.
+  /// Gets $className and subscribes to all changes.
+  /// Widget will rebuild when any part of state changes.
+  ///
+  /// For selective rebuilds, use [select$className] instead.
   $className get $getterName {
-    final inherited = dependOnInheritedWidgetOfExactType<$inheritedName>();
-    if (inherited == null || inherited.notifier == null) {
+    final inherited = InheritedModel.inheritFrom<$inheritedName>(this);
+    if (inherited == null) {
       throw StateError(
         'No $className found in widget tree.\\n'
         'Make sure you:\\n'
@@ -141,7 +203,7 @@ extension ${className}Context on BuildContext {
         '3. Imported ease.g.dart in your main file',
       );
     }
-    return inherited.notifier!;
+    return inherited.notifier;
   }
 
   /// Gets $className without subscribing to changes.
@@ -149,7 +211,7 @@ extension ${className}Context on BuildContext {
   /// Use for callbacks and one-time reads.
   $className read$className() {
     final inherited = getInheritedWidgetOfExactType<$inheritedName>();
-    if (inherited == null || inherited.notifier == null) {
+    if (inherited == null) {
       throw StateError(
         'No $className found in widget tree.\\n'
         'Make sure you:\\n'
@@ -158,7 +220,7 @@ extension ${className}Context on BuildContext {
         '3. Imported ease.g.dart in your main file',
       );
     }
-    return inherited.notifier!;
+    return inherited.notifier;
   }
 
   /// Selects a portion of $className state and subscribes to changes.
@@ -166,11 +228,43 @@ extension ${className}Context on BuildContext {
   ///
   /// Example:
   /// ```dart
-  /// final count = context.select$className((s) => s.itemCount);
+  /// final isLoading = context.select$className((s) => s.isLoading);
   /// ```
-  T select$className<T>(T Function($stateType state) selector) {
-    final notifier = $getterName;
-    return selector(notifier.state);
+  ///
+  /// For collections, provide a custom [equals] function:
+  /// ```dart
+  /// final items = context.select$className(
+  ///   (s) => s.items,
+  ///   equals: (a, b) => listEquals(a, b),
+  /// );
+  /// ```
+  ///
+  /// This is more efficient than [context.$getterName] when you only need
+  /// a small part of the state.
+  T select$className<T>(
+    T Function($stateType state) selector, {
+    bool Function(T a, T b)? equals,
+  }) {
+    final inherited = getInheritedWidgetOfExactType<$inheritedName>();
+    if (inherited == null) {
+      throw StateError(
+        'No $className found in widget tree.\\n'
+        'Make sure you:\\n'
+        '1. Wrapped your app with Ease widget: Ease(child: MyApp())\\n'
+        '2. Ran build_runner: dart run build_runner build\\n'
+        '3. Imported ease.g.dart in your main file',
+      );
+    }
+
+    final currentValue = selector(inherited.notifier.state);
+
+    // Register dependency with aspect for selective rebuilds
+    InheritedModel.inheritFrom<$inheritedName>(
+      this,
+      aspect: $aspectName<T>(selector, currentValue, equals),
+    );
+
+    return currentValue;
   }
 }
 ''';

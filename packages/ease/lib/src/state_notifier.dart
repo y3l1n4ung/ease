@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 import 'devtools.dart';
+import 'middleware.dart';
 
 /// Base class for state management.
 ///
@@ -24,12 +25,40 @@ import 'devtools.dart';
 ///
 /// In debug mode, state changes are automatically tracked by DevTools.
 /// Use [setState] with an action name for better debugging visibility.
+///
+/// ## Middleware
+///
+/// You can add middleware to intercept state changes:
+/// ```dart
+/// StateNotifier.middleware = [LoggingMiddleware()];
+/// ```
 class StateNotifier<T> extends ChangeNotifier {
+  /// Global middleware list.
+  ///
+  /// Middleware is called in order for each state change.
+  /// Set this before creating any StateNotifier instances.
+  ///
+  /// Example:
+  /// ```dart
+  /// void main() {
+  ///   StateNotifier.middleware = [
+  ///     LoggingMiddleware(),
+  ///     AnalyticsMiddleware(),
+  ///   ];
+  ///   runApp(const MyApp());
+  /// }
+  /// ```
+  static List<EaseMiddleware> middleware = [];
+
+  /// Flag to prevent recursive middleware calls.
+  static bool _isNotifyingMiddleware = false;
+
   /// Creates a [StateNotifier] with an initial [state] value.
   StateNotifier(this._state) {
     if (kDebugMode) {
       EaseDevTools().registerState(this);
     }
+    _notifyInit();
   }
 
   T _state;
@@ -55,6 +84,8 @@ class StateNotifier<T> extends ChangeNotifier {
     if (_state != value) {
       final oldState = _state;
       _state = value;
+
+      _notifyMiddleware(oldState, value);
 
       if (kDebugMode) {
         EaseDevTools().recordStateChange(this, oldState, value);
@@ -83,6 +114,8 @@ class StateNotifier<T> extends ChangeNotifier {
       final oldState = _state;
       _state = value;
 
+      _notifyMiddleware(oldState, value, action: action);
+
       if (kDebugMode) {
         EaseDevTools().recordStateChange(this, oldState, value, action: action);
       }
@@ -107,8 +140,100 @@ class StateNotifier<T> extends ChangeNotifier {
     }
   }
 
+  /// Notifies middleware about state initialization.
+  void _notifyInit() {
+    if (middleware.isEmpty) return;
+
+    final event = StateInitEvent<T>(
+      stateName: runtimeType.toString(),
+      notifier: this,
+      initialState: _state,
+    );
+
+    for (final m in middleware) {
+      try {
+        m.onStateInit(event);
+      } catch (e, st) {
+        _notifyError(e, st);
+      }
+    }
+  }
+
+  /// Notifies middleware about state changes.
+  void _notifyMiddleware(T oldState, T newState, {String? action}) {
+    if (middleware.isEmpty || _isNotifyingMiddleware) return;
+
+    _isNotifyingMiddleware = true;
+    try {
+      final event = StateChangeEvent<T>(
+        stateName: runtimeType.toString(),
+        notifier: this,
+        oldState: oldState,
+        newState: newState,
+        action: action,
+      );
+
+      // Before change hooks (sync)
+      for (final m in middleware) {
+        try {
+          m.onBeforeStateChange(event);
+        } catch (e, st) {
+          _notifyError(e, st);
+        }
+      }
+
+      // After change hooks (sync)
+      for (final m in middleware) {
+        try {
+          m.onStateChange(event);
+        } catch (e, st) {
+          _notifyError(e, st);
+        }
+      }
+
+      // Async hooks (fire and forget)
+      for (final m in middleware) {
+        m.onStateChangeAsync(event).catchError((e, st) {
+          _notifyError(e, st);
+        });
+      }
+    } finally {
+      _isNotifyingMiddleware = false;
+    }
+  }
+
+  /// Notifies middleware about errors.
+  void _notifyError(Object error, StackTrace stackTrace) {
+    final event = StateErrorEvent(
+      stateName: runtimeType.toString(),
+      error: error,
+      stackTrace: stackTrace,
+      lastState: _state,
+    );
+
+    for (final m in middleware) {
+      try {
+        m.onError(event);
+      } catch (_) {
+        // Prevent error loop
+      }
+    }
+  }
+
   @override
   void dispose() {
+    // Notify middleware about disposal
+    if (middleware.isNotEmpty) {
+      final event = StateDisposeEvent(stateName: runtimeType.toString());
+      for (final m in middleware) {
+        try {
+          m.onStateDispose(event);
+        } catch (_) {
+          // Don't throw during disposal
+        }
+      }
+    }
+
     if (kDebugMode) {
       EaseDevTools().unregisterState(this);
     }

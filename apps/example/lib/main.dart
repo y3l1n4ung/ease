@@ -9,6 +9,10 @@ import 'view_models/auth_view_model.dart';
 
 void main() {
   initializeEase(); // Initialize DevTools (debug mode only)
+  StateNotifier.middleware = [
+    LoggingMiddleware(),
+    // Add your custom middleware
+  ];
   runApp(const Ease(child: MyApp()));
 }
 

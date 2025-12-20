@@ -24,6 +24,9 @@ import 'view_models/todo_view_model.dart';
 /// ```dart
 /// void main() => runApp(Ease(child: MyApp()));
 /// ```
+///
+/// Note: Local providers (@ease(local: true)) are not included here.
+/// They must be manually placed in your widget tree.
 class Ease extends StatelessWidget {
   final Widget child;
 
@@ -52,6 +55,9 @@ class Ease extends StatelessWidget {
 // ============================================
 
 /// Extension providing generic access to all @ease states.
+///
+/// Note: Local providers are not accessible via get<T>() or read<T>().
+/// Use the typed context extensions instead (e.g., context.formState).
 extension EaseContext on BuildContext {
   /// Gets a state by type and subscribes to changes.
   ///
