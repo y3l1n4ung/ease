@@ -9,6 +9,8 @@
 .pub/
 build/
 pubspec.lock
+coverage/
+*.vm.json
 
 # Keep DevTools extension build (needed for distribution)
 !packages/ease_devtools_extension/extension/devtools/build/
