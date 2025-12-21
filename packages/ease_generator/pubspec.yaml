@@ -8,8 +8,7 @@ environment:
   sdk: '>=3.5.0 <4.0.0'
 
 dependencies:
-  ease_annotation:
-    path: ../ease_annotation
+  ease_annotation: ^1.0.0
   build: ^4.0.3
   source_gen: ^4.1.1
   analyzer: ^8.1.1

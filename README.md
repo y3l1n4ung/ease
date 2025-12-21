@@ -8,7 +8,7 @@ A simple, performant Flutter state management library using InheritedWidget + co
 ## Features
 
 - Simple API with `context.myState` getter
-- Optimal performance using `InheritedNotifier`
+- Optimal performance using `InheritedModel`
 - Zero boilerplate with code generation
 - Type-safe state access
 - Automatic provider nesting
@@ -45,12 +45,13 @@ import 'package:ease/ease.dart';
 
 part 'counter_view_model.ease.dart';
 
-@ease
+@ease()
 class CounterViewModel extends StateNotifier<int> {
   CounterViewModel() : super(0);
 
-  void increment() => state = state + 1;
-  void decrement() => state = state - 1;
+  void increment() => state++;
+  void decrement() => state--;
+  void reset() => state = 0;
 }
 ```
 
@@ -91,30 +92,27 @@ final itemCount = context.selectCartViewModel((s) => s.items.length);
 Base class for all state objects:
 
 ```dart
-@ease
-class MyState extends StateNotifier<MyStateData> {
-  MyState() : super(MyStateData.initial());
+@ease()
+class CartViewModel extends StateNotifier<CartStatus> {
+  CartViewModel() : super(const CartStatus());
 
-  // Update state - automatically notifies listeners
-  void doSomething() {
-    state = state.copyWith(/* ... */);
+  // Update state with copyWith pattern
+  void addToCart(Product product) {
+    state = state.copyWith(
+      items: [...state.items, CartItem(product: product)],
+    );
   }
 
-  // Use update() for complex transformations
-  void transform() {
-    update((current) => current.copyWith(/* ... */));
-  }
-
-  // Named actions for DevTools
-  void increment() {
-    setState(state + 1, action: 'increment');
+  // Use update() for transformations based on current state
+  void clearCart() {
+    update((current) => const CartStatus());
   }
 }
 ```
 
 ### Context Extensions
 
-Generated for each `@ease` class:
+Generated for each `@ease()` class:
 
 ```dart
 // Watch - widget rebuilds on changes
@@ -143,84 +141,9 @@ Features:
 - Track state change history with timestamps
 - Filter history by state type
 
-## Development Setup
-
-This project uses [Melos](https://melos.invertase.dev/) for monorepo management.
-
-```bash
-# Install melos
-dart pub global activate melos
-
-# Bootstrap the project
-melos bootstrap
-
-# Run code generation
-melos run generate
-
-# Run tests
-melos run test:all
-
-# Analyze code
-melos run analyze
-
-# Format code
-melos run format
-```
-
-## Project Structure
-
-```
-packages/
-├── ease/                  # Core library
-│   └── lib/src/
-│       ├── state_notifier.dart   # Base StateNotifier class
-│       └── devtools.dart         # DevTools integration
-│
-├── ease_annotation/       # @ease annotation
-│
-├── ease_generator/        # Code generator
-│   └── lib/src/
-│       ├── ease_generator.dart      # Per-file generator
-│       └── aggregator_builder.dart  # Aggregates into ease.g.dart
-│
-└── ease_devtools_extension/  # DevTools UI
-
-apps/
-└── example/               # Example app with demos
-```
-
-## Examples
-
-The `apps/example/` directory contains comprehensive examples:
-
-| Example | Description |
-|---------|-------------|
-| Counter | Basic increment/decrement |
-| Todo List | CRUD operations with lists |
-| Auth | Login/logout with persistence |
-| Theme | Light/dark mode switching |
-| Form | Form validation with real-time feedback |
-| Cart | Shopping cart with computed totals |
-| Search | Debounced search with async |
-| Pagination | Infinite scroll with load more |
-| Network | Real API calls with caching |
-
-Run the example:
-
-```bash
-cd apps/example
-flutter run
-```
-
 ## Contributing
 
-Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) first.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) for development setup, project structure, and contribution guidelines.
 
 ## License
 

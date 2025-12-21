@@ -5,10 +5,10 @@ import 'package:source_gen/source_gen.dart';
 
 import 'utils.dart';
 
-/// Generates InheritedNotifier and Provider for classes annotated with @ease.
+/// Generates InheritedModel and Provider for classes annotated with @ease.
 ///
-/// Uses InheritedNotifier for optimal performance - only widgets that actually
-/// depend on the state will rebuild when it changes.
+/// Uses InheritedModel for optimal performance - supports selective rebuilds
+/// via aspects so only widgets that depend on specific state will rebuild.
 class EaseGenerator extends GeneratorForAnnotation<ease> {
   @override
   String generateForAnnotatedElement(

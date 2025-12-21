@@ -8,12 +8,11 @@ This package provides the `@ease()` annotation used to mark classes for code gen
 
 ## Installation
 
-This package is typically installed alongside `ease` and `ease_generator`:
+This package is automatically included when you add `ease` to your dependencies. You typically don't need to add it directly:
 
 ```yaml
 dependencies:
-  ease_annotation:
-    path: ../ease_annotation
+  ease: ^1.0.0  # includes ease_annotation
 ```
 
 ## Usage
@@ -30,7 +29,7 @@ class CounterViewModel extends StateNotifier<int> {
 The annotation triggers code generation via `ease_generator` to create:
 
 - Provider widget for lifecycle management
-- InheritedNotifier for efficient state propagation
+- InheritedModel for efficient state propagation with selective rebuilds
 - BuildContext extensions for easy access
 
 ## API

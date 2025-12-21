@@ -12,8 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   devtools_extensions: ^0.3.0
-  ease:
-    path: ../ease
+  ease: ^1.0.0
 
 dev_dependencies:
   flutter_test:

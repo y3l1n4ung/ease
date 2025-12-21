@@ -11,8 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  ease_annotation:
-    path: ../ease_annotation
+  ease_annotation: ^1.0.0
 
 dev_dependencies:
   flutter_test:

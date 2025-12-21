@@ -7,7 +7,7 @@ Code generator for the Ease state management library.
 This package provides build_runner generators that create boilerplate code for classes annotated with `@ease()`. It generates:
 
 1. **Provider widgets** - StatefulWidget that manages the notifier lifecycle
-2. **InheritedNotifier** - For efficient state propagation to descendants
+2. **InheritedModel** - For efficient state propagation with selective rebuilds
 3. **Context extensions** - Type-safe access via `context.yourViewModel`
 4. **Ease root widget** - Aggregates all providers for easy app setup
 
@@ -17,8 +17,7 @@ Add to your `pubspec.yaml` dev dependencies:
 
 ```yaml
 dev_dependencies:
-  ease_generator:
-    path: ../ease_generator
+  ease_generator: ^1.0.0
   build_runner: ^2.4.0
 ```
 
@@ -55,7 +54,7 @@ For each annotated class, a `.ease.dart` part file is created:
 ```dart
 // counter_view_model.ease.dart
 class CounterViewModelProvider extends StatefulWidget { ... }
-class _CounterViewModelInherited extends InheritedNotifier<CounterViewModel> { ... }
+class _CounterViewModelInherited extends InheritedModel<_CounterViewModelAspect> { ... }
 extension CounterViewModelContext on BuildContext { ... }
 ```
 
@@ -73,7 +72,7 @@ extension EaseContext on BuildContext { ... }  // Generic get<T>() and read<T>()
 
 1. **Per-file generation** (`EaseGenerator`)
    - Runs on each file with `@ease()` annotations
-   - Generates Provider, InheritedNotifier, and typed extensions
+   - Generates Provider, InheritedModel, and typed extensions
 
 2. **Aggregation** (`AggregatorBuilder`)
    - Runs after all per-file generators complete
@@ -93,17 +92,6 @@ $className get $getterName { ... }
 // Uses getInheritedWidgetOfExactType - no rebuilds
 $className read$className() { ... }
 ```
-
-## Configuration
-
-The generator uses default `build.yaml` configuration. No custom options required.
-
-## Requirements
-
-- Dart SDK >= 3.5.0
-- build >= 4.0.3
-- source_gen >= 4.1.1
-- analyzer >= 8.1.1
 
 ## License
 

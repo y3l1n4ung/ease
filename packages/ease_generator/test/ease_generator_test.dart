@@ -159,7 +159,7 @@ class MyAppState extends StateNotifier<String> {
       );
     });
 
-    test('generates InheritedNotifier with correct type parameter', () async {
+    test('generates InheritedModel with correct type parameter', () async {
       final builder = easeBuilder(BuilderOptions.empty);
 
       await testBuilder(

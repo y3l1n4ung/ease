@@ -5,7 +5,7 @@ Simple Flutter state management with InheritedWidget + code generation.
 ## Features
 
 - **Zero boilerplate** - Just extend `StateNotifier<T>` and add `@ease()`
-- **Optimal performance** - Uses `InheritedNotifier` for minimal rebuilds
+- **Optimal performance** - Uses `InheritedModel` for selective rebuilds
 - **Type-safe** - Full type inference with generated context extensions
 - **Simple API** - Watch with getters, read with methods
 
@@ -15,14 +15,10 @@ Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  ease:
-    path: ../ease  # or from pub.dev when published
-  ease_annotation:
-    path: ../ease_annotation
+  ease: ^1.0.0
 
 dev_dependencies:
-  ease_generator:
-    path: ../ease_generator
+  ease_generator: ^1.0.0
   build_runner: ^2.4.0
 ```
 
@@ -41,6 +37,7 @@ class CounterViewModel extends StateNotifier<int> {
 
   void increment() => state++;
   void decrement() => state--;
+  void reset() => state = 0;
 }
 ```
 

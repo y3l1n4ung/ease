@@ -1,16 +1,100 @@
-# ease_example
+# Ease Example App
 
-A new Flutter project.
+Comprehensive examples demonstrating Ease state management patterns.
 
-## Getting Started
+## Running the App
 
-This project is a starting point for a Flutter application.
+```bash
+cd apps/example
+flutter pub get
+dart run build_runner build
+flutter run
+```
 
-A few resources to get you started if this is your first Flutter project:
+## Examples
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+| Example | Description |
+|---------|-------------|
+| Counter | Basic increment/decrement with `StateNotifier<int>` |
+| Todo | CRUD operations with list state |
+| Cart | Shopping cart with computed values (subtotal, tax, total) |
+| Auth | Login/logout with SharedPreferences persistence |
+| Form | Form validation with real-time feedback |
+| Theme | Light/dark mode switching |
+| Search | Debounced search with async operations |
+| Pagination | Infinite scroll with load more |
+| Network | Real API calls with loading/error states |
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Key Patterns
+
+### Basic Usage (Counter)
+
+```dart
+// view_models/counter_view_model.dart
+@ease()
+class CounterViewModel extends StateNotifier<int> {
+  CounterViewModel() : super(0);
+
+  void increment() => state++;
+  void decrement() => state--;
+  void reset() => state = 0;
+}
+
+// views/counter_view.dart
+final counter = context.counterViewModel;
+Text('${counter.state}');
+FloatingActionButton(onPressed: counter.increment);
+```
+
+### Complex State with copyWith (Cart)
+
+```dart
+class CartStatus {
+  final List<CartItem> items;
+  final bool isLoading;
+
+  int get itemCount => items.fold(0, (sum, item) => sum + item.quantity);
+  double get subtotal => items.fold(0, (sum, item) => sum + item.total);
+  double get tax => subtotal * 0.1;
+  double get total => subtotal + tax;
+
+  CartStatus copyWith({List<CartItem>? items, bool? isLoading}) { ... }
+}
+
+@ease()
+class CartViewModel extends StateNotifier<CartStatus> {
+  void addToCart(Product product) {
+    state = state.copyWith(items: [...state.items, CartItem(product: product)]);
+  }
+}
+```
+
+### Selector Pattern (Granular Rebuilds)
+
+```dart
+// Only rebuilds when itemCount changes, not when isLoading changes
+class CartBadge extends StatelessWidget {
+  Widget build(BuildContext context) {
+    final count = context.selectCartViewModel((s) => s.itemCount);
+    return Text('$count');
+  }
+}
+```
+
+### Persistence (Auth)
+
+```dart
+@ease()
+class AuthViewModel extends StateNotifier<AuthStatus> {
+  Future<void> login(String email, String password) async {
+    state = state.copyWith(isLoading: true);
+    // ... API call ...
+    await _saveUser(user);  // SharedPreferences
+    state = state.copyWith(user: user, isLoading: false);
+  }
+}
+```
+
+## License
+
+MIT
