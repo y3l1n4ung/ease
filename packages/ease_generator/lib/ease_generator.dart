@@ -1,7 +1,7 @@
 import 'package:build/build.dart';
 import 'package:source_gen/source_gen.dart';
 
-import 'src/ease_generator.dart';
+import 'src/generator.dart';
 import 'src/aggregator_builder.dart';
 
 /// Builder factory for per-file ease code generation.

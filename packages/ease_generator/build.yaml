@@ -1,13 +1,13 @@
 builders:
   ease_builder:
-    import: "package:ease_generator/builder.dart"
+    import: "package:ease_generator/ease_generator.dart"
     builder_factories: ["easeBuilder"]
     build_extensions: {".dart": [".ease.dart"]}
     auto_apply: dependents
     build_to: source
 
   ease_aggregator:
-    import: "package:ease_generator/builder.dart"
+    import: "package:ease_generator/ease_generator.dart"
     builder_factories: ["easeAggregatorBuilder"]
     build_extensions: {"lib/$lib$": ["lib/ease.g.dart"]}
     auto_apply: dependents

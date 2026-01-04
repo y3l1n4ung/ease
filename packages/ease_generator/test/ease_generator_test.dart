@@ -1,6 +1,6 @@
 import 'package:build/build.dart';
 import 'package:build_test/build_test.dart';
-import 'package:ease_generator/builder.dart';
+import 'package:ease_generator/ease_generator.dart';
 import 'package:ease_generator/src/utils.dart';
 import 'package:test/test.dart';
 
