@@ -26,3 +26,12 @@ coverage/
 # VS Code Extension
 extensions/*/node_modules/
 extensions/*/out/
+
+# LLM/AI Tools Need to be ignored.
+.claude/
+CLAUDE.md
+.cursorrules
+.cursor/
+.copilot/
+.aider*
+plan/
