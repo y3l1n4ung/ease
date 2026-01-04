@@ -1,21 +1,19 @@
-# Ease
+# Ease State Helper
 
-Simple Flutter state management helper.
-
-## Features
-
-- **Zero boilerplate** - Just extend `StateNotifier<T>` and add `@ease()`
-- **Optimal performance** - Uses `InheritedModel` for selective rebuilds
-- **Type-safe** - Full type inference with generated context extensions
-- **Simple API** - Watch with getters, read with methods
+A simple Flutter state management helper that makes using Flutter's internal state management easier.
 
 ## Installation
 
-Add to your `pubspec.yaml`:
+```yaml
+dependencies:
+  ease_state_helper: ^1.0.0
+```
+
+For code generation approach, also add:
 
 ```yaml
 dependencies:
-  ease: ^1.0.0
+  ease_annotation: ^1.0.0
 
 dev_dependencies:
   ease_generator: ^1.0.0
@@ -24,9 +22,16 @@ dev_dependencies:
 
 ## Usage
 
-### 1. Create a StateNotifier
+### 1. Create a ViewModel
+
+**With VS Code Extension:**
+
+Right-click folder → "Ease: New ViewModel" → Enter name and state type.
+
+**With Code Generation:**
 
 ```dart
+import 'package:ease_annotation/ease_annotation.dart';
 import 'package:ease_state_helper/ease_state_helper.dart';
 
 part 'counter_view_model.ease.dart';
@@ -37,25 +42,28 @@ class CounterViewModel extends StateNotifier<int> {
 
   void increment() => state++;
   void decrement() => state--;
-  void reset() => state = 0;
 }
 ```
 
-### 2. Run code generation
+Run: `dart run build_runner build`
 
-```bash
-dart run build_runner build
-```
-
-### 3. Wrap your app
+### 2. Register Providers
 
 ```dart
-import 'ease.g.dart';
+import 'package:ease_state_helper/ease_state_helper.dart';
+import 'counter_view_model.dart';
 
-void main() => runApp(Ease(child: MyApp()));
+void main() => runApp(
+  Ease(
+    providers: [
+      (child) => CounterViewModelProvider(child: child),
+    ],
+    child: MyApp(),
+  ),
+);
 ```
 
-### 4. Use in widgets
+### 3. Use in widgets
 
 ```dart
 // Watch - rebuilds when state changes
@@ -63,10 +71,10 @@ final counter = context.counterViewModel;
 Text('Count: ${counter.state}');
 
 // Read - doesn't rebuild (use for callbacks)
-ElevatedButton(
-  onPressed: () => context.readCounterViewModel().increment(),
-  child: Text('Increment'),
-);
+onPressed: () => context.readCounterViewModel().increment(),
+
+// Select - granular rebuilds
+final count = context.selectCounterViewModel((s) => s);
 ```
 
 ## API
@@ -83,68 +91,13 @@ class StateNotifier<T> extends ChangeNotifier {
 }
 ```
 
-### Generated Extensions
+### Context Extensions
 
-For each `@ease()` class, the generator creates:
+For each ViewModel, the .ease.dart file provides:
 
 - `context.yourViewModel` - Watch (subscribes to all state changes)
-- `context.readYourViewModel()` - Read (no subscription, use for callbacks)
-- `context.selectYourViewModel((s) => s.field)` - Select specific state (granular rebuilds)
-
-## Selector Pattern
-
-Use `context.select*` when you only need part of the state. This prevents unnecessary rebuilds when other parts of the state change:
-
-```dart
-// Problem: This rebuilds whenever ANY part of CartStatus changes
-final cart = context.cartViewModel;
-Text('${cart.state.itemCount} items');  // Rebuilds even if only isLoading changed
-
-// Solution: Use select to only rebuild when itemCount changes
-final count = context.selectCartViewModel((s) => s.itemCount);
-Text('$count items');
-```
-
-### Custom Equality
-
-For complex types like lists, provide a custom equality function:
-
-```dart
-final items = context.selectCartViewModel(
-  (s) => s.items,
-  equals: (prev, next) => listEquals(prev, next),
-);
-ItemList(items: items);
-```
-
-## Complex State
-
-For complex state, use immutable classes with `copyWith`:
-
-```dart
-class CartStatus {
-  final List<Item> items;
-  final bool isLoading;
-
-  const CartStatus({this.items = const [], this.isLoading = false});
-
-  CartStatus copyWith({List<Item>? items, bool? isLoading}) {
-    return CartStatus(
-      items: items ?? this.items,
-      isLoading: isLoading ?? this.isLoading,
-    );
-  }
-}
-
-@ease()
-class CartViewModel extends StateNotifier<CartStatus> {
-  CartViewModel() : super(const CartStatus());
-
-  void addItem(Item item) {
-    state = state.copyWith(items: [...state.items, item]);
-  }
-}
-```
+- `context.readYourViewModel()` - Read (no subscription, for callbacks)
+- `context.selectYourViewModel((s) => s.field)` - Select (granular rebuilds)
 
 ## License
 

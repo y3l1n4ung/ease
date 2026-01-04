@@ -1,13 +1,13 @@
 # Ease State Helper
 
-VS Code extension for [Ease](https://github.com/y3l1n4ung/ease) Flutter state management.
+VS Code extension for [Ease State Helper](https://github.com/b14ckc0d3/ease) Flutter state management.
 
 ## Features
 
 ### Commands
 
 - **Ease: New ViewModel** - Creates a new ViewModel with its `.ease.dart` file
-- **Ease: New Local ViewModel** - Creates a scoped ViewModel for forms, dialogs, etc.
+- **Ease: Regenerate .ease.dart** - Regenerates the `.ease.dart` file when state type changes
 
 Right-click on any folder in the Explorer to access these commands.
 
@@ -19,7 +19,7 @@ Right-click on any folder in the Explorer to access these commands.
 | `easewatch` | Watch a ViewModel (subscribes to changes) |
 | `easeread` | Read a ViewModel without subscribing |
 | `easeselect` | Select a specific value from ViewModel state |
-| `easeprovider` | Add a provider to easeProviders list |
+| `easeprovider` | Add a provider to providers list |
 
 ## Usage
 
@@ -33,6 +33,8 @@ Right-click on any folder in the Explorer to access these commands.
 This creates two files:
 - `counter_view_model.dart` - The ViewModel class
 - `counter_view_model.ease.dart` - Provider, InheritedModel, and context extensions
+
+
 
 ### Registering the Provider
 
@@ -71,4 +73,4 @@ final count = context.selectCounterViewModel((s) => s);
 ## Requirements
 
 - VS Code 1.85.0 or higher
-- Flutter/Dart project using Ease State ( Flutter State Management Helper)
+- Flutter/Dart project using ease_state_helper package

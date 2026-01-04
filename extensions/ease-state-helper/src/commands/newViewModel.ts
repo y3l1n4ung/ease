@@ -8,7 +8,7 @@ import { getEaseFileTemplate } from '../templates/easeFile';
 /**
  * Creates a new ViewModel with its .ease.dart file
  */
-export async function newViewModel(uri: vscode.Uri | undefined, isLocal: boolean = false): Promise<void> {
+export async function newViewModel(uri: vscode.Uri | undefined): Promise<void> {
   // Get the target folder
   let targetFolder: string;
 
@@ -81,7 +81,7 @@ export async function newViewModel(uri: vscode.Uri | undefined, isLocal: boolean
   }
 
   // Generate file contents
-  const dartContent = getViewModelTemplate(className, fileName, stateType, isLocal);
+  const dartContent = getViewModelTemplate(className, fileName, stateType);
   const easeContent = getEaseFileTemplate(className, fileName, stateType);
 
   try {
@@ -99,11 +99,4 @@ export async function newViewModel(uri: vscode.Uri | undefined, isLocal: boolean
   } catch (error) {
     vscode.window.showErrorMessage(`Failed to create files: ${error}`);
   }
-}
-
-/**
- * Creates a new local ViewModel (for forms, dialogs, etc.)
- */
-export async function newLocalViewModel(uri: vscode.Uri | undefined): Promise<void> {
-  return newViewModel(uri, true);
 }

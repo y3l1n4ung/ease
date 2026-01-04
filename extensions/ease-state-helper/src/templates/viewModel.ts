@@ -5,8 +5,7 @@
 export function getViewModelTemplate(
   className: string,
   fileName: string,
-  stateType: string,
-  isLocal: boolean = false
+  stateType: string
 ): string {
   const initialValue = getInitialValue(stateType);
 

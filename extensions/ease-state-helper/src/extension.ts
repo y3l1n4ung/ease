@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { newViewModel, newLocalViewModel } from './commands/newViewModel';
+import { newViewModel } from './commands/newViewModel';
 import { regenerateEaseFile } from './commands/regenerateEaseFile';
 
 /**
@@ -11,12 +11,7 @@ export function activate(context: vscode.ExtensionContext) {
   // Register commands
   const newViewModelCmd = vscode.commands.registerCommand(
     'ease.newViewModel',
-    (uri: vscode.Uri) => newViewModel(uri, false)
-  );
-
-  const newLocalViewModelCmd = vscode.commands.registerCommand(
-    'ease.newLocalViewModel',
-    (uri: vscode.Uri) => newLocalViewModel(uri)
+    (uri: vscode.Uri) => newViewModel(uri)
   );
 
   const regenerateCmd = vscode.commands.registerCommand(
@@ -24,7 +19,7 @@ export function activate(context: vscode.ExtensionContext) {
     (uri: vscode.Uri) => regenerateEaseFile(uri)
   );
 
-  context.subscriptions.push(newViewModelCmd, newLocalViewModelCmd, regenerateCmd);
+  context.subscriptions.push(newViewModelCmd, regenerateCmd);
 }
 
 /**

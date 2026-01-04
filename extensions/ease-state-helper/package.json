@@ -1,7 +1,7 @@
 {
   "name": "ease-state-helper",
   "displayName": "Ease State Helper",
-  "description": "VS Code extension for Ease Flutter state management - scaffolds ViewModels and .ease.dart files",
+  "description": "VS Code extension for Ease State Helper - scaffolds ViewModels without build_runner",
   "version": "0.0.1",
   "publisher": "ease",
   "engines": {
@@ -27,10 +27,6 @@
         "title": "Ease: New ViewModel"
       },
       {
-        "command": "ease.newLocalViewModel",
-        "title": "Ease: New Local ViewModel"
-      },
-      {
         "command": "ease.regenerateEaseFile",
         "title": "Ease: Regenerate .ease.dart"
       }
@@ -43,13 +39,8 @@
           "when": "explorerResourceIsFolder"
         },
         {
-          "command": "ease.newLocalViewModel",
-          "group": "ease@2",
-          "when": "explorerResourceIsFolder"
-        },
-        {
           "command": "ease.regenerateEaseFile",
-          "group": "ease@3",
+          "group": "ease@2",
           "when": "resourceExtname == .dart && resourceFilename =~ /.*(?<!.ease).dart$/"
         }
       ]
