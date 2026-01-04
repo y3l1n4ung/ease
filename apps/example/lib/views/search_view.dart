@@ -153,8 +153,8 @@ class _SearchViewState extends State<SearchView> {
             margin: const EdgeInsets.only(bottom: 12),
             child: ListTile(
               leading: CircleAvatar(
-                backgroundColor: _getCategoryColor(result.category)
-                    .withValues(alpha: 0.2),
+                backgroundColor:
+                    _getCategoryColor(result.category).withValues(alpha: 0.2),
                 child: Icon(
                   _getCategoryIcon(result.category),
                   color: _getCategoryColor(result.category),
@@ -275,7 +275,10 @@ class _SearchViewState extends State<SearchView> {
               Icon(
                 Icons.search,
                 size: 64,
-                color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.5),
+                color: Theme.of(context)
+                    .colorScheme
+                    .outline
+                    .withValues(alpha: 0.5),
               ),
               const SizedBox(height: 16),
               Text(

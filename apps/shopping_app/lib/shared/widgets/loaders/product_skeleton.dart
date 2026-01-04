@@ -15,10 +15,7 @@ class ProductCardSkeleton extends StatelessWidget {
           Expanded(
             flex: 3,
             child: ShimmerWidget(
-              child: Container(
-                width: double.infinity,
-                color: Colors.grey[300],
-              ),
+              child: Container(width: double.infinity, color: Colors.grey[300]),
             ),
           ),
           Expanded(
@@ -30,7 +27,10 @@ class ProductCardSkeleton extends StatelessWidget {
                 children: [
                   const ShimmerLine(height: 12),
                   const SizedBox(height: 4),
-                  ShimmerLine(width: MediaQuery.of(context).size.width * 0.3, height: 12),
+                  ShimmerLine(
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    height: 12,
+                  ),
                   const Spacer(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

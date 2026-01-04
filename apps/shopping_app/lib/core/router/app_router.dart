@@ -35,7 +35,10 @@ GoRouter createAppRouter(AuthViewModel authViewModel) {
       final currentPath = state.matchedLocation;
       final fullPath = state.uri.toString();
 
-      logger.debug('ROUTER', 'Redirect check: matchedLocation=$currentPath, fullUri=$fullPath, isAuthenticated=$isAuthenticated, authStatus=${authViewModel.state.status}');
+      logger.debug(
+        'ROUTER',
+        'Redirect check: matchedLocation=$currentPath, fullUri=$fullPath, isAuthenticated=$isAuthenticated, authStatus=${authViewModel.state.status}',
+      );
 
       // Check if trying to access protected route without auth
       if (_protectedRoutes.any((route) => currentPath.startsWith(route))) {
@@ -56,21 +59,16 @@ GoRouter createAppRouter(AuthViewModel authViewModel) {
       return null;
     },
     routes: [
-      GoRoute(
-        path: '/',
-        builder: (context, state) => const ProductsScreen(),
-      ),
+      GoRoute(path: '/', builder: (context, state) => const ProductsScreen()),
       GoRoute(
         path: '/login',
-        builder: (context, state) => LoginScreen(
-          redirectPath: state.uri.queryParameters['redirect'],
-        ),
+        builder: (context, state) =>
+            LoginScreen(redirectPath: state.uri.queryParameters['redirect']),
       ),
       GoRoute(
         path: '/register',
-        builder: (context, state) => RegisterScreen(
-          redirectPath: state.uri.queryParameters['redirect'],
-        ),
+        builder: (context, state) =>
+            RegisterScreen(redirectPath: state.uri.queryParameters['redirect']),
       ),
       GoRoute(
         path: '/cart',
@@ -104,14 +102,18 @@ GoRouter createAppRouter(AuthViewModel authViewModel) {
           return CustomTransitionPage(
             key: state.pageKey,
             child: OrderConfirmationScreen(orderId: orderId),
-            transitionsBuilder: (context, animation, secondaryAnimation, child) {
-              return ScaleTransition(
-                scale: Tween<double>(begin: 0.8, end: 1.0).animate(
-                  CurvedAnimation(parent: animation, curve: Curves.easeOutBack),
-                ),
-                child: FadeTransition(opacity: animation, child: child),
-              );
-            },
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+                  return ScaleTransition(
+                    scale: Tween<double>(begin: 0.8, end: 1.0).animate(
+                      CurvedAnimation(
+                        parent: animation,
+                        curve: Curves.easeOutBack,
+                      ),
+                    ),
+                    child: FadeTransition(opacity: animation, child: child),
+                  );
+                },
           );
         },
       ),

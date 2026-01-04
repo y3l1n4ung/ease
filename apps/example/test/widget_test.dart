@@ -183,7 +183,8 @@ void main() {
     testWidgets('provides all states', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Ease(providers: $easeProviders,
+          home: Ease(
+            providers: $easeProviders,
             child: Builder(
               builder: (context) {
                 final counter = context.counterViewModel;
@@ -211,7 +212,8 @@ void main() {
     testWidgets('generic get<T>() works', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Ease(providers: $easeProviders,
+          home: Ease(
+            providers: $easeProviders,
             child: Builder(
               builder: (context) {
                 final counter = context.get<CounterViewModel>();
@@ -230,7 +232,8 @@ void main() {
 
       await tester.pumpWidget(
         MaterialApp(
-          home: Ease(providers: $easeProviders,
+          home: Ease(
+            providers: $easeProviders,
             child: Builder(
               builder: (context) {
                 buildCount++;
@@ -732,7 +735,8 @@ void main() {
       expect(find.text('Form: '), findsOneWidget);
     });
 
-    testWidgets('local provider rebuilds only its consumers on local state change',
+    testWidgets(
+        'local provider rebuilds only its consumers on local state change',
         (tester) async {
       var parentBuildCount = 0;
       var localConsumerBuildCount = 0;
@@ -758,8 +762,9 @@ void main() {
                         children: [
                           Text('Name: ${form.state.name}'),
                           ElevatedButton(
-                            onPressed: () =>
-                                context.readLocalFormViewModel().updateName('John'),
+                            onPressed: () => context
+                                .readLocalFormViewModel()
+                                .updateName('John'),
                             child: const Text('Update Name'),
                           ),
                         ],
@@ -806,8 +811,9 @@ void main() {
                       children: [
                         Text('Form1: ${form.state.name}'),
                         ElevatedButton(
-                          onPressed: () =>
-                              context.readLocalFormViewModel().updateName('Alice'),
+                          onPressed: () => context
+                              .readLocalFormViewModel()
+                              .updateName('Alice'),
                           child: const Text('Update Form1'),
                         ),
                       ],
@@ -824,8 +830,9 @@ void main() {
                       children: [
                         Text('Form2: ${form.state.name}'),
                         ElevatedButton(
-                          onPressed: () =>
-                              context.readLocalFormViewModel().updateName('Bob'),
+                          onPressed: () => context
+                              .readLocalFormViewModel()
+                              .updateName('Bob'),
                           child: const Text('Update Form2'),
                         ),
                       ],

@@ -26,10 +26,8 @@ class _ShimmerWidgetState extends State<ShimmerWidget>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: widget.duration,
-    )..repeat();
+    _controller = AnimationController(vsync: this, duration: widget.duration)
+      ..repeat();
 
     _animation = Tween<double>(begin: -2, end: 2).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeInOutSine),
@@ -57,11 +55,7 @@ class _ShimmerWidgetState extends State<ShimmerWidget>
                 widget.highlightColor,
                 widget.baseColor,
               ],
-              stops: [
-                0.0,
-                0.5 + _animation.value * 0.25,
-                1.0,
-              ],
+              stops: [0.0, 0.5 + _animation.value * 0.25, 1.0],
               transform: _SlidingGradientTransform(_animation.value),
             ).createShader(bounds);
           },
@@ -123,10 +117,6 @@ class ShimmerLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ShimmerBox(
-      width: width,
-      height: height,
-      borderRadius: 4,
-    );
+    return ShimmerBox(width: width, height: height, borderRadius: 4);
   }
 }

@@ -74,7 +74,8 @@ class AggregatorBuilder implements Builder {
     buffer.writeln('// ignore_for_file: type=lint');
     buffer.writeln();
     buffer.writeln("import 'package:flutter/widgets.dart';");
-    buffer.writeln("import 'package:ease_state_helper/ease_state_helper.dart';");
+    buffer
+        .writeln("import 'package:ease_state_helper/ease_state_helper.dart';");
     buffer.writeln();
 
     // Import all state files (which include their .g.dart parts)
@@ -110,10 +111,13 @@ class AggregatorBuilder implements Builder {
     buffer.writeln('// Generic Context Extension');
     buffer.writeln('// ============================================');
     buffer.writeln();
-    buffer.writeln('/// Extension providing generic access to all @ease states.');
+    buffer
+        .writeln('/// Extension providing generic access to all @ease states.');
     buffer.writeln('///');
-    buffer.writeln('/// Note: Local providers are not accessible via get<T>() or read<T>().');
-    buffer.writeln('/// Use the typed context extensions instead (e.g., context.formState).');
+    buffer.writeln(
+        '/// Note: Local providers are not accessible via get<T>() or read<T>().');
+    buffer.writeln(
+        '/// Use the typed context extensions instead (e.g., context.formState).');
     buffer.writeln('extension EaseContext on BuildContext {');
     buffer.writeln('  /// Gets a state by type and subscribes to changes.');
     buffer.writeln('  ///');
@@ -130,7 +134,8 @@ class AggregatorBuilder implements Builder {
         "    throw StateError('No provider found for \$T. Did you add @ease annotation?');");
     buffer.writeln('  }');
     buffer.writeln();
-    buffer.writeln('  /// Gets a state by type without subscribing to changes.');
+    buffer
+        .writeln('  /// Gets a state by type without subscribing to changes.');
     buffer.writeln('  ///');
     buffer.writeln('  /// Example:');
     buffer.writeln('  /// ```dart');

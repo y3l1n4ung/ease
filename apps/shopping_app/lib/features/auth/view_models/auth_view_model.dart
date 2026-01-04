@@ -17,8 +17,8 @@ class AuthViewModel extends StateNotifier<AuthState> {
   final ApiService _apiService;
 
   AuthViewModel({ApiService? apiService})
-      : _apiService = apiService ?? ApiService(),
-        super(_loadInitialState());
+    : _apiService = apiService ?? ApiService(),
+      super(_loadInitialState());
 
   /// Load initial state synchronously from pre-initialized storage
   static AuthState _loadInitialState() {
@@ -43,7 +43,10 @@ class AuthViewModel extends StateNotifier<AuthState> {
 
   Future<void> _saveSession(String token, User user) async {
     await StorageService.setString(StorageService.authTokenKey, token);
-    await StorageService.setString(StorageService.authUserKey, json.encode(user.toJson()));
+    await StorageService.setString(
+      StorageService.authUserKey,
+      json.encode(user.toJson()),
+    );
   }
 
   Future<void> _clearSession() async {

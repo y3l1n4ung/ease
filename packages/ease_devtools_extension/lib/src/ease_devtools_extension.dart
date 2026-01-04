@@ -53,7 +53,8 @@ class _EaseDevToolsExtensionState extends State<EaseDevToolsExtension> {
       );
       // The response.json contains the parsed JSON directly
       final responseJson = response.json ?? {};
-      final states = (responseJson['states'] as List?)?.cast<Map<String, dynamic>>() ?? [];
+      final states =
+          (responseJson['states'] as List?)?.cast<Map<String, dynamic>>() ?? [];
 
       setState(() {
         _states = states;
@@ -83,7 +84,9 @@ class _EaseDevToolsExtensionState extends State<EaseDevToolsExtension> {
       );
       // The response.json contains the parsed JSON directly
       final responseJson = response.json ?? {};
-      final history = (responseJson['history'] as List?)?.cast<Map<String, dynamic>>() ?? [];
+      final history =
+          (responseJson['history'] as List?)?.cast<Map<String, dynamic>>() ??
+              [];
 
       setState(() {
         _history = history;
@@ -296,7 +299,8 @@ class _StateListTile extends StatelessWidget {
 
     return ListTile(
       selected: isSelected,
-      selectedTileColor: theme.colorScheme.primaryContainer.withValues(alpha: 0.3),
+      selectedTileColor:
+          theme.colorScheme.primaryContainer.withValues(alpha: 0.3),
       onTap: onTap,
       title: Row(
         children: [
@@ -441,7 +445,8 @@ class _HistoryListTile extends StatelessWidget {
                   child: _StateValueBox(
                     label: 'After',
                     value: newState,
-                    color: theme.colorScheme.primaryContainer.withValues(alpha: 0.5),
+                    color: theme.colorScheme.primaryContainer
+                        .withValues(alpha: 0.5),
                     textColor: theme.colorScheme.onPrimaryContainer,
                   ),
                 ),

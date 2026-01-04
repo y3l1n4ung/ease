@@ -26,9 +26,7 @@ class OrdersViewModel extends StateNotifier<OrdersState> {
       shippingAddress: shippingAddress,
     );
 
-    state = state.copyWith(
-      orders: [order, ...state.orders],
-    );
+    state = state.copyWith(orders: [order, ...state.orders]);
   }
 
   void updateOrderStatus(String orderId, OrderStatus status) {

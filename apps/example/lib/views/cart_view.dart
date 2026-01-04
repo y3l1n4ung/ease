@@ -119,7 +119,8 @@ class _ProductsTab extends StatelessWidget {
                               cartViewModel.addToCart(product);
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: Text('${product.name} added to cart'),
+                                  content:
+                                      Text('${product.name} added to cart'),
                                   duration: const Duration(seconds: 1),
                                 ),
                               );
@@ -233,13 +234,16 @@ class _CartTab extends StatelessWidget {
                           children: [
                             Text(
                               item.product.name,
-                              style: const TextStyle(fontWeight: FontWeight.bold),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
                             ),
                             Text(
                               '\$${item.product.price.toStringAsFixed(2)} each',
                               style: TextStyle(
                                 fontSize: 12,
-                                color: Theme.of(context).colorScheme.onSurfaceVariant,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurfaceVariant,
                               ),
                             ),
                             const SizedBox(height: 8),
@@ -248,7 +252,8 @@ class _CartTab extends StatelessWidget {
                               children: [
                                 IconButton(
                                   icon: const Icon(Icons.remove_circle_outline),
-                                  onPressed: () => cartViewModel.decrementQuantity(
+                                  onPressed: () =>
+                                      cartViewModel.decrementQuantity(
                                     item.product.id,
                                   ),
                                   iconSize: 20,
@@ -256,15 +261,18 @@ class _CartTab extends StatelessWidget {
                                   constraints: const BoxConstraints(),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12),
                                   child: Text(
                                     '${item.quantity}',
-                                    style: const TextStyle(fontWeight: FontWeight.bold),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
                                   ),
                                 ),
                                 IconButton(
                                   icon: const Icon(Icons.add_circle_outline),
-                                  onPressed: () => cartViewModel.incrementQuantity(
+                                  onPressed: () =>
+                                      cartViewModel.incrementQuantity(
                                     item.product.id,
                                   ),
                                   iconSize: 20,
@@ -348,7 +356,8 @@ class _CartTab extends StatelessWidget {
                                 if (success && context.mounted) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
-                                      content: Text('Order placed successfully!'),
+                                      content:
+                                          Text('Order placed successfully!'),
                                       backgroundColor: Colors.green,
                                     ),
                                   );

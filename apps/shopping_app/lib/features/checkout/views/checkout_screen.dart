@@ -42,13 +42,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     final ordersVM = context.readOrdersViewModel();
 
     // Update shipping address
-    checkoutVM.updateShippingAddress(ShippingAddress(
-      fullName: _nameController.text,
-      address: _addressController.text,
-      city: _cityController.text,
-      zipCode: _zipController.text,
-      phone: _phoneController.text,
-    ));
+    checkoutVM.updateShippingAddress(
+      ShippingAddress(
+        fullName: _nameController.text,
+        address: _addressController.text,
+        city: _cityController.text,
+        zipCode: _zipController.text,
+        phone: _phoneController.text,
+      ),
+    );
 
     // Show loading dialog
     LoadingDialog.show(context: context, message: 'Processing your order...');
@@ -94,9 +96,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     final checkoutState = context.checkoutViewModel.state;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Checkout'),
-      ),
+      appBar: AppBar(title: const Text('Checkout')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Form(
@@ -174,22 +174,24 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     children: [
-                      ...cartState.items.map((item) => Padding(
-                            padding: const EdgeInsets.only(bottom: 8),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    '${item.product.title} x${item.quantity}',
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
+                      ...cartState.items.map(
+                        (item) => Padding(
+                          padding: const EdgeInsets.only(bottom: 8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  '${item.product.title} x${item.quantity}',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                                Text('\$${item.totalPrice.toStringAsFixed(2)}'),
-                              ],
-                            ),
-                          )),
+                              ),
+                              Text('\$${item.totalPrice.toStringAsFixed(2)}'),
+                            ],
+                          ),
+                        ),
+                      ),
                       const Divider(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -200,11 +202,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           ),
                           Text(
                             '\$${cartState.totalPrice.toStringAsFixed(2)}',
-                            style:
-                                Theme.of(context).textTheme.titleLarge?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.deepPurple,
-                                    ),
+                            style: Theme.of(context).textTheme.titleLarge
+                                ?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.deepPurple,
+                                ),
                           ),
                         ],
                       ),

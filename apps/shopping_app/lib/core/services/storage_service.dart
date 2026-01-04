@@ -10,7 +10,9 @@ class StorageService {
 
   static SharedPreferences get instance {
     if (_prefs == null) {
-      throw StateError('StorageService not initialized. Call StorageService.initialize() in main()');
+      throw StateError(
+        'StorageService not initialized. Call StorageService.initialize() in main()',
+      );
     }
     return _prefs!;
   }
@@ -21,6 +23,7 @@ class StorageService {
 
   // Convenience methods
   static String? getString(String key) => instance.getString(key);
-  static Future<bool> setString(String key, String value) => instance.setString(key, value);
+  static Future<bool> setString(String key, String value) =>
+      instance.setString(key, value);
   static Future<bool> remove(String key) => instance.remove(key);
 }

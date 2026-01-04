@@ -26,7 +26,10 @@ class ProductsViewModel extends StateNotifier<ProductsState> {
         products: products,
         status: ProductsStatus.success,
       );
-      logger.info('PRODUCTS', 'Loaded ${products.length} products successfully');
+      logger.info(
+        'PRODUCTS',
+        'Loaded ${products.length} products successfully',
+      );
     } catch (e) {
       logger.error('PRODUCTS', 'Failed to load products', e);
       state = state.copyWith(
@@ -39,6 +42,9 @@ class ProductsViewModel extends StateNotifier<ProductsState> {
   void selectCategory(String? category) {
     logger.userAction('select_category', {'category': category ?? 'all'});
     state = state.copyWith(selectedCategory: category);
-    logger.debug('PRODUCTS', 'Filtered to category: ${category ?? 'all'}, showing ${state.filteredProducts.length} products');
+    logger.debug(
+      'PRODUCTS',
+      'Filtered to category: ${category ?? 'all'}, showing ${state.filteredProducts.length} products',
+    );
   }
 }

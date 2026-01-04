@@ -15,24 +15,20 @@ class OrderConfirmationScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(
-                Icons.check_circle,
-                size: 100,
-                color: Colors.green,
-              ),
+              const Icon(Icons.check_circle, size: 100, color: Colors.green),
               const SizedBox(height: 24),
               Text(
                 'Order Placed!',
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 8),
               Text(
                 'Thank you for your purchase',
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: Colors.grey,
-                    ),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyLarge?.copyWith(color: Colors.grey),
               ),
               const SizedBox(height: 24),
               Container(
@@ -48,8 +44,8 @@ class OrderConfirmationScreen extends StatelessWidget {
                     Text(
                       '#${orderId.substring(orderId.length - 6)}',
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),

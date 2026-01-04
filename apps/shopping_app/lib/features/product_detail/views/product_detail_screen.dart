@@ -40,10 +40,7 @@ class ProductDetailScreen extends StatelessWidget {
                 height: 300,
                 color: Colors.white,
                 padding: const EdgeInsets.all(24),
-                child: Image.network(
-                  product.image,
-                  fit: BoxFit.contain,
-                ),
+                child: Image.network(product.image, fit: BoxFit.contain),
               ),
             ),
             Padding(
@@ -63,8 +60,8 @@ class ProductDetailScreen extends StatelessWidget {
                     child: Text(
                       product.category.toUpperCase(),
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                            color: Colors.deepPurple,
-                          ),
+                        color: Colors.deepPurple,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -80,15 +77,15 @@ class ProductDetailScreen extends StatelessWidget {
                       Text(
                         '${product.rating.rate}',
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       const SizedBox(width: 8),
                       Text(
                         '(${product.rating.count} reviews)',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: Colors.grey,
-                            ),
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodyMedium?.copyWith(color: Colors.grey),
                       ),
                     ],
                   ),
@@ -96,16 +93,16 @@ class ProductDetailScreen extends StatelessWidget {
                   Text(
                     '\$${product.price.toStringAsFixed(2)}',
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.deepPurple,
-                        ),
+                      fontWeight: FontWeight.bold,
+                      color: Colors.deepPurple,
+                    ),
                   ),
                   const SizedBox(height: 24),
                   Text(
                     'Description',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   Text(
@@ -130,9 +127,7 @@ class ProductDetailScreen extends StatelessWidget {
             ),
           ],
         ),
-        child: SafeArea(
-          child: _AddToCartButton(product: product),
-        ),
+        child: SafeArea(child: _AddToCartButton(product: product)),
       ),
     );
   }

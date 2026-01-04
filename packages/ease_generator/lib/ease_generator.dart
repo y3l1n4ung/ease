@@ -13,5 +13,4 @@ Builder easeBuilder(BuilderOptions options) =>
 /// Builder factory for aggregating all @ease states.
 ///
 /// Generates the Ease root widget and generic context extensions.
-Builder easeAggregatorBuilder(BuilderOptions options) =>
-    AggregatorBuilder();
+Builder easeAggregatorBuilder(BuilderOptions options) => AggregatorBuilder();

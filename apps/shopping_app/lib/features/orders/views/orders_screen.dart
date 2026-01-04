@@ -11,15 +11,17 @@ class OrdersScreen extends StatelessWidget {
     final ordersState = context.ordersViewModel.state;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('My Orders'),
-      ),
+      appBar: AppBar(title: const Text('My Orders')),
       body: ordersState.orders.isEmpty
           ? const Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.receipt_long_outlined, size: 80, color: Colors.grey),
+                  Icon(
+                    Icons.receipt_long_outlined,
+                    size: 80,
+                    color: Colors.grey,
+                  ),
                   SizedBox(height: 16),
                   Text('No orders yet'),
                 ],
@@ -57,8 +59,8 @@ class _OrderCard extends StatelessWidget {
                 Text(
                   'Order #${order.id.substring(order.id.length - 6)}',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 _StatusChip(status: order.status),
               ],
@@ -71,9 +73,9 @@ class _OrderCard extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               _formatDate(order.createdAt),
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Colors.grey,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodySmall?.copyWith(color: Colors.grey),
             ),
             const Divider(height: 24),
             Row(
@@ -83,8 +85,8 @@ class _OrderCard extends StatelessWidget {
                 Text(
                   '\$${order.totalAmount.toStringAsFixed(2)}',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ],
             ),

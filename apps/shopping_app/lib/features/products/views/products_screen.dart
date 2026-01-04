@@ -42,9 +42,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Shop'),
-        actions: [
-          _CartIconButton(itemCount: cartState.itemCount),
-        ],
+        actions: [_CartIconButton(itemCount: cartState.itemCount)],
       ),
       drawer: const _AppDrawer(),
       body: Column(
@@ -412,17 +410,11 @@ class _ProductCard extends StatelessWidget {
                     children: [
                       Text(
                         '\$${product.price.toStringAsFixed(2)}',
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium
+                        style: Theme.of(context).textTheme.titleMedium
                             ?.copyWith(fontWeight: FontWeight.bold),
                       ),
                       const Spacer(),
-                      Icon(
-                        Icons.star,
-                        size: 16,
-                        color: Colors.amber[700],
-                      ),
+                      Icon(Icons.star, size: 16, color: Colors.amber[700]),
                       Text(
                         product.rating.rate.toStringAsFixed(1),
                         style: Theme.of(context).textTheme.bodySmall,

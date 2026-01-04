@@ -14,9 +14,7 @@ class ProfileScreen extends StatelessWidget {
     final authState = context.authViewModel.state;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile'),
-      ),
+      appBar: AppBar(title: const Text('Profile')),
       body: authState.isAuthenticated
           ? _AuthenticatedProfile(authState: authState)
           : const _GuestProfile(),
@@ -36,10 +34,7 @@ class _AuthenticatedProfile extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        const CircleAvatar(
-          radius: 50,
-          child: Icon(Icons.person, size: 50),
-        ),
+        const CircleAvatar(radius: 50, child: Icon(Icons.person, size: 50)),
         const SizedBox(height: 16),
         Text(
           user?.name.fullName ?? 'User',
@@ -48,9 +43,9 @@ class _AuthenticatedProfile extends StatelessWidget {
         ),
         Text(
           user?.email ?? '',
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Colors.grey,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium?.copyWith(color: Colors.grey),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 32),
@@ -96,9 +91,7 @@ class _AuthenticatedProfile extends StatelessWidget {
           },
           icon: const Icon(Icons.logout),
           label: const Text('Logout'),
-          style: OutlinedButton.styleFrom(
-            foregroundColor: Colors.red,
-          ),
+          style: OutlinedButton.styleFrom(foregroundColor: Colors.red),
         ),
       ],
     );
@@ -129,9 +122,9 @@ class _GuestProfile extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               'Sign in to access your profile and order history',
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Colors.grey,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(color: Colors.grey),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 32),

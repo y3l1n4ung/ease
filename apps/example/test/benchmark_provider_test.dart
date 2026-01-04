@@ -107,7 +107,8 @@ void main() {
       }
 
       stopwatch.stop();
-      debugPrint('StatefulWidget x100 builds: ${stopwatch.elapsedMilliseconds}ms');
+      debugPrint(
+          'StatefulWidget x100 builds: ${stopwatch.elapsedMilliseconds}ms');
     });
 
     testWidgets('Approach 2: Global - initial build', (tester) async {
@@ -127,7 +128,8 @@ void main() {
       }
 
       stopwatch.stop();
-      debugPrint('GlobalProvider x100 builds: ${stopwatch.elapsedMilliseconds}ms');
+      debugPrint(
+          'GlobalProvider x100 builds: ${stopwatch.elapsedMilliseconds}ms');
     });
 
     testWidgets('Approach 1: StatefulWidget - state updates', (tester) async {
@@ -154,7 +156,8 @@ void main() {
       }
 
       stopwatch.stop();
-      debugPrint('StatefulWidget x1000 updates: ${stopwatch.elapsedMilliseconds}ms');
+      debugPrint(
+          'StatefulWidget x1000 updates: ${stopwatch.elapsedMilliseconds}ms');
     });
 
     testWidgets('Approach 2: Global - state updates', (tester) async {
@@ -181,10 +184,12 @@ void main() {
       }
 
       stopwatch.stop();
-      debugPrint('GlobalProvider x1000 updates: ${stopwatch.elapsedMilliseconds}ms');
+      debugPrint(
+          'GlobalProvider x1000 updates: ${stopwatch.elapsedMilliseconds}ms');
     });
 
-    testWidgets('Approach 1: Deep tree - only consumer rebuilds', (tester) async {
+    testWidgets('Approach 1: Deep tree - only consumer rebuilds',
+        (tester) async {
       late CounterNotifier1 notifier;
       int consumerRebuildCount = 0;
       int staticRebuildCount = 0;
@@ -222,12 +227,15 @@ void main() {
         await tester.pump();
       }
 
-      debugPrint('StatefulWidget: Consumer=$consumerRebuildCount, Static=$staticRebuildCount');
-      expect(consumerRebuildCount, 100, reason: 'Consumer should rebuild 100 times');
+      debugPrint(
+          'StatefulWidget: Consumer=$consumerRebuildCount, Static=$staticRebuildCount');
+      expect(consumerRebuildCount, 100,
+          reason: 'Consumer should rebuild 100 times');
       expect(staticRebuildCount, 0, reason: 'Static should NOT rebuild');
     });
 
-    testWidgets('Approach 2: Deep tree - only consumer rebuilds', (tester) async {
+    testWidgets('Approach 2: Deep tree - only consumer rebuilds',
+        (tester) async {
       _globalCounter.reset();
       int consumerRebuildCount = 0;
       int staticRebuildCount = 0;
@@ -265,8 +273,10 @@ void main() {
         await tester.pump();
       }
 
-      debugPrint('GlobalProvider: Consumer=$consumerRebuildCount, Static=$staticRebuildCount');
-      expect(consumerRebuildCount, 100, reason: 'Consumer should rebuild 100 times');
+      debugPrint(
+          'GlobalProvider: Consumer=$consumerRebuildCount, Static=$staticRebuildCount');
+      expect(consumerRebuildCount, 100,
+          reason: 'Consumer should rebuild 100 times');
       expect(staticRebuildCount, 0, reason: 'Static should NOT rebuild');
     });
   });

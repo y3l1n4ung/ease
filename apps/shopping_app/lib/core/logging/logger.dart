@@ -17,7 +17,13 @@ class AppLogger {
     if (minLevel != null) _minLevel = minLevel;
   }
 
-  void _log(LogLevel level, String tag, String message, [Object? error, StackTrace? stackTrace]) {
+  void _log(
+    LogLevel level,
+    String tag,
+    String message, [
+    Object? error,
+    StackTrace? stackTrace,
+  ]) {
     if (!_enabled || level.index < _minLevel.index) return;
 
     final timestamp = DateTime.now().toIso8601String();
@@ -58,9 +64,14 @@ class AppLogger {
 
   void debug(String tag, String message) => _log(LogLevel.debug, tag, message);
   void info(String tag, String message) => _log(LogLevel.info, tag, message);
-  void warning(String tag, String message) => _log(LogLevel.warning, tag, message);
-  void error(String tag, String message, [Object? error, StackTrace? stackTrace]) =>
-      _log(LogLevel.error, tag, message, error, stackTrace);
+  void warning(String tag, String message) =>
+      _log(LogLevel.warning, tag, message);
+  void error(
+    String tag,
+    String message, [
+    Object? error,
+    StackTrace? stackTrace,
+  ]) => _log(LogLevel.error, tag, message, error, stackTrace);
 
   // State change logging
   void stateChange<T>(String viewModel, T oldState, T newState) {

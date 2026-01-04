@@ -171,18 +171,15 @@ class EaseDevTools {
   /// Get all registered states.
   List<StateInfo> getStates() {
     _cleanupRegistry();
-    return _registry.entries
-        .where((e) => e.value.target != null)
-        .map((e) {
-          final state = e.value.target!;
-          return StateInfo(
-            id: e.key,
-            type: state.runtimeType.toString(),
-            value: _truncate(state.state.toString()),
-            hasListeners: state.hasActiveListeners,
-          );
-        })
-        .toList();
+    return _registry.entries.where((e) => e.value.target != null).map((e) {
+      final state = e.value.target!;
+      return StateInfo(
+        id: e.key,
+        type: state.runtimeType.toString(),
+        value: _truncate(state.state.toString()),
+        hasListeners: state.hasActiveListeners,
+      );
+    }).toList();
   }
 
   /// Clear the state change history.

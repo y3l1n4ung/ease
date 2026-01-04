@@ -118,7 +118,11 @@ class _ProductQuickViewContentState extends State<_ProductQuickViewContent>
                         const SizedBox(height: 8),
                         Row(
                           children: [
-                            Icon(Icons.star, size: 16, color: Colors.amber[700]),
+                            Icon(
+                              Icons.star,
+                              size: 16,
+                              color: Colors.amber[700],
+                            ),
                             const SizedBox(width: 4),
                             Text(
                               '${widget.product.rating.rate}',
@@ -126,9 +130,7 @@ class _ProductQuickViewContentState extends State<_ProductQuickViewContent>
                             ),
                             Text(
                               ' (${widget.product.rating.count})',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall
+                              style: Theme.of(context).textTheme.bodySmall
                                   ?.copyWith(color: Colors.grey),
                             ),
                           ],
@@ -136,11 +138,11 @@ class _ProductQuickViewContentState extends State<_ProductQuickViewContent>
                         const SizedBox(height: 12),
                         Text(
                           '\$${widget.product.price.toStringAsFixed(2)}',
-                          style:
-                              Theme.of(context).textTheme.headlineSmall?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.deepPurple,
-                                  ),
+                          style: Theme.of(context).textTheme.headlineSmall
+                              ?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.deepPurple,
+                              ),
                         ),
                       ],
                     ),

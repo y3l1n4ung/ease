@@ -43,7 +43,8 @@ class ProfileView extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 50,
-                  backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                  backgroundColor:
+                      Theme.of(context).colorScheme.primaryContainer,
                   child: Text(
                     user.name[0].toUpperCase(),
                     style: TextStyle(
@@ -109,9 +110,10 @@ class ProfileView extends StatelessWidget {
                       const SizedBox(width: 8),
                       Text(
                         'Protected Content',
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
+                        style:
+                            Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
                       ),
                     ],
                   ),

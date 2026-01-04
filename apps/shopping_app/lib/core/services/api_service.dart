@@ -81,10 +81,7 @@ class ApiService {
       final response = await _client.post(
         Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
-        body: json.encode({
-          'username': username,
-          'password': password,
-        }),
+        body: json.encode({'username': username, 'password': password}),
       );
       logger.apiResponse('POST', url, response.statusCode);
 
@@ -140,20 +137,14 @@ class ApiService {
           'email': email,
           'username': username,
           'password': password,
-          'name': {
-            'firstname': firstName,
-            'lastname': lastName,
-          },
+          'name': {'firstname': firstName, 'lastname': lastName},
           'phone': phone,
           'address': {
             'city': '',
             'street': '',
             'number': 0,
             'zipcode': '',
-            'geolocation': {
-              'lat': '0',
-              'long': '0',
-            },
+            'geolocation': {'lat': '0', 'long': '0'},
           },
         }),
       );

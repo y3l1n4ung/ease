@@ -43,7 +43,11 @@ class CartScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.shopping_cart_outlined, size: 80, color: Colors.grey),
+                  Icon(
+                    Icons.shopping_cart_outlined,
+                    size: 80,
+                    color: Colors.grey,
+                  ),
                   SizedBox(height: 16),
                   Text('Your cart is empty'),
                 ],
@@ -85,7 +89,9 @@ class CartScreen extends StatelessWidget {
                                       item.product.title,
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
-                                      style: Theme.of(context).textTheme.bodyMedium,
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.bodyMedium,
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
@@ -93,7 +99,9 @@ class CartScreen extends StatelessWidget {
                                       style: Theme.of(context)
                                           .textTheme
                                           .titleSmall
-                                          ?.copyWith(fontWeight: FontWeight.bold),
+                                          ?.copyWith(
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                     ),
                                   ],
                                 ),
@@ -103,7 +111,9 @@ class CartScreen extends StatelessWidget {
                                   Row(
                                     children: [
                                       IconButton(
-                                        icon: const Icon(Icons.remove_circle_outline),
+                                        icon: const Icon(
+                                          Icons.remove_circle_outline,
+                                        ),
                                         onPressed: () => context
                                             .readCartViewModel()
                                             .updateQuantity(
@@ -113,7 +123,9 @@ class CartScreen extends StatelessWidget {
                                       ),
                                       Text('${item.quantity}'),
                                       IconButton(
-                                        icon: const Icon(Icons.add_circle_outline),
+                                        icon: const Icon(
+                                          Icons.add_circle_outline,
+                                        ),
                                         onPressed: () => context
                                             .readCartViewModel()
                                             .updateQuantity(
@@ -124,8 +136,10 @@ class CartScreen extends StatelessWidget {
                                     ],
                                   ),
                                   IconButton(
-                                    icon: const Icon(Icons.delete_outline,
-                                        color: Colors.red),
+                                    icon: const Icon(
+                                      Icons.delete_outline,
+                                      color: Colors.red,
+                                    ),
                                     onPressed: () async {
                                       final confirmed = await ConfirmDialog.show(
                                         context: context,
@@ -135,7 +149,8 @@ class CartScreen extends StatelessWidget {
                                         confirmText: 'Remove',
                                         isDangerous: true,
                                       );
-                                      if (confirmed == true && context.mounted) {
+                                      if (confirmed == true &&
+                                          context.mounted) {
                                         context
                                             .readCartViewModel()
                                             .removeFromCart(item.product.id);
@@ -179,9 +194,7 @@ class CartScreen extends StatelessWidget {
                             ),
                             Text(
                               '\$${state.totalPrice.toStringAsFixed(2)}',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleLarge
+                              style: Theme.of(context).textTheme.titleLarge
                                   ?.copyWith(fontWeight: FontWeight.bold),
                             ),
                           ],

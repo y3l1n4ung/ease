@@ -29,10 +29,7 @@ class _AnimatedButtonState extends State<AnimatedButton>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: widget.duration,
-    );
+    _controller = AnimationController(vsync: this, duration: widget.duration);
 
     _scaleAnimation = Tween<double>(
       begin: 1.0,
@@ -71,10 +68,7 @@ class _AnimatedButtonState extends State<AnimatedButton>
       onTapUp: _onTapUp,
       onTapCancel: _onTapCancel,
       onTap: widget.onPressed,
-      child: ScaleTransition(
-        scale: _scaleAnimation,
-        child: widget.child,
-      ),
+      child: ScaleTransition(scale: _scaleAnimation, child: widget.child),
     );
   }
 }

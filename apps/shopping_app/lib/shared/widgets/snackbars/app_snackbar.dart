@@ -12,26 +12,10 @@ class AppSnackbar {
     VoidCallback? onAction,
   }) {
     final (icon, backgroundColor, textColor) = switch (type) {
-      SnackbarType.success => (
-          Icons.check_circle,
-          Colors.green,
-          Colors.white,
-        ),
-      SnackbarType.error => (
-          Icons.error,
-          Colors.red,
-          Colors.white,
-        ),
-      SnackbarType.warning => (
-          Icons.warning,
-          Colors.orange,
-          Colors.white,
-        ),
-      SnackbarType.info => (
-          Icons.info,
-          Colors.blue,
-          Colors.white,
-        ),
+      SnackbarType.success => (Icons.check_circle, Colors.green, Colors.white),
+      SnackbarType.error => (Icons.error, Colors.red, Colors.white),
+      SnackbarType.warning => (Icons.warning, Colors.orange, Colors.white),
+      SnackbarType.info => (Icons.info, Colors.blue, Colors.white),
     };
 
     ScaffoldMessenger.of(context).showSnackBar(
@@ -41,10 +25,7 @@ class AppSnackbar {
             Icon(icon, color: textColor, size: 20),
             const SizedBox(width: 12),
             Expanded(
-              child: Text(
-                message,
-                style: TextStyle(color: textColor),
-              ),
+              child: Text(message, style: TextStyle(color: textColor)),
             ),
           ],
         ),

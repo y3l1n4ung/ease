@@ -16,7 +16,10 @@ class CheckoutViewModel extends StateNotifier<CheckoutState> {
     state = state.copyWith(shippingAddress: address);
   }
 
-  Future<String?> processCheckout(List<CartItem> items, double totalAmount) async {
+  Future<String?> processCheckout(
+    List<CartItem> items,
+    double totalAmount,
+  ) async {
     if (state.shippingAddress == null) {
       state = state.copyWith(
         status: CheckoutStatus.error,
@@ -32,10 +35,7 @@ class CheckoutViewModel extends StateNotifier<CheckoutState> {
 
     final orderId = DateTime.now().millisecondsSinceEpoch.toString();
 
-    state = state.copyWith(
-      status: CheckoutStatus.success,
-      orderId: orderId,
-    );
+    state = state.copyWith(status: CheckoutStatus.success, orderId: orderId);
 
     return orderId;
   }

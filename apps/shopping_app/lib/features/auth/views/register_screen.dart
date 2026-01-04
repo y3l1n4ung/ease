@@ -40,13 +40,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void _register() {
     if (_formKey.currentState!.validate()) {
       context.readAuthViewModel().register(
-            email: _emailController.text,
-            username: _usernameController.text,
-            password: _passwordController.text,
-            firstName: _firstNameController.text,
-            lastName: _lastNameController.text,
-            phone: _phoneController.text,
-          );
+        email: _emailController.text,
+        username: _usernameController.text,
+        password: _passwordController.text,
+        firstName: _firstNameController.text,
+        lastName: _lastNameController.text,
+        phone: _phoneController.text,
+      );
     }
   }
 
@@ -77,16 +77,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Text(
                   'Join Us',
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                    fontWeight: FontWeight.bold,
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),
                 Text(
                   'Create an account to start shopping',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Colors.grey,
-                      ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(color: Colors.grey),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 32),
@@ -147,8 +147,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     if (value == null || value.isEmpty) {
                       return 'Please enter email';
                     }
-                    if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                        .hasMatch(value)) {
+                    if (!RegExp(
+                      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                    ).hasMatch(value)) {
                       return 'Please enter a valid email';
                     }
                     return null;
@@ -289,7 +290,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                 const SizedBox(height: 24),
                 FilledButton(
-                  onPressed: state.status == AuthStatus.loading ? null : _register,
+                  onPressed: state.status == AuthStatus.loading
+                      ? null
+                      : _register,
                   style: FilledButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                   ),

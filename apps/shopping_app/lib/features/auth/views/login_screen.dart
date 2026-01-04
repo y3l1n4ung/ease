@@ -29,9 +29,9 @@ class _LoginScreenState extends State<LoginScreen> {
   void _login() {
     if (_formKey.currentState!.validate()) {
       context.readAuthViewModel().login(
-            _usernameController.text,
-            _passwordController.text,
-          );
+        _usernameController.text,
+        _passwordController.text,
+      );
     }
   }
 
@@ -41,10 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final state = context.authViewModel.state;
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
+      appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
@@ -63,16 +60,16 @@ class _LoginScreenState extends State<LoginScreen> {
                 Text(
                   'Welcome Back',
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                    fontWeight: FontWeight.bold,
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),
                 Text(
                   'Sign in to continue shopping',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Colors.grey,
-                      ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(color: Colors.grey),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 48),
@@ -168,7 +165,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextButton(
                       onPressed: () {
                         if (widget.redirectPath != null) {
-                          context.go('/register?redirect=${widget.redirectPath}');
+                          context.go(
+                            '/register?redirect=${widget.redirectPath}',
+                          );
                         } else {
                           context.go('/register');
                         }
@@ -196,9 +195,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       Expanded(
                         child: Text(
                           'Demo credentials are pre-filled',
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                color: Colors.deepPurple,
-                              ),
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(color: Colors.deepPurple),
                         ),
                       ),
                     ],

@@ -65,7 +65,9 @@ class FormView extends StatelessWidget {
             _FormField(
               label: 'Password',
               value: form.state.password.value,
-              error: form.state.password.touched ? form.state.password.error : null,
+              error: form.state.password.touched
+                  ? form.state.password.error
+                  : null,
               onChanged: form.setPassword,
               prefixIcon: Icons.lock_outline,
               obscureText: true,

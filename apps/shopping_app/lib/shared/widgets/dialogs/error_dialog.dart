@@ -78,11 +78,7 @@ class _ErrorDialogContentState extends State<_ErrorDialogContent>
         );
       },
       child: AlertDialog(
-        icon: const Icon(
-          Icons.error_outline,
-          color: Colors.red,
-          size: 48,
-        ),
+        icon: const Icon(Icons.error_outline, color: Colors.red, size: 48),
         title: Text(widget.title),
         content: Text(widget.message),
         actions: [
