@@ -1,48 +1,35 @@
 # Ease Annotation
 
-Annotation package for the Ease state management library.
-
-## Overview
-
-This package provides the `@ease()` annotation used to mark classes for code generation. It is a pure Dart package with no Flutter dependency.
+Annotation package for [Ease State Helper](https://github.com/y3l1n4ung/ease).
 
 ## Installation
 
-This package is automatically included when you add `ease` to your dependencies. You typically don't need to add it directly:
-
 ```yaml
 dependencies:
-  ease: ^1.0.0  # includes ease_annotation
+  ease_annotation: ^0.1.0
 ```
 
 ## Usage
 
 ```dart
 import 'package:ease_annotation/ease_annotation.dart';
+import 'package:ease_state_helper/ease_state_helper.dart';
+
+part 'counter_view_model.ease.dart';
 
 @ease()
 class CounterViewModel extends StateNotifier<int> {
   CounterViewModel() : super(0);
+
+  void increment() => state++;
 }
 ```
 
-The annotation triggers code generation via `ease_generator` to create:
+Run code generation:
 
-- Provider widget for lifecycle management
-- InheritedModel for efficient state propagation with selective rebuilds
-- BuildContext extensions for easy access
-
-## API
-
-### `@ease()`
-
-A const annotation that marks a class for code generation.
-
-```dart
-const ease();
+```bash
+dart run build_runner build
 ```
-
-The annotated class must extend `StateNotifier<T>` from the `ease` package.
 
 ## License
 

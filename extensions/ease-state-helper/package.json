@@ -3,12 +3,14 @@
   "displayName": "Ease State Helper",
   "description": "VS Code extension for Ease State Helper - scaffolds ViewModels without build_runner",
   "version": "0.0.1",
-  "publisher": "ease",
+  "repository": "https://github.com/y3l1n4ung/ease",
+  "publisher": "Widget-Lab",
   "engines": {
     "vscode": "^1.85.0"
   },
   "categories": [
     "Snippets",
+    "Programming Languages",
     "Other"
   ],
   "keywords": [

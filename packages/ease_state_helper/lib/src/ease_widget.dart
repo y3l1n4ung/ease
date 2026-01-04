@@ -9,7 +9,7 @@ typedef ProviderBuilder = Widget Function(Widget child);
 ///
 /// This widget supports both code-generated and manual provider registration.
 ///
-/// ## With Code Generation (recommended)
+/// ## With Code Generation
 ///
 /// When using `@ease` annotation and code generation, the `ease.g.dart` file
 /// generates a subclass with pre-registered providers:

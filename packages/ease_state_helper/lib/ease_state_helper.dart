@@ -1,4 +1,4 @@
-/// Simple Flutter state management with InheritedWidget.
+/// Simple Flutter state management helper.
 ///
 /// Usage:
 /// ```dart
@@ -36,8 +36,6 @@ export 'src/state_notifier.dart';
 ///
 /// Call this in your `main()` function before `runApp()` to enable
 /// DevTools integration in debug mode.
-///
-/// This is a no-op in release mode, so it's safe to always call it.
 ///
 /// ```dart
 /// void main() {

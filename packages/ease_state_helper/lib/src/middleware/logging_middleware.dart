@@ -12,14 +12,6 @@ import '../middleware.dart';
 ///   ];
 ///   runApp(const MyApp());
 /// }
-/// ```
-///
-/// Output:
-/// ```
-/// [2024-01-15 10:30:45] INIT CounterViewModel: 0
-/// [2024-01-15 10:30:46] CounterViewModel (increment) 0 -> 1
-/// [2024-01-15 10:30:47] CounterViewModel 1 -> 2
-/// ```
 class LoggingMiddleware extends EaseMiddleware {
   /// Whether to include timestamp in log messages.
   final bool includeTimestamp;
