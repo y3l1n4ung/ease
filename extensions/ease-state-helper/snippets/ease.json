@@ -1,0 +1,45 @@
+{
+  "Ease ViewModel": {
+    "prefix": "easevm",
+    "body": [
+      "import 'package:ease/ease.dart';",
+      "",
+      "part '${TM_FILENAME_BASE}.ease.dart';",
+      "",
+      "class ${1:Name}ViewModel extends StateNotifier<${2:int}> {",
+      "  ${1:Name}ViewModel() : super(${3:0});",
+      "",
+      "  $0",
+      "}"
+    ],
+    "description": "Create an Ease ViewModel class"
+  },
+  "Ease Watch State": {
+    "prefix": "easewatch",
+    "body": [
+      "final ${1:viewModel} = context.${2:myViewModel};"
+    ],
+    "description": "Watch a ViewModel (subscribes to changes)"
+  },
+  "Ease Read State": {
+    "prefix": "easeread",
+    "body": [
+      "final ${1:viewModel} = context.read${2:MyViewModel}();"
+    ],
+    "description": "Read a ViewModel without subscribing"
+  },
+  "Ease Select State": {
+    "prefix": "easeselect",
+    "body": [
+      "final ${1:value} = context.select${2:MyViewModel}((s) => s.${3:property});"
+    ],
+    "description": "Select a specific value from ViewModel state"
+  },
+  "Ease Provider Registration": {
+    "prefix": "easeprovider",
+    "body": [
+      "(child) => ${1:Name}ViewModelProvider(child: child),"
+    ],
+    "description": "Add a provider to easeProviders list"
+  }
+}

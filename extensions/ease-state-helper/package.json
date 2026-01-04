@@ -1,0 +1,78 @@
+{
+  "name": "ease-state-helper",
+  "displayName": "Ease State Helper",
+  "description": "VS Code extension for Ease Flutter state management - scaffolds ViewModels and .ease.dart files",
+  "version": "0.0.1",
+  "publisher": "ease",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Snippets",
+    "Other"
+  ],
+  "keywords": [
+    "flutter",
+    "dart",
+    "ease",
+    "state management",
+    "viewmodel"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "ease.newViewModel",
+        "title": "Ease: New ViewModel"
+      },
+      {
+        "command": "ease.newLocalViewModel",
+        "title": "Ease: New Local ViewModel"
+      },
+      {
+        "command": "ease.regenerateEaseFile",
+        "title": "Ease: Regenerate .ease.dart"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "ease.newViewModel",
+          "group": "ease@1",
+          "when": "explorerResourceIsFolder"
+        },
+        {
+          "command": "ease.newLocalViewModel",
+          "group": "ease@2",
+          "when": "explorerResourceIsFolder"
+        },
+        {
+          "command": "ease.regenerateEaseFile",
+          "group": "ease@3",
+          "when": "resourceExtname == .dart && resourceFilename =~ /.*(?<!.ease).dart$/"
+        }
+      ]
+    },
+    "snippets": [
+      {
+        "language": "dart",
+        "path": "./snippets/ease.json"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "typescript": "^5.3.0"
+  }
+}

@@ -23,10 +23,6 @@ coverage/
 # macOS
 .DS_Store
 
-# Plan files (internal)
-plan/
-PLAN_INHERITED_MODEL.md
-
-# Claude
-.claude
-CLAUDE.md
+# VS Code Extension
+extensions/*/node_modules/
+extensions/*/out/
