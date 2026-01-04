@@ -1,3 +1,4 @@
+import 'package:ease/ease.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -182,7 +183,7 @@ void main() {
     testWidgets('provides all states', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Ease(
+          home: Ease(providers: $easeProviders,
             child: Builder(
               builder: (context) {
                 final counter = context.counterViewModel;
@@ -210,7 +211,7 @@ void main() {
     testWidgets('generic get<T>() works', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Ease(
+          home: Ease(providers: $easeProviders,
             child: Builder(
               builder: (context) {
                 final counter = context.get<CounterViewModel>();
@@ -229,7 +230,7 @@ void main() {
 
       await tester.pumpWidget(
         MaterialApp(
-          home: Ease(
+          home: Ease(providers: $easeProviders,
             child: Builder(
               builder: (context) {
                 buildCount++;

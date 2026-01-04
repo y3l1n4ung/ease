@@ -83,36 +83,26 @@ class AggregatorBuilder implements Builder {
     }
     buffer.writeln();
 
-    // Generate Ease root widget
+    // Generated providers list for convenience
     buffer.writeln('// ============================================');
-    buffer.writeln('// Ease Root Widget');
+    buffer.writeln('// Generated Providers List');
     buffer.writeln('// ============================================');
     buffer.writeln();
-    buffer.writeln('/// Root widget that provides all @ease states to descendants.');
+    buffer.writeln('/// All generated providers for @ease annotated classes.');
     buffer.writeln('///');
-    buffer.writeln('/// Wrap your app with this widget to enable state access:');
+    buffer.writeln('/// Usage:');
     buffer.writeln('/// ```dart');
-    buffer.writeln('/// void main() => runApp(Ease(child: MyApp()));');
-    buffer.writeln('/// ```');
+    buffer.writeln("/// import 'ease.g.dart';");
     buffer.writeln('///');
-    buffer.writeln('/// Note: Local providers (@ease(local: true)) are not included here.');
-    buffer.writeln('/// They must be manually placed in your widget tree.');
-    buffer.writeln('class Ease extends StatelessWidget {');
-    buffer.writeln('  final Widget child;');
-    buffer.writeln();
-    buffer.writeln('  const Ease({super.key, required this.child});');
-    buffer.writeln();
-    buffer.writeln('  static final _providers = <Widget Function(Widget)>[');
+    buffer.writeln('/// void main() => runApp(');
+    buffer.writeln(r"///   Ease(providers: $easeProviders, child: MyApp()),");
+    buffer.writeln('/// );');
+    buffer.writeln('/// ```');
+    buffer.writeln(r'final $easeProviders = <ProviderBuilder>[');
     for (final state in stateClasses) {
-      buffer.writeln('    (child) => ${state.providerName}(child: child),');
+      buffer.writeln('  (child) => ${state.providerName}(child: child),');
     }
-    buffer.writeln('  ];');
-    buffer.writeln();
-    buffer.writeln('  @override');
-    buffer.writeln('  Widget build(BuildContext context) {');
-    buffer.writeln('    return _providers.fold(child, (child, provider) => provider(child));');
-    buffer.writeln('  }');
-    buffer.writeln('}');
+    buffer.writeln('];');
     buffer.writeln();
 
     // Generate generic get<T>() extension

@@ -1,3 +1,4 @@
+import 'package:ease/ease.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,7 +16,7 @@ void main() async {
   final prefs = await SharedPreferences.getInstance();
   StorageService.initialize(prefs);
 
-  runApp(const Ease(child: ShoppingApp()));
+  runApp(Ease(providers: $easeProviders, child: const ShoppingApp()));
 }
 
 class ShoppingApp extends StatefulWidget {
@@ -39,7 +40,10 @@ class _ShoppingAppState extends State<ShoppingApp> {
 
       // Debug: Listen to auth changes
       authViewModel.addListener(() {
-        logger.info('MAIN', 'Auth state changed: ${authViewModel.state.status}, isAuthenticated: ${authViewModel.state.isAuthenticated}');
+        logger.info(
+          'MAIN',
+          'Auth state changed: ${authViewModel.state.status}, isAuthenticated: ${authViewModel.state.isAuthenticated}',
+        );
       });
     }
   }

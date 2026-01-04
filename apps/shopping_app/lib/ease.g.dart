@@ -11,36 +11,26 @@ import 'features/orders/view_models/orders_view_model.dart';
 import 'features/products/view_models/products_view_model.dart';
 
 // ============================================
-// Ease Root Widget
+// Generated Providers List
 // ============================================
 
-/// Root widget that provides all @ease states to descendants.
+/// All generated providers for @ease annotated classes.
 ///
-/// Wrap your app with this widget to enable state access:
+/// Usage:
 /// ```dart
-/// void main() => runApp(Ease(child: MyApp()));
-/// ```
+/// import 'ease.g.dart';
 ///
-/// Note: Local providers (@ease(local: true)) are not included here.
-/// They must be manually placed in your widget tree.
-class Ease extends StatelessWidget {
-  final Widget child;
-
-  const Ease({super.key, required this.child});
-
-  static final _providers = <Widget Function(Widget)>[
-    (child) => AuthViewModelProvider(child: child),
-    (child) => CartViewModelProvider(child: child),
-    (child) => CheckoutViewModelProvider(child: child),
-    (child) => OrdersViewModelProvider(child: child),
-    (child) => ProductsViewModelProvider(child: child),
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return _providers.fold(child, (child, provider) => provider(child));
-  }
-}
+/// void main() => runApp(
+///   Ease(providers: $easeProviders, child: MyApp()),
+/// );
+/// ```
+final $easeProviders = <ProviderBuilder>[
+  (child) => AuthViewModelProvider(child: child),
+  (child) => CartViewModelProvider(child: child),
+  (child) => CheckoutViewModelProvider(child: child),
+  (child) => OrdersViewModelProvider(child: child),
+  (child) => ProductsViewModelProvider(child: child),
+];
 
 // ============================================
 // Generic Context Extension

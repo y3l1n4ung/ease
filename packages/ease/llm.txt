@@ -1,0 +1,360 @@
+# Ease - Flutter State Management Library
+
+> Simple, performant Flutter state management using InheritedModel + code generation.
+
+## Overview
+
+Ease provides type-safe state management with minimal boilerplate through code generation. It uses Flutter's InheritedModel for optimal performance with selective widget rebuilds.
+
+## Installation
+
+```yaml
+dependencies:
+  ease: ^1.0.0
+
+dev_dependencies:
+  ease_generator: ^1.0.0
+  build_runner: ^2.4.0
+```
+
+## Quick Start
+
+### 1. Create a ViewModel
+
+```dart
+import 'package:ease/ease.dart';
+
+part 'counter_view_model.ease.dart';
+
+@ease()
+class CounterViewModel extends StateNotifier<int> {
+  CounterViewModel() : super(0);
+
+  void increment() => state++;
+  void decrement() => state--;
+  void reset() => state = 0;
+}
+```
+
+### 2. Run Code Generation
+
+```bash
+dart run build_runner build
+```
+
+### 3. Wrap App with Ease Widget
+
+```dart
+import 'package:ease/ease.dart';
+import 'ease.g.dart';
+
+void main() {
+  initializeEase(); // Optional: enables DevTools
+  runApp(Ease(providers: $easeProviders, child: const MyApp()));
+}
+```
+
+### 4. Access State in Widgets
+
+```dart
+class MyWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // Watch: subscribes to all changes, widget rebuilds on state change
+    final counter = context.counterViewModel;
+
+    return Text('Count: ${counter.state}');
+  }
+}
+```
+
+## Core Concepts
+
+### StateNotifier
+
+Base class for all state objects. Extends ChangeNotifier and auto-notifies on state changes.
+
+```dart
+@ease()
+class CartViewModel extends StateNotifier<CartState> {
+  CartViewModel() : super(const CartState());
+
+  // Direct state assignment
+  void addItem(Product p) {
+    state = state.copyWith(items: [...state.items, p]);
+  }
+
+  // Functional update based on current state
+  void clearCart() {
+    update((current) => const CartState());
+  }
+
+  // Named action for DevTools visibility
+  void checkout() {
+    setState(state.copyWith(isLoading: true), action: 'checkout');
+  }
+}
+```
+
+### Context Extensions
+
+Generated for each @ease() class:
+
+| Pattern | Usage | Subscribes |
+|---------|-------|------------|
+| `context.myViewModel` | Watch all changes | Yes |
+| `context.readMyViewModel()` | One-time read, callbacks | No |
+| `context.selectMyViewModel((s) => s.field)` | Watch specific field | Partial |
+| `context.get<MyViewModel>()` | Generic watch | Yes |
+| `context.read<MyViewModel>()` | Generic read | No |
+
+### Watch vs Read
+
+```dart
+// WATCH: Widget rebuilds when state changes
+// Use in build() methods for reactive UI
+final counter = context.counterViewModel;
+Text('${counter.state}')
+
+// READ: No subscription, no rebuilds
+// Use in callbacks, event handlers
+onPressed: () => context.readCounterViewModel().increment()
+```
+
+### Selector Pattern
+
+Rebuilds widget only when selected value changes:
+
+```dart
+// Only rebuilds when itemCount changes, not other cart properties
+final count = context.selectCartViewModel((s) => s.itemCount);
+
+// For collections, provide custom equality
+final items = context.selectCartViewModel(
+  (s) => s.items,
+  equals: (a, b) => listEquals(a, b),
+);
+```
+
+## Local Providers
+
+For scoped state (forms, dialogs, list items):
+
+```dart
+@ease(local: true)
+class LocalFormViewModel extends StateNotifier<FormState> {
+  LocalFormViewModel() : super(const FormState());
+}
+```
+
+Local providers must be manually placed in the widget tree:
+
+```dart
+LocalFormViewModelProvider(
+  child: MyFormWidget(),
+)
+```
+
+## State Model Pattern
+
+Use immutable state classes with copyWith:
+
+```dart
+class CartState {
+  final List<CartItem> items;
+  final bool isLoading;
+  final String? error;
+
+  const CartState({
+    this.items = const [],
+    this.isLoading = false,
+    this.error,
+  });
+
+  // Computed properties
+  int get itemCount => items.fold(0, (sum, i) => sum + i.quantity);
+  double get total => items.fold(0, (sum, i) => sum + i.total);
+  bool get isEmpty => items.isEmpty;
+
+  CartState copyWith({
+    List<CartItem>? items,
+    bool? isLoading,
+    String? error,
+  }) {
+    return CartState(
+      items: items ?? this.items,
+      isLoading: isLoading ?? this.isLoading,
+      error: error,
+    );
+  }
+}
+```
+
+## Middleware
+
+Intercept state changes for logging, persistence, analytics:
+
+```dart
+import 'package:ease/ease.dart';
+import 'ease.g.dart';
+
+void main() {
+  StateNotifier.middleware = [
+    LoggingMiddleware(),
+    MyCustomMiddleware(),
+  ];
+  runApp(Ease(providers: $easeProviders, child: const MyApp()));
+}
+```
+
+### Built-in LoggingMiddleware
+
+```dart
+LoggingMiddleware(
+  includeTimestamp: true,
+  includeStackTrace: false,
+  includedStates: {CounterViewModel}, // only log these
+  excludedStates: {ThemeViewModel},   // exclude these
+)
+```
+
+### Custom Middleware
+
+```dart
+class PersistenceMiddleware extends EaseMiddleware {
+  @override
+  void onStateChange<T>(StateChangeEvent<T> event) {
+    // Sync: called after state change
+    print('${event.stateName}: ${event.oldState} -> ${event.newState}');
+  }
+
+  @override
+  Future<void> onStateChangeAsync<T>(StateChangeEvent<T> event) async {
+    // Async: non-blocking, for persistence/network
+    await saveToStorage(event.stateName, event.newState);
+  }
+
+  @override
+  void onStateInit<T>(StateInitEvent<T> event) {
+    // Called when StateNotifier is created
+  }
+
+  @override
+  void onStateDispose(StateDisposeEvent event) {
+    // Called when StateNotifier is disposed
+  }
+
+  @override
+  void onError(StateErrorEvent event) {
+    // Called on middleware errors
+  }
+}
+```
+
+## Generated Files
+
+- Per-class: `my_view_model.ease.dart` (part file with Provider + InheritedModel + context extensions)
+- Aggregated: `ease.g.dart`:
+  - `$easeProviders` - list of all provider builders for use with `Ease` widget
+  - `EaseContext` extension - generic `get<T>()` and `read<T>()` methods
+
+## Common Patterns
+
+### Async Operations
+
+```dart
+@ease()
+class NetworkViewModel extends StateNotifier<NetworkState> {
+  NetworkViewModel() : super(const NetworkState());
+
+  Future<void> fetchData() async {
+    state = state.copyWith(isLoading: true, error: null);
+    try {
+      final data = await api.fetch();
+      state = state.copyWith(data: data, isLoading: false);
+    } catch (e) {
+      state = state.copyWith(error: e.toString(), isLoading: false);
+    }
+  }
+}
+```
+
+### Form State
+
+```dart
+@ease(local: true)
+class FormViewModel extends StateNotifier<FormState> {
+  FormViewModel() : super(const FormState());
+
+  void updateField(String field, String value) {
+    setState(
+      state.copyWith(fields: {...state.fields, field: value}),
+      action: 'updateField:$field',
+    );
+  }
+
+  bool get isValid => state.name.isNotEmpty && state.email.contains('@');
+
+  Future<void> submit() async {
+    if (!isValid) return;
+    setState(state.copyWith(isSubmitting: true), action: 'submit');
+    await api.submit(state);
+    setState(const FormState(), action: 'reset');
+  }
+}
+```
+
+### Computed Properties
+
+Define getters on your state class:
+
+```dart
+class CartState {
+  final List<CartItem> items;
+
+  int get itemCount => items.fold(0, (sum, i) => sum + i.quantity);
+  double get subtotal => items.fold(0, (sum, i) => sum + i.total);
+  double get tax => subtotal * 0.1;
+  double get total => subtotal + tax;
+}
+```
+
+## DevTools Integration
+
+```dart
+import 'package:ease/ease.dart';
+import 'ease.g.dart';
+
+void main() {
+  initializeEase(); // Call before runApp
+  runApp(Ease(providers: $easeProviders, child: const MyApp()));
+}
+```
+
+Features:
+- View all registered states
+- Inspect current state values
+- Track state change history with timestamps
+- Filter history by state type
+
+## Commands
+
+```bash
+# Generate code
+dart run build_runner build
+
+# Watch mode
+dart run build_runner watch
+
+# Clean and regenerate
+dart run build_runner build --delete-conflicting-outputs
+```
+
+## Best Practices
+
+1. Use `copyWith` pattern for immutable state updates
+2. Use `context.readMyViewModel()` in callbacks, not `context.myViewModel`
+3. Use `selectMyViewModel` for widgets that only need part of the state
+4. Use `@ease(local: true)` for form/dialog state that should be scoped
+5. Use `setState(..., action: 'name')` for better DevTools visibility
+6. Add computed properties as getters on your state class

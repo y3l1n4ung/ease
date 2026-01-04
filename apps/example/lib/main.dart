@@ -13,7 +13,7 @@ void main() {
     LoggingMiddleware(),
     // Add your custom middleware
   ];
-  runApp(const Ease(child: MyApp()));
+  runApp(Ease(providers: $easeProviders, child: const MyApp()));
 }
 
 class MyApp extends StatefulWidget {
