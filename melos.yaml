@@ -12,6 +12,9 @@ command:
   version:
     linkToCommits: true
     workspaceChangelog: true
+  publish:
+    hooks:
+      pre: melos run get
 
 scripts:
   # Dependencies
@@ -88,6 +91,28 @@ scripts:
       rm -rf extension/devtools/build && \
       cp -r build/web extension/devtools/build && \
       echo "DevTools extension built!"
+
+  # Publishing
+  publish:dart:
+    description: Publish Dart packages
+    run: melos exec -- dart pub publish
+    packageFilters:
+      flutter: false
+      noPrivate: true
+
+  publish:flutter:
+    description: Publish Flutter packages
+    run: melos exec -- flutter pub publish
+    packageFilters:
+      flutter: true
+      noPrivate: true
+
+  publish:dry:
+    description: Dry run publish all
+    run: |
+      melos exec --no-private -- dart pub publish --dry-run || true
+    packageFilters:
+      flutter: false
 
   # Maintenance
   clean:
