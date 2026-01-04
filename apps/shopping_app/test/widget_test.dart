@@ -1,4 +1,4 @@
-import 'package:ease/ease.dart';
+import 'package:ease_state_helper/ease_state_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 

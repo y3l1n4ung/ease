@@ -41,19 +41,6 @@ fix: handle disposed listeners
 docs: update installation instructions
 ```
 
-## Project Structure
-
-```
-packages/
-├── ease/                  # Runtime library
-├── ease_annotation/       # @ease() annotation
-├── ease_generator/        # Code generator
-└── ease_devtools_extension/  # DevTools UI
-
-apps/
-├── example/               # Example demos
-└── shopping_app/          # E-commerce demo
-```
 
 ## Testing
 

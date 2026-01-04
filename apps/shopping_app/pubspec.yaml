@@ -39,8 +39,8 @@ dependencies:
   shared_preferences: ^2.3.4
 
   # Ease state management
-  ease:
-    path: ../../packages/ease
+  ease_state_helper:
+    path: ../../packages/ease_state_helper
   ease_annotation:
     path: ../../packages/ease_annotation
   json_annotation: ^4.9.0

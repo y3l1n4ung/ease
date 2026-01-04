@@ -23,7 +23,7 @@ dev_dependencies:
 1. Call `initializeEase()` before `runApp()`:
 
 ```dart
-import 'package:ease/ease.dart';
+import 'package:ease_state_helper/ease_state_helper.dart';
 
 void main() {
   initializeEase();

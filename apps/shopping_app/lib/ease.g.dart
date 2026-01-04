@@ -2,7 +2,7 @@
 // ignore_for_file: type=lint
 
 import 'package:flutter/widgets.dart';
-import 'package:ease/ease.dart';
+import 'package:ease_state_helper/ease_state_helper.dart';
 
 import 'features/auth/view_models/auth_view_model.dart';
 import 'features/cart/view_models/cart_view_model.dart';

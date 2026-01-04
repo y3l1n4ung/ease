@@ -26,7 +26,7 @@ dev_dependencies:
 ### 1. Annotate your classes
 
 ```dart
-import 'package:ease/ease.dart';
+import 'package:ease_state_helper/ease_state_helper.dart';
 
 part 'counter_view_model.ease.dart';
 

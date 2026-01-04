@@ -74,7 +74,7 @@ class AggregatorBuilder implements Builder {
     buffer.writeln('// ignore_for_file: type=lint');
     buffer.writeln();
     buffer.writeln("import 'package:flutter/widgets.dart';");
-    buffer.writeln("import 'package:ease/ease.dart';");
+    buffer.writeln("import 'package:ease_state_helper/ease_state_helper.dart';");
     buffer.writeln();
 
     // Import all state files (which include their .g.dart parts)

@@ -1,4 +1,4 @@
-import 'package:ease/ease.dart';
+import 'package:ease_state_helper/ease_state_helper.dart';
 import 'package:ease_example/view_models/theme_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

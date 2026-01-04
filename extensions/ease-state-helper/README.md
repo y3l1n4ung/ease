@@ -39,7 +39,7 @@ This creates two files:
 Add your provider to the `Ease` widget in `main.dart`:
 
 ```dart
-import 'package:ease/ease.dart';
+import 'package:ease_state_helper/ease_state_helper.dart';
 import 'counter_view_model.dart';
 
 void main() {

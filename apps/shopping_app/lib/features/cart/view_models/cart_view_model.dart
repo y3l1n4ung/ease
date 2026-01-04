@@ -1,4 +1,5 @@
-import 'package:ease/ease.dart';
+import 'package:ease_annotation/ease_annotation.dart';
+import 'package:ease_state_helper/ease_state_helper.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../../core/logging/logger.dart';
@@ -13,10 +14,9 @@ class CartViewModel extends StateNotifier<CartState> {
   CartViewModel() : super(const CartState());
 
   void addToCart(Product product) {
-    logger.userAction('add_to_cart', {'productId': product.id, 'title': product.title});
-
-    final existingIndex =
-        state.items.indexWhere((item) => item.product.id == product.id);
+    final existingIndex = state.items.indexWhere(
+      (item) => item.product.id == product.id,
+    );
 
     if (existingIndex >= 0) {
       final updatedItems = List<CartItem>.from(state.items);
@@ -25,14 +25,14 @@ class CartViewModel extends StateNotifier<CartState> {
         quantity: existing.quantity + 1,
       );
       state = state.copyWith(items: updatedItems);
-      logger.debug('CART', 'Increased quantity for product ${product.id}');
     } else {
       state = state.copyWith(
-        items: [...state.items, CartItem(product: product, quantity: 1)],
+        items: [
+          ...state.items,
+          CartItem(product: product, quantity: 1),
+        ],
       );
-      logger.debug('CART', 'Added new product ${product.id} to cart');
     }
-    logger.info('CART', 'Cart now has ${state.itemCount} items, total: \$${state.totalPrice.toStringAsFixed(2)}');
   }
 
   void removeFromCart(int productId) {
@@ -40,11 +40,17 @@ class CartViewModel extends StateNotifier<CartState> {
     state = state.copyWith(
       items: state.items.where((item) => item.product.id != productId).toList(),
     );
-    logger.info('CART', 'Removed product $productId, cart now has ${state.itemCount} items');
+    logger.info(
+      'CART',
+      'Removed product $productId, cart now has ${state.itemCount} items',
+    );
   }
 
   void updateQuantity(int productId, int quantity) {
-    logger.userAction('update_cart_quantity', {'productId': productId, 'quantity': quantity});
+    logger.userAction('update_cart_quantity', {
+      'productId': productId,
+      'quantity': quantity,
+    });
 
     if (quantity <= 0) {
       removeFromCart(productId);
@@ -63,8 +69,6 @@ class CartViewModel extends StateNotifier<CartState> {
   }
 
   void clearCart() {
-    logger.userAction('clear_cart');
     state = const CartState();
-    logger.info('CART', 'Cart cleared');
   }
 }

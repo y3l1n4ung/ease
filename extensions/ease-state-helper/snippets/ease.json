@@ -2,7 +2,7 @@
   "Ease ViewModel": {
     "prefix": "easevm",
     "body": [
-      "import 'package:ease/ease.dart';",
+      "import 'package:ease_state_helper/ease_state_helper.dart';",
       "",
       "part '${TM_FILENAME_BASE}.ease.dart';",
       "",

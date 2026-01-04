@@ -1,6 +1,6 @@
 # Ease
 
-Simple Flutter state management with InheritedWidget + code generation.
+Simple Flutter state management helper.
 
 ## Features
 
@@ -27,7 +27,7 @@ dev_dependencies:
 ### 1. Create a StateNotifier
 
 ```dart
-import 'package:ease/ease.dart';
+import 'package:ease_state_helper/ease_state_helper.dart';
 
 part 'counter_view_model.ease.dart';
 

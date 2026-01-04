@@ -1,4 +1,0 @@
-# melos_managed_dependency_overrides: ease_annotation
-dependency_overrides:
-  ease_annotation:
-    path: ../ease_annotation

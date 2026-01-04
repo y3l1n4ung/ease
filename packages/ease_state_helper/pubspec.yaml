@@ -1,5 +1,5 @@
-name: ease
-description: Simple Flutter state management with InheritedWidget + code generation
+name: ease_state_helper
+description: Simple Flutter state management helper with InheritedWidget
 version: 1.0.0
 homepage: https://github.com/b14ckc0d3/ease
 publish_to: none
@@ -11,7 +11,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  ease_annotation: ^1.0.0
 
 dev_dependencies:
   flutter_test:

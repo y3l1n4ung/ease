@@ -10,7 +10,7 @@ export function getViewModelTemplate(
 ): string {
   const initialValue = getInitialValue(stateType);
 
-  return `import 'package:ease/ease.dart';
+  return `import 'package:ease_state_helper/ease_state_helper.dart';
 
 part '${fileName}.ease.dart';
 

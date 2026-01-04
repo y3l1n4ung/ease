@@ -1,6 +1,6 @@
 # Ease
 
-A simple, performant Flutter state management library using InheritedWidget + code generation.
+A simple, Flutter state management helper
 
 [![Pub Version](https://img.shields.io/pub/v/ease)](https://pub.dev/packages/ease)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
@@ -41,7 +41,7 @@ dev_dependencies:
 ### 1. Create a State Class
 
 ```dart
-import 'package:ease/ease.dart';
+import 'package:ease_state_helper/ease_state_helper.dart';
 
 part 'counter_view_model.ease.dart';
 

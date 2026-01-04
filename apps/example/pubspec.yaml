@@ -8,8 +8,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  ease:
-    path: ../../packages/ease
+  ease_state_helper:
+    path: ../../packages/ease_state_helper
+  ease_annotation:
+    path: ../../packages/ease_annotation
   go_router: ^14.6.0
   shared_preferences: ^2.2.2
   http: ^1.1.0
