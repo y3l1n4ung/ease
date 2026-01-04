@@ -53,8 +53,17 @@ jobs:
       - name: Run tests with coverage
         run: melos run test:coverage
 
+      - name: List coverage files
+        run: |
+          echo "Coverage files generated:"
+          find packages -name "lcov.info" -type f
+
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          fail_ci_if_error: true
+          files: ./packages/ease_state_helper/coverage/lcov.info,./packages/ease_generator/coverage/lcov.info,./packages/ease_devtools_extension/coverage/lcov.info
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: false
+          verbose: true
