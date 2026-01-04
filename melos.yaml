@@ -12,9 +12,6 @@ command:
   version:
     linkToCommits: true
     workspaceChangelog: true
-  publish:
-    hooks:
-      pre: melos run get
 
 scripts:
   # Dependencies
@@ -107,12 +104,20 @@ scripts:
       flutter: true
       noPrivate: true
 
-  publish:dry:
-    description: Dry run publish all
-    run: |
-      melos exec --no-private -- dart pub publish --dry-run || true
+  publish:dry:dart:
+    description: Dry run publish Dart packages
+    run: melos exec -- dart pub publish --dry-run
     packageFilters:
       flutter: false
+      noPrivate: true
+
+  publish:dry:flutter:
+    description: Dry run publish Flutter packages
+    run: melos exec -- flutter pub publish --dry-run
+    packageFilters:
+      flutter: true
+      noPrivate: true
+
 
   # Maintenance
   clean:

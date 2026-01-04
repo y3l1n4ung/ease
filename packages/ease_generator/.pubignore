@@ -1,1 +1,6 @@
-pubspec_overrides.yaml
+example/
+test/
+coverage/
+.pubspec_overrides.yaml
+.idea/
+.vscode/
