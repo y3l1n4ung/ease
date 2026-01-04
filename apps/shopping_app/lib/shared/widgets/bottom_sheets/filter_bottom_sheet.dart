@@ -109,10 +109,7 @@ class _FilterBottomSheetContentState extends State<_FilterBottomSheetContent> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'Filters',
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
+                Text('Filters', style: Theme.of(context).textTheme.titleLarge),
                 TextButton(
                   onPressed: () {
                     setState(() {
@@ -193,19 +190,23 @@ class _FilterBottomSheetContentState extends State<_FilterBottomSheetContent> {
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   const SizedBox(height: 12),
-                  ...SortOption.values.map((option) {
-                    return RadioListTile<SortOption>(
-                      title: Text(option.label),
-                      value: option,
-                      groupValue: _filters.sortBy,
-                      onChanged: (value) {
-                        setState(() {
-                          _filters = _filters.copyWith(sortBy: value);
-                        });
-                      },
-                      contentPadding: EdgeInsets.zero,
-                    );
-                  }),
+                  RadioGroup<SortOption>(
+                    groupValue: _filters.sortBy,
+                    onChanged: (value) {
+                      setState(() {
+                        _filters = _filters.copyWith(sortBy: value);
+                      });
+                    },
+                    child: Column(
+                      children: SortOption.values.map((option) {
+                        return RadioListTile<SortOption>(
+                          title: Text(option.label),
+                          value: option,
+                          contentPadding: EdgeInsets.zero,
+                        );
+                      }).toList(),
+                    ),
+                  ),
                 ],
               ),
             ),
