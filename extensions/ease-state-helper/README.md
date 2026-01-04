@@ -1,6 +1,6 @@
 # Ease State Helper
 
-VS Code extension for [Ease State Helper](https://github.com/b14ckc0d3/ease) Flutter state management.
+VS Code extension for [Ease State Helper](https://github.com/y3l1n4ung/ease) Flutter state management.
 
 ## Features
 

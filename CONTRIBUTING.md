@@ -1,4 +1,4 @@
-# Contributing to Ease
+# Contributing to Ease State Helper
 
 ## Setup
 
