@@ -5,6 +5,7 @@ A simple Flutter state management helper that makes using Flutter's internal sta
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Flutter](https://img.shields.io/badge/Flutter-3.22+-blue.svg)](https://flutter.dev)
 [![Dart](https://img.shields.io/badge/Dart-3.5+-blue.svg)](https://dart.dev)
+[![codecov](https://codecov.io/github/y3l1n4ung/ease/graph/badge.svg?token=EZDDCOCOAT)](https://codecov.io/github/y3l1n4ung/ease)
 
 ## Features
 
