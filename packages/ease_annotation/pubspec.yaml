@@ -1,6 +1,6 @@
 name: ease_annotation
 description: Annotations for ease state management helper
-version: 1.0.0
+version: 0.1.0
 homepage: https://github.com/y3l1n4ung/ease
 
 environment:

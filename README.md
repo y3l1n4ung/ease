@@ -20,7 +20,7 @@ A simple Flutter state management helper that makes using Flutter's internal sta
 
 ```yaml
 dependencies:
-  ease_state_helper: ^1.0.0
+  ease_state_helper: ^0.1.0
 ```
 
 ### Create a ViewModel
@@ -90,11 +90,11 @@ Requires `@ease()` annotation and build_runner.
 
 ```yaml
 dependencies:
-  ease_state_helper: ^1.0.0
-  ease_annotation: ^1.0.0
+  ease_state_helper: ^0.1.0
+  ease_annotation: ^0.1.0
 
 dev_dependencies:
-  ease_generator: ^1.0.0
+  ease_generator: ^0.1.0
   build_runner: ^2.4.0
 ```
 
@@ -173,7 +173,7 @@ final items = context.selectCartViewModel(
 
 ```yaml
 dev_dependencies:
-  ease_devtools_extension: ^1.0.0
+  ease_devtools_extension: ^0.1.0
 ```
 
 ```dart
