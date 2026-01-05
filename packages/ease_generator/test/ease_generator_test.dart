@@ -1,6 +1,7 @@
 import 'package:build/build.dart';
 import 'package:build_test/build_test.dart';
 import 'package:ease_generator/ease_generator.dart';
+import 'package:ease_generator/src/aggregator_builder.dart';
 import 'package:ease_generator/src/utils.dart';
 import 'package:test/test.dart';
 
@@ -389,6 +390,111 @@ class InvalidClass {
         logs.any((log) => log.contains('classes that extend StateNotifier')),
         isTrue,
         reason: 'Expected error about StateNotifier requirement',
+      );
+    });
+  });
+
+  group('AggregatorBuilder', () {
+    test('buildExtensions returns correct extensions', () {
+      final builder = AggregatorBuilder();
+      expect(
+        builder.buildExtensions,
+        equals({
+          r'lib/$lib$': ['lib/ease.g.dart'],
+        }),
+      );
+    });
+  });
+
+  group('EaseGenerator edge cases', () {
+    test('extracts state type from generic StateNotifier', () async {
+      final builder = easeBuilder(BuilderOptions.empty);
+
+      await testBuilder(
+        builder,
+        {
+          'ease_annotation|lib/ease_annotation.dart': '''
+library ease_annotation;
+class ease {
+  const ease();
+}
+''',
+          'ease|lib/src/state_notifier.dart': '''
+class StateNotifier<T> {
+  StateNotifier(this._state);
+  T _state;
+  T get state => _state;
+  set state(T value) => _state = value;
+}
+''',
+          'a|lib/custom.dart': '''
+import 'package:ease_annotation/ease_annotation.dart';
+import 'package:ease/src/state_notifier.dart';
+
+part 'custom.ease.dart';
+
+class UserData {
+  final String name;
+  final int age;
+  UserData(this.name, this.age);
+}
+
+@ease()
+class UserState extends StateNotifier<UserData> {
+  UserState() : super(UserData('', 0));
+}
+''',
+        },
+        generateFor: {'a|lib/custom.dart'},
+        outputs: {
+          'a|lib/custom.ease.dart': decodedMatches(
+            allOf([
+              contains('T Function(UserData state) selector'),
+              contains('UserData state'),
+            ]),
+          ),
+        },
+      );
+    });
+
+    test('handles complex generic types in state', () async {
+      final builder = easeBuilder(BuilderOptions.empty);
+
+      await testBuilder(
+        builder,
+        {
+          'ease_annotation|lib/ease_annotation.dart': '''
+library ease_annotation;
+class ease {
+  const ease();
+}
+''',
+          'ease|lib/src/state_notifier.dart': '''
+class StateNotifier<T> {
+  StateNotifier(this._state);
+  T _state;
+  T get state => _state;
+  set state(T value) => _state = value;
+}
+''',
+          'a|lib/cart.dart': '''
+import 'package:ease_annotation/ease_annotation.dart';
+import 'package:ease/src/state_notifier.dart';
+
+part 'cart.ease.dart';
+
+@ease()
+class CartState extends StateNotifier<Map<String, List<int>>> {
+  CartState() : super({});
+}
+''',
+        },
+        generateFor: {'a|lib/cart.dart'},
+        outputs: {
+          'a|lib/cart.ease.dart': decodedMatches(
+            contains('Map<String, List<int>>'),
+          ),
+        },
       );
     });
   });

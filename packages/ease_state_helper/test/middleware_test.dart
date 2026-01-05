@@ -353,6 +353,65 @@ void main() {
       expect(logs[0], startsWith('['));
       expect(logs[0], contains('INIT TestCounter'));
     });
+
+    test('logs errors via onError', () {
+      final logs = <String>[];
+      final loggingMiddleware = LoggingMiddleware(
+        includeTimestamp: false,
+        logger: logs.add,
+      );
+
+      // Create error event and call onError directly
+      final errorEvent = StateErrorEvent(
+        stateName: 'TestState',
+        error: Exception('Test error'),
+        stackTrace: StackTrace.current,
+        lastState: 42,
+      );
+
+      loggingMiddleware.onError(errorEvent);
+
+      expect(logs.length, 1);
+      expect(logs[0], contains('ERROR TestState'));
+      expect(logs[0], contains('Test error'));
+    });
+
+    test('logs stack trace when includeStackTrace is true', () {
+      final logs = <String>[];
+      final loggingMiddleware = LoggingMiddleware(
+        includeTimestamp: false,
+        includeStackTrace: true,
+        logger: logs.add,
+      );
+
+      final errorEvent = StateErrorEvent(
+        stateName: 'TestState',
+        error: Exception('Test error'),
+        stackTrace: StackTrace.current,
+        lastState: 42,
+      );
+
+      loggingMiddleware.onError(errorEvent);
+
+      expect(logs.length, 2); // Error message + stack trace
+      expect(logs[0], contains('ERROR TestState'));
+      expect(logs[1], contains('#0')); // Stack trace has frame numbers
+    });
+
+    test('uses debugPrint when no custom logger provided', () {
+      // This test verifies the else branch works without crashing
+      final loggingMiddleware = LoggingMiddleware(
+        includeTimestamp: false,
+      );
+
+      // Should not throw - uses debugPrint internally
+      loggingMiddleware.onStateChange(StateChangeEvent(
+        stateName: 'TestState',
+        notifier: TestCounter(),
+        oldState: 0,
+        newState: 1,
+      ));
+    });
   });
 }
 
