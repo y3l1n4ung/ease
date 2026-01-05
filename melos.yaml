@@ -138,3 +138,8 @@ scripts:
     run: melos exec -- flutter clean
     packageFilters:
       flutter: true
+
+  # Setup
+  setup:hooks:
+    description: Install git hooks
+    run: ./scripts/setup-hooks.sh

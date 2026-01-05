@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# Pre-commit hook for Ease project
+# Runs format check, analyze, and tests before allowing commit
+
+set -e
+
+echo "🔍 Running pre-commit checks..."
+
+# Check if melos is available
+if ! command -v melos &> /dev/null; then
+    echo "❌ melos not found. Please run: dart pub global activate melos"
+    exit 1
+fi
+
+# Format check
+echo ""
+echo "📝 Checking code format..."
+if ! melos run format:check; then
+    echo ""
+    echo "❌ Format check failed. Run 'melos run format' to fix."
+    exit 1
+fi
+echo "✅ Format check passed"
+
+# Analyze
+echo ""
+echo "🔬 Running analyzer..."
+if ! melos run analyze; then
+    echo ""
+    echo "❌ Analysis failed. Fix the issues above."
+    exit 1
+fi
+echo "✅ Analysis passed"
+
+# Tests
+echo ""
+echo "🧪 Running tests..."
+if ! melos run test:all; then
+    echo ""
+    echo "❌ Tests failed. Fix the failing tests."
+    exit 1
+fi
+echo "✅ All tests passed"
+
+echo ""
+echo "✅ All pre-commit checks passed!"

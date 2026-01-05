@@ -1,0 +1,11 @@
+# Ensure GitHub detects this as a Dart project
+*.dart linguist-language=Dart
+
+# Generated files - exclude from language stats
+*.g.dart linguist-generated=true
+*.ease.dart linguist-generated=true
+*.freezed.dart linguist-generated=true
+*.mocks.dart linguist-generated=true
+
+# Lock files
+pubspec.lock linguist-generated=true

@@ -64,8 +64,7 @@ void main() {
       expect(find.byKey(const Key('p3')), findsOneWidget);
     });
 
-    testWidgets('providers nest correctly (last wraps first)',
-        (tester) async {
+    testWidgets('providers nest correctly (last wraps first)', (tester) async {
       // Build widget tree and verify nesting order
       // With fold, providers are applied in order: p1(p2(p3(child)))
       // So the last provider in the list becomes the outermost wrapper
@@ -97,7 +96,8 @@ void main() {
   group('ProviderBuilder typedef', () {
     test('can be used as function type', () {
       ProviderBuilder builder = (child) => Container(child: child);
-      final result = builder(const Text('test', textDirection: TextDirection.ltr));
+      final result =
+          builder(const Text('test', textDirection: TextDirection.ltr));
       expect(result, isA<Container>());
     });
   });
