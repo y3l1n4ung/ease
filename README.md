@@ -1,6 +1,6 @@
 # Ease State Helper
 
-A simple Flutter state management helper that makes using Flutter's internal state management easier.
+A lightweight helper library that makes Flutter's built-in state management easier to use.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Flutter](https://img.shields.io/badge/Flutter-3.22+-blue.svg)](https://flutter.dev)
