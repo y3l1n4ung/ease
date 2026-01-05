@@ -65,7 +65,7 @@ scripts:
 
   test:coverage:flutter:
     description: Flutter package tests with coverage
-    run: melos exec --fail-fast -- flutter test --coverage
+    run: melos exec --fail-fast --concurrency=1 -- flutter test --coverage
     packageFilters:
       flutter: true
       dirExists: test
