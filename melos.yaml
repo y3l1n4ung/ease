@@ -72,7 +72,9 @@ scripts:
 
   test:coverage:dart:
     description: Dart package tests with coverage
-    run: melos exec --fail-fast -- "dart pub global run coverage:test_with_coverage"
+    run: |
+      dart pub global activate coverage
+      melos exec --fail-fast -- "dart pub global run coverage:test_with_coverage"
     packageFilters:
       flutter: false
       dirExists: test
