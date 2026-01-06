@@ -1,7 +1,33 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 
 import 'devtools.dart';
 import 'middleware.dart';
+
+/// Subscription handle that can be cancelled.
+///
+/// Returned by [StateNotifier.listenInContext] to allow manual cancellation.
+/// The subscription auto-cleans up when the context is unmounted.
+class EaseSubscription {
+  final VoidCallback _cancel;
+  bool _isCancelled = false;
+
+  /// Creates a subscription with a cancel callback.
+  EaseSubscription(this._cancel);
+
+  /// Whether this subscription has been cancelled.
+  bool get isCancelled => _isCancelled;
+
+  /// Cancel the subscription.
+  ///
+  /// Safe to call multiple times - subsequent calls are no-ops.
+  void cancel() {
+    if (!_isCancelled) {
+      _isCancelled = true;
+      _cancel();
+    }
+  }
+}
 
 /// Base class for state management.
 ///
@@ -138,6 +164,66 @@ class StateNotifier<T> extends ChangeNotifier {
     } else {
       state = updater(_state);
     }
+  }
+
+  /// Listen to state changes with context safety.
+  ///
+  /// Use this for side effects like showing snackbars, navigation, etc.
+  /// The listener is automatically skipped if the context is unmounted,
+  /// and auto-removes itself on the next state change after unmount.
+  ///
+  /// Example:
+  /// ```dart
+  /// @override
+  /// void initState() {
+  ///   super.initState();
+  ///   context.listenOnCartViewModel((prev, next) {
+  ///     if (next.notification != null) {
+  ///       ScaffoldMessenger.of(context).showSnackBar(
+  ///         SnackBar(content: Text(next.notification!.message)),
+  ///       );
+  ///     }
+  ///   });
+  /// }
+  /// ```
+  ///
+  /// Set [fireImmediately] to true to call the listener immediately with
+  /// the current state (both previous and current will be the same).
+  EaseSubscription listenInContext(
+    BuildContext context,
+    void Function(T previous, T current) listener, {
+    bool fireImmediately = false,
+  }) {
+    T previousState = _state;
+    var isActive = true;
+
+    void onStateChanged() {
+      if (!isActive) return;
+
+      // Auto-cleanup when context is unmounted
+      if (!context.mounted) {
+        isActive = false;
+        removeListener(onStateChanged);
+        return;
+      }
+
+      final currentState = _state;
+      listener(previousState, currentState);
+      previousState = currentState;
+    }
+
+    addListener(onStateChanged);
+
+    if (fireImmediately && context.mounted) {
+      listener(previousState, _state);
+    }
+
+    return EaseSubscription(() {
+      if (isActive) {
+        isActive = false;
+        removeListener(onStateChanged);
+      }
+    });
   }
 
   /// Notifies middleware about state initialization.

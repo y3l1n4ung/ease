@@ -148,6 +148,34 @@ class MyViewModel extends StateNotifier<MyState> {
 | `context.myViewModel` | Yes | Display state in UI |
 | `context.readMyViewModel()` | No | Callbacks, event handlers |
 | `context.selectMyViewModel((s) => s.field)` | Partial | Rebuild only when field changes |
+| `context.listenOnMyViewModel((prev, next) => ...)` | No | Side effects (snackbars, navigation) |
+
+### Listen for Side Effects
+
+Use `listenOnXxx` for one-time actions like showing snackbars or navigation:
+
+```dart
+class _MyScreenState extends State<MyScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Listen for state changes - auto-cleanup when widget disposes
+    context.listenOnCartViewModel((prev, next) {
+      if (next.error != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(next.error!)),
+        );
+      }
+    });
+  }
+  // No dispose() needed - listener auto-cleans up!
+}
+```
+
+**Features:**
+- Context-safe: skips callback if widget is unmounted
+- Auto-cleanup: removes listener when context becomes invalid
+- Returns `EaseSubscription` for manual cancel if needed
 
 ### Select for Performance
 

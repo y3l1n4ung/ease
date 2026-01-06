@@ -12,6 +12,9 @@ import 'features/auth/view_models/auth_view_model.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Initialize Ease DevTools (debug mode only)
+  initializeEase();
+
   // Initialize storage before app starts
   final prefs = await SharedPreferences.getInstance();
   StorageService.initialize(prefs);

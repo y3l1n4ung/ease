@@ -1,4 +1,5 @@
 import 'package:ease_state_helper/ease_state_helper.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 class TestState extends StateNotifier<int> {
@@ -299,6 +300,180 @@ void main() {
         errorMiddleware.events.any((e) => e.contains('error:')),
         isTrue,
       );
+      notifier.dispose();
+    });
+  });
+
+  group('EaseSubscription', () {
+    test('cancel() sets isCancelled to true', () {
+      var cancelled = false;
+      final subscription = EaseSubscription(() => cancelled = true);
+
+      expect(subscription.isCancelled, isFalse);
+      subscription.cancel();
+      expect(subscription.isCancelled, isTrue);
+      expect(cancelled, isTrue);
+    });
+
+    test('cancel() is idempotent - only calls callback once', () {
+      var cancelCount = 0;
+      final subscription = EaseSubscription(() => cancelCount++);
+
+      subscription.cancel();
+      subscription.cancel();
+      subscription.cancel();
+
+      expect(cancelCount, equals(1));
+    });
+  });
+
+  group('StateNotifier.listenInContext', () {
+    testWidgets('listener receives previous and current state', (tester) async {
+      final notifier = TestState(0);
+      final changes = <(int, int)>[];
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Builder(
+            builder: (context) {
+              notifier.listenInContext(context, (prev, next) {
+                changes.add((prev, next));
+              });
+              return const SizedBox();
+            },
+          ),
+        ),
+      );
+
+      notifier.increment();
+      await tester.pump();
+
+      expect(changes, equals([(0, 1)]));
+
+      notifier.increment();
+      await tester.pump();
+
+      expect(changes, equals([(0, 1), (1, 2)]));
+      notifier.dispose();
+    });
+
+    testWidgets('fireImmediately calls listener immediately', (tester) async {
+      final notifier = TestState(42);
+      final changes = <(int, int)>[];
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Builder(
+            builder: (context) {
+              notifier.listenInContext(
+                context,
+                (prev, next) => changes.add((prev, next)),
+                fireImmediately: true,
+              );
+              return const SizedBox();
+            },
+          ),
+        ),
+      );
+
+      // Should fire immediately with same prev and next
+      expect(changes, equals([(42, 42)]));
+      notifier.dispose();
+    });
+
+    testWidgets('manual cancel removes listener', (tester) async {
+      final notifier = TestState(0);
+      final changes = <(int, int)>[];
+      EaseSubscription? subscription;
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Builder(
+            builder: (context) {
+              subscription = notifier.listenInContext(context, (prev, next) {
+                changes.add((prev, next));
+              });
+              return const SizedBox();
+            },
+          ),
+        ),
+      );
+
+      notifier.increment();
+      await tester.pump();
+      expect(changes, equals([(0, 1)]));
+
+      // Cancel subscription
+      subscription!.cancel();
+
+      notifier.increment();
+      await tester.pump();
+
+      // Should not receive second change
+      expect(changes, equals([(0, 1)]));
+      notifier.dispose();
+    });
+
+    testWidgets('auto-cleanup when widget is disposed', (tester) async {
+      final notifier = TestState(0);
+      final changes = <(int, int)>[];
+
+      // Build widget with listener
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Builder(
+            builder: (context) {
+              notifier.listenInContext(context, (prev, next) {
+                changes.add((prev, next));
+              });
+              return const SizedBox();
+            },
+          ),
+        ),
+      );
+
+      notifier.increment();
+      await tester.pump();
+      expect(changes, equals([(0, 1)]));
+
+      // Dispose widget by replacing with empty container
+      await tester.pumpWidget(const SizedBox());
+
+      // State change after widget disposed
+      notifier.increment();
+      await tester.pump();
+
+      // Should not receive change (listener auto-cleaned up due to unmounted context)
+      expect(changes, equals([(0, 1)]));
+      notifier.dispose();
+    });
+
+    testWidgets('listener not called when context unmounted', (tester) async {
+      final notifier = TestState(0);
+      var listenerCalled = false;
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Builder(
+            builder: (context) {
+              notifier.listenInContext(context, (prev, next) {
+                listenerCalled = true;
+              });
+              return const SizedBox();
+            },
+          ),
+        ),
+      );
+
+      // Dispose the widget
+      await tester.pumpWidget(const SizedBox());
+
+      // Trigger state change
+      notifier.increment();
+      await tester.pump();
+
+      // Listener should not be called because context is unmounted
+      expect(listenerCalled, isFalse);
       notifier.dispose();
     });
   });

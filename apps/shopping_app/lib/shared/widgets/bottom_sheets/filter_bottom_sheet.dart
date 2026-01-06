@@ -190,21 +190,17 @@ class _FilterBottomSheetContentState extends State<_FilterBottomSheetContent> {
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   const SizedBox(height: 12),
-                  RadioGroup<SortOption>(
-                    groupValue: _filters.sortBy,
-                    onChanged: (value) {
-                      setState(() {
-                        _filters = _filters.copyWith(sortBy: value);
-                      });
-                    },
-                    child: Column(
-                      children: SortOption.values.map((option) {
-                        return RadioListTile<SortOption>(
-                          title: Text(option.label),
-                          value: option,
-                          contentPadding: EdgeInsets.zero,
-                        );
-                      }).toList(),
+                  ...SortOption.values.map(
+                    (option) => RadioListTile<SortOption>(
+                      title: Text(option.label),
+                      value: option,
+                      // ignore: deprecated_member_use
+                      groupValue: _filters.sortBy,
+                      // ignore: deprecated_member_use
+                      onChanged: (v) => setState(
+                        () => _filters = _filters.copyWith(sortBy: v),
+                      ),
+                      contentPadding: EdgeInsets.zero,
                     ),
                   ),
                 ],

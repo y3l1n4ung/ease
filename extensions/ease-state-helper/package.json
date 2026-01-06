@@ -2,7 +2,7 @@
   "name": "ease-state-helper",
   "displayName": "Ease State Helper",
   "description": "VS Code extension for Ease State Helper - scaffolds ViewModels without build_runner",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "repository": "https://github.com/y3l1n4ung/ease",
   "publisher": "Widget-Lab",
   "engines": {

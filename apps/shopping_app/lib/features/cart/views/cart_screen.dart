@@ -3,10 +3,41 @@ import 'package:go_router/go_router.dart';
 
 import '../../../shared/widgets/dialogs/confirm_dialog.dart';
 import '../../../shared/widgets/snackbars/app_snackbar.dart';
+import '../models/cart_state.dart';
 import '../view_models/cart_view_model.dart';
 
-class CartScreen extends StatelessWidget {
+class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
+
+  @override
+  State<CartScreen> createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Listen for cart notifications and show snackbar
+    context.listenOnCartViewModel((prev, next) {
+      if (next.notification != null && prev.notification != next.notification) {
+        _showNotification(next.notification!);
+        context.readCartViewModel().clearNotification();
+      }
+    });
+  }
+
+  void _showNotification(CartNotification notification) {
+    switch (notification.type) {
+      case CartNotificationType.itemAdded:
+        AppSnackbar.success(context, notification.message);
+      case CartNotificationType.itemRemoved:
+        AppSnackbar.info(context, notification.message);
+      case CartNotificationType.quantityUpdated:
+        AppSnackbar.info(context, notification.message);
+      case CartNotificationType.cleared:
+        AppSnackbar.info(context, notification.message);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +63,6 @@ class CartScreen extends StatelessWidget {
                 );
                 if (confirmed == true && context.mounted) {
                   context.readCartViewModel().clearCart();
-                  AppSnackbar.info(context, 'Cart cleared');
                 }
               },
             ),
@@ -154,10 +184,6 @@ class CartScreen extends StatelessWidget {
                                         context
                                             .readCartViewModel()
                                             .removeFromCart(item.product.id);
-                                        AppSnackbar.info(
-                                          context,
-                                          '${item.product.title} removed',
-                                        );
                                       }
                                     },
                                   ),

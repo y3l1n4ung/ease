@@ -24,21 +24,45 @@ class CartViewModel extends StateNotifier<CartState> {
       updatedItems[existingIndex] = existing.copyWith(
         quantity: existing.quantity + 1,
       );
-      state = state.copyWith(items: updatedItems);
+      setState(
+        state.copyWith(
+          items: updatedItems,
+          notification: CartNotification(
+            message: '${product.title} quantity updated',
+            type: CartNotificationType.quantityUpdated,
+          ),
+        ),
+        action: 'addToCart:increaseQuantity',
+      );
     } else {
-      state = state.copyWith(
-        items: [
-          ...state.items,
-          CartItem(product: product, quantity: 1),
-        ],
+      setState(
+        state.copyWith(
+          items: [
+            ...state.items,
+            CartItem(product: product, quantity: 1),
+          ],
+          notification: CartNotification(
+            message: '${product.title} added to cart',
+            type: CartNotificationType.itemAdded,
+          ),
+        ),
+        action: 'addToCart:newItem',
       );
     }
   }
 
   void removeFromCart(int productId) {
     logger.userAction('remove_from_cart', {'productId': productId});
-    state = state.copyWith(
-      items: state.items.where((item) => item.product.id != productId).toList(),
+    final item = state.items.firstWhere((i) => i.product.id == productId);
+    setState(
+      state.copyWith(
+        items: state.items.where((i) => i.product.id != productId).toList(),
+        notification: CartNotification(
+          message: '${item.product.title} removed',
+          type: CartNotificationType.itemRemoved,
+        ),
+      ),
+      action: 'removeFromCart',
     );
     logger.info(
       'CART',
@@ -64,11 +88,24 @@ class CartViewModel extends StateNotifier<CartState> {
       return item;
     }).toList();
 
-    state = state.copyWith(items: updatedItems);
+    setState(state.copyWith(items: updatedItems), action: 'updateQuantity');
     logger.debug('CART', 'Updated product $productId quantity to $quantity');
   }
 
   void clearCart() {
-    state = const CartState();
+    setState(
+      const CartState(
+        notification: CartNotification(
+          message: 'Cart cleared',
+          type: CartNotificationType.cleared,
+        ),
+      ),
+      action: 'clearCart',
+    );
+  }
+
+  /// Clear the notification after showing it
+  void clearNotification() {
+    setState(state.clearNotification(), action: 'clearNotification');
   }
 }

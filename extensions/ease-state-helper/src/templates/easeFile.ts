@@ -125,6 +125,17 @@ extension ${className}Context on BuildContext {
     );
     return currentValue;
   }
+
+  EaseSubscription listenOn${className}(
+    void Function(${stateType} previous, ${stateType} current) listener, {
+    bool fireImmediately = false,
+  }) {
+    return read${className}().listenInContext(
+      this,
+      listener,
+      fireImmediately: fireImmediately,
+    );
+  }
 }
 `;
 }
