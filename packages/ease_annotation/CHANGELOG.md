@@ -1,3 +1,7 @@
+## 0.1.2
+
+ - **FEAT**: add pana CI checks and rename Ease widget to EaseScope. ([0ef82275](https://github.com/y3l1n4ung/ease/commit/0ef82275fbbd08d9414ef909c0d70a669b1c914d))
+
 ## 0.1.1
 
  - **FEAT**: add middleware support and local form view model. ([99aad239](https://github.com/y3l1n4ung/ease/commit/99aad2396284bdebea6c8c0e8ae3ed8160ebf7b7))

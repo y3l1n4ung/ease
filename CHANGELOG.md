@@ -15,6 +15,37 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`ease_annotation` - `v0.1.2`](#ease_annotation---v012)
+ - [`ease_generator` - `v0.1.2`](#ease_generator---v012)
+ - [`ease_state_helper` - `v0.1.2`](#ease_state_helper---v012)
+
+---
+
+#### `ease_annotation` - `v0.1.2`
+
+ - **FEAT**: add pana CI checks and rename Ease widget to EaseScope. ([0ef82275](https://github.com/y3l1n4ung/ease/commit/0ef82275fbbd08d9414ef909c0d70a669b1c914d))
+
+#### `ease_generator` - `v0.1.2`
+
+ - **FEAT**: add pana CI checks and rename Ease widget to EaseScope. ([0ef82275](https://github.com/y3l1n4ung/ease/commit/0ef82275fbbd08d9414ef909c0d70a669b1c914d))
+
+#### `ease_state_helper` - `v0.1.2`
+
+ - **FEAT**: add pana CI checks and rename Ease widget to EaseScope. ([0ef82275](https://github.com/y3l1n4ung/ease/commit/0ef82275fbbd08d9414ef909c0d70a669b1c914d))
+
+
+## 2026-01-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`ease_annotation` - `v0.1.1`](#ease_annotation---v011)
  - [`ease_generator` - `v0.1.1`](#ease_generator---v011)
  - [`ease_state_helper` - `v0.1.1`](#ease_state_helper---v011)

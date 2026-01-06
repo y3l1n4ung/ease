@@ -1,6 +1,6 @@
 name: ease_state_helper
 description: A simple Flutter state management helper that makes using Flutter's internal state management easier.
-version: 0.1.1
+version: 0.1.2
 homepage: https://github.com/y3l1n4ung/ease
 repository: https://github.com/y3l1n4ung/ease
 
