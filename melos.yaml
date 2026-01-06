@@ -12,6 +12,11 @@ command:
   version:
     linkToCommits: true
     workspaceChangelog: true
+    # Tag format: package_name-vX.Y.Z (matches pub.dev pattern)
+    tagPrefix: ""
+  publish:
+    hooks:
+      pre: melos run analyze
 
 scripts:
   # Dependencies

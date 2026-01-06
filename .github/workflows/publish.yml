@@ -1,0 +1,38 @@
+name: Publish to pub.dev
+
+on:
+  push:
+    tags:
+      - 'ease_annotation-v[0-9]+.[0-9]+.[0-9]+*'
+      - 'ease_generator-v[0-9]+.[0-9]+.[0-9]+*'
+      - 'ease_state_helper-v[0-9]+.[0-9]+.[0-9]+*'
+
+jobs:
+  publish-ease-annotation:
+    if: startsWith(github.ref, 'refs/tags/ease_annotation-v')
+    permissions:
+      id-token: write
+    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
+    with:
+      working-directory: packages/ease_annotation
+
+  publish-ease-generator:
+    if: startsWith(github.ref, 'refs/tags/ease_generator-v')
+    permissions:
+      id-token: write
+    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
+    with:
+      working-directory: packages/ease_generator
+
+  publish-ease-state-helper:
+    if: startsWith(github.ref, 'refs/tags/ease_state_helper-v')
+    permissions:
+      id-token: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - name: Publish
+        run: cd packages/ease_state_helper && flutter pub publish --force
