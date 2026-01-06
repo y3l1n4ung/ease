@@ -8,7 +8,7 @@ import '../models/orders_state.dart';
 
 part 'orders_view_model.ease.dart';
 
-@ease()
+@ease
 class OrdersViewModel extends StateNotifier<OrdersState> {
   OrdersViewModel() : super(const OrdersState());
 

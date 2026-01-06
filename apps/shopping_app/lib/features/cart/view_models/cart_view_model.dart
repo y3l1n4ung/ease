@@ -9,7 +9,7 @@ import '../models/cart_state.dart';
 
 part 'cart_view_model.ease.dart';
 
-@ease()
+@ease
 class CartViewModel extends StateNotifier<CartState> {
   CartViewModel() : super(const CartState());
 

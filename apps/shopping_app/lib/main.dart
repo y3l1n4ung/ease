@@ -13,13 +13,13 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Initialize Ease DevTools (debug mode only)
-  initializeEase();
+  initializeEaseDevTool();
 
   // Initialize storage before app starts
   final prefs = await SharedPreferences.getInstance();
   StorageService.initialize(prefs);
 
-  runApp(Ease(providers: $easeProviders, child: const ShoppingApp()));
+  runApp(EaseScope(providers: $easeProviders, child: const ShoppingApp()));
 }
 
 class ShoppingApp extends StatefulWidget {

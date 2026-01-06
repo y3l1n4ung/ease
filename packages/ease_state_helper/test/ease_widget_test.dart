@@ -6,7 +6,7 @@ void main() {
   group('Ease widget', () {
     testWidgets('renders child when no providers', (tester) async {
       await tester.pumpWidget(
-        const Ease(
+        const EaseScope(
           child: Text('Hello', textDirection: TextDirection.ltr),
         ),
       );
@@ -18,7 +18,7 @@ void main() {
       var providerCalled = false;
 
       await tester.pumpWidget(
-        Ease(
+        EaseScope(
           providers: [
             (child) {
               providerCalled = true;
@@ -37,7 +37,7 @@ void main() {
       final order = <int>[];
 
       await tester.pumpWidget(
-        Ease(
+        EaseScope(
           providers: [
             (child) {
               order.add(1);
@@ -69,7 +69,7 @@ void main() {
       // With fold, providers are applied in order: p1(p2(p3(child)))
       // So the last provider in the list becomes the outermost wrapper
       await tester.pumpWidget(
-        Ease(
+        EaseScope(
           providers: [
             (child) => Container(key: const Key('first'), child: child),
             (child) => Container(key: const Key('last'), child: child),

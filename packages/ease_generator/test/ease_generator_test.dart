@@ -67,8 +67,10 @@ void main() {
         {
           'ease_annotation|lib/ease_annotation.dart': '''
 library ease_annotation;
-class ease {
-  const ease();
+class Ease {
+  const Ease();
+}
+const ease = Ease();
 }
 ''',
           'ease|lib/src/state_notifier.dart': '''
@@ -87,7 +89,7 @@ import 'package:ease/src/state_notifier.dart';
 
 part 'counter.ease.dart';
 
-@ease()
+@ease
 class CounterViewModel extends StateNotifier<int> {
   CounterViewModel() : super(0);
   void increment() => state++;
@@ -121,8 +123,10 @@ class CounterViewModel extends StateNotifier<int> {
         {
           'ease_annotation|lib/ease_annotation.dart': '''
 library ease_annotation;
-class ease {
-  const ease();
+class Ease {
+  const Ease();
+}
+const ease = Ease();
 }
 ''',
           'ease|lib/src/state_notifier.dart': '''
@@ -141,7 +145,7 @@ import 'package:ease/src/state_notifier.dart';
 
 part 'my_app_state.ease.dart';
 
-@ease()
+@ease
 class MyAppState extends StateNotifier<String> {
   MyAppState() : super('');
 }
@@ -168,8 +172,10 @@ class MyAppState extends StateNotifier<String> {
         {
           'ease_annotation|lib/ease_annotation.dart': '''
 library ease_annotation;
-class ease {
-  const ease();
+class Ease {
+  const Ease();
+}
+const ease = Ease();
 }
 ''',
           'ease|lib/src/state_notifier.dart': '''
@@ -188,7 +194,7 @@ import 'package:ease/src/state_notifier.dart';
 
 part 'cart.ease.dart';
 
-@ease()
+@ease
 class CartViewModel extends StateNotifier<List<String>> {
   CartViewModel() : super([]);
 }
@@ -215,8 +221,10 @@ class CartViewModel extends StateNotifier<List<String>> {
         {
           'ease_annotation|lib/ease_annotation.dart': '''
 library ease_annotation;
-class ease {
-  const ease();
+class Ease {
+  const Ease();
+}
+const ease = Ease();
 }
 ''',
           'ease|lib/src/state_notifier.dart': '''
@@ -235,7 +243,7 @@ import 'package:ease/src/state_notifier.dart';
 
 part 'auth.ease.dart';
 
-@ease()
+@ease
 class AuthViewModel extends StateNotifier<bool> {
   AuthViewModel() : super(false);
 }
@@ -246,7 +254,7 @@ class AuthViewModel extends StateNotifier<bool> {
           'a|lib/auth.ease.dart': decodedMatches(
             allOf([
               contains("'No AuthViewModel found in widget tree"),
-              contains('Wrapped your app with Ease widget'),
+              contains('Wrapped your app with EaseScope widget'),
             ]),
           ),
         },
@@ -261,8 +269,10 @@ class AuthViewModel extends StateNotifier<bool> {
         {
           'ease_annotation|lib/ease_annotation.dart': '''
 library ease_annotation;
-class ease {
-  const ease();
+class Ease {
+  const Ease();
+}
+const ease = Ease();
 }
 ''',
           'ease|lib/src/state_notifier.dart': '''
@@ -282,7 +292,7 @@ import 'package:ease/src/state_notifier.dart';
 
 part 'user.ease.dart';
 
-@ease()
+@ease
 class UserViewModel extends StateNotifier<Map<String, dynamic>> {
   UserViewModel() : super({});
 }
@@ -310,8 +320,10 @@ class UserViewModel extends StateNotifier<Map<String, dynamic>> {
         {
           'ease_annotation|lib/ease_annotation.dart': '''
 library ease_annotation;
-class ease {
-  const ease();
+class Ease {
+  const Ease();
+}
+const ease = Ease();
 }
 ''',
           'ease|lib/src/state_notifier.dart': '''
@@ -330,7 +342,7 @@ import 'package:ease/src/state_notifier.dart';
 
 part 'theme.ease.dart';
 
-@ease()
+@ease
 class ThemeViewModel extends StateNotifier<bool> {
   ThemeViewModel() : super(false);
 }
@@ -365,8 +377,10 @@ class ThemeViewModel extends StateNotifier<bool> {
         {
           'ease_annotation|lib/ease_annotation.dart': '''
 library ease_annotation;
-class ease {
-  const ease();
+class Ease {
+  const Ease();
+}
+const ease = Ease();
 }
 ''',
           'a|lib/invalid.dart': '''
@@ -374,7 +388,7 @@ import 'package:ease_annotation/ease_annotation.dart';
 
 part 'invalid.ease.dart';
 
-@ease()
+@ease
 class InvalidClass {
   final int value;
   InvalidClass(this.value);
@@ -415,8 +429,10 @@ class InvalidClass {
         {
           'ease_annotation|lib/ease_annotation.dart': '''
 library ease_annotation;
-class ease {
-  const ease();
+class Ease {
+  const Ease();
+}
+const ease = Ease();
 }
 ''',
           'ease|lib/src/state_notifier.dart': '''
@@ -439,7 +455,7 @@ class UserData {
   UserData(this.name, this.age);
 }
 
-@ease()
+@ease
 class UserState extends StateNotifier<UserData> {
   UserState() : super(UserData('', 0));
 }
@@ -465,8 +481,10 @@ class UserState extends StateNotifier<UserData> {
         {
           'ease_annotation|lib/ease_annotation.dart': '''
 library ease_annotation;
-class ease {
-  const ease();
+class Ease {
+  const Ease();
+}
+const ease = Ease();
 }
 ''',
           'ease|lib/src/state_notifier.dart': '''
@@ -483,7 +501,7 @@ import 'package:ease/src/state_notifier.dart';
 
 part 'cart.ease.dart';
 
-@ease()
+@ease
 class CartState extends StateNotifier<Map<String, List<int>>> {
   CartState() : super({});
 }

@@ -8,7 +8,7 @@ import '../models/products_state.dart';
 
 part 'products_view_model.ease.dart';
 
-@ease()
+@ease
 class ProductsViewModel extends StateNotifier<ProductsState> {
   final ApiService _apiService;
 

@@ -12,7 +12,7 @@ import '../models/user.dart';
 
 part 'auth_view_model.ease.dart';
 
-@ease()
+@ease
 class AuthViewModel extends StateNotifier<AuthState> {
   final ApiService _apiService;
 

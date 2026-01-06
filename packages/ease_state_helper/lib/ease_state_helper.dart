@@ -12,8 +12,8 @@
 ///
 /// // 3. Run app
 /// void main() {
-///   initializeEase(); // Initialize DevTools (debug only)
-///   runApp(Ease(providers: [...], child: MyApp()));
+///   initializeEaseDevTool(); // Initialize DevTools (debug only)
+///   runApp(EaseScope(providers: [...], child: MyApp()));
 /// }
 ///
 /// // 4. Use
@@ -32,18 +32,18 @@ export 'src/middleware.dart';
 export 'src/middleware/logging_middleware.dart';
 export 'src/state_notifier.dart';
 
-/// Initialize Ease state management.
+/// Initialize Ease DevTools integration.
 ///
 /// Call this in your `main()` function before `runApp()` to enable
 /// DevTools integration in debug mode.
 ///
 /// ```dart
 /// void main() {
-///   initializeEase();
-///   runApp(Ease(providers: [...], child: MyApp()));
+///   initializeEaseDevTool();
+///   runApp(EaseScope(providers: [...], child: MyApp()));
 /// }
 /// ```
-void initializeEase() {
+void initializeEaseDevTool() {
   if (kDebugMode) {
     EaseDevTools().initialize();
   }

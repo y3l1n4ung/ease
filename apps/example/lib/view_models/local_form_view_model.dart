@@ -18,7 +18,7 @@ part 'local_form_view_model.ease.dart';
 ///   child: MyFormWidget(),
 /// )
 /// ```
-@ease(local: true)
+@Ease(local: true)
 class LocalFormViewModel extends StateNotifier<LocalFormState> {
   LocalFormViewModel() : super(const LocalFormState());
 

@@ -25,7 +25,7 @@ import 'view_models/todo_view_model.dart';
 /// import 'ease.g.dart';
 ///
 /// void main() => runApp(
-///   Ease(providers: $easeProviders, child: MyApp()),
+///   EaseScope(providers: $easeProviders, child: MyApp()),
 /// );
 /// ```
 final $easeProviders = <ProviderBuilder>[

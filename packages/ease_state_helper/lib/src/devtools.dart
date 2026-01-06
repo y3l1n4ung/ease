@@ -18,8 +18,8 @@ import 'state_notifier.dart';
 /// Usage:
 /// ```dart
 /// void main() {
-///   initializeEase(); // Initialize DevTools (debug only)
-///   runApp(const Ease(child: MyApp()));
+///   initializeEaseDevTool(); // Initialize DevTools (debug only)
+///   runApp(const EaseScope(child: MyApp()));
 /// }
 /// ```
 class EaseDevTools {

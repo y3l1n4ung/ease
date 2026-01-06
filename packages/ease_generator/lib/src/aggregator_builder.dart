@@ -96,7 +96,8 @@ class AggregatorBuilder implements Builder {
     buffer.writeln("/// import 'ease.g.dart';");
     buffer.writeln('///');
     buffer.writeln('/// void main() => runApp(');
-    buffer.writeln(r"///   Ease(providers: $easeProviders, child: MyApp()),");
+    buffer.writeln(
+        r"///   EaseScope(providers: $easeProviders, child: MyApp()),");
     buffer.writeln('/// );');
     buffer.writeln('/// ```');
     buffer.writeln(r'final $easeProviders = <ProviderBuilder>[');

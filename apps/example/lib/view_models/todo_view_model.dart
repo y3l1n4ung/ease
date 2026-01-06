@@ -7,7 +7,7 @@ import '../models/todo.dart';
 part 'todo_view_model.ease.dart';
 
 /// Todo ViewModel - demonstrates list management
-@ease()
+@ease
 class TodoViewModel extends StateNotifier<List<Todo>> {
   TodoViewModel() : super([]);
 

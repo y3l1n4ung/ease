@@ -85,7 +85,7 @@ extension ${className}Context on BuildContext {
       throw StateError(
         'No ${className} found in widget tree.\\n'
         'Make sure you:\\n'
-        '1. Wrapped your app with Ease widget: Ease(providers: [...], child: MyApp())\\n'
+        '1. Wrapped your app with EaseScope widget: EaseScope(providers: [...], child: MyApp())\\n'
         '2. Added ${className}Provider to your providers list',
       );
     }
@@ -98,7 +98,7 @@ extension ${className}Context on BuildContext {
       throw StateError(
         'No ${className} found in widget tree.\\n'
         'Make sure you:\\n'
-        '1. Wrapped your app with Ease widget: Ease(providers: [...], child: MyApp())\\n'
+        '1. Wrapped your app with EaseScope widget: EaseScope(providers: [...], child: MyApp())\\n'
         '2. Added ${className}Provider to your providers list',
       );
     }
@@ -114,7 +114,7 @@ extension ${className}Context on BuildContext {
       throw StateError(
         'No ${className} found in widget tree.\\n'
         'Make sure you:\\n'
-        '1. Wrapped your app with Ease widget: Ease(providers: [...], child: MyApp())\\n'
+        '1. Wrapped your app with EaseScope widget: EaseScope(providers: [...], child: MyApp())\\n'
         '2. Added ${className}Provider to your providers list',
       );
     }

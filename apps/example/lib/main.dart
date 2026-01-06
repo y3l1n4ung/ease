@@ -8,12 +8,12 @@ import 'router/app_router.dart';
 import 'view_models/auth_view_model.dart';
 
 void main() {
-  initializeEase(); // Initialize DevTools (debug mode only)
+  initializeEaseDevTool(); // Initialize DevTools (debug mode only)
   StateNotifier.middleware = [
     LoggingMiddleware(),
     // Add your custom middleware
   ];
-  runApp(Ease(providers: $easeProviders, child: const MyApp()));
+  runApp(EaseScope(providers: $easeProviders, child: const MyApp()));
 }
 
 class MyApp extends StatefulWidget {

@@ -8,7 +8,7 @@ import '../models/checkout_state.dart';
 
 part 'checkout_view_model.ease.dart';
 
-@ease()
+@ease
 class CheckoutViewModel extends StateNotifier<CheckoutState> {
   CheckoutViewModel() : super(const CheckoutState());
 

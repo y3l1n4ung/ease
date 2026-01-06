@@ -38,7 +38,7 @@ class CartStatus {
 }
 
 /// Cart ViewModel - demonstrates shopping cart with computed values
-@ease()
+@ease
 class CartViewModel extends StateNotifier<CartStatus> {
   CartViewModel() : super(const CartStatus());
 
