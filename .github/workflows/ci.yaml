@@ -79,3 +79,24 @@ jobs:
           name: codecov-umbrella
           fail_ci_if_error: false
           verbose: true
+
+  pana:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - name: Install Melos
+        run: dart pub global activate melos
+      - name: Bootstrap
+        run: melos bootstrap
+      - name: Install pana
+        run: dart pub global activate pana
+      - name: Run pana on ease_annotation
+        run: cd packages/ease_annotation && pana --no-warning
+      - name: Run pana on ease_generator
+        run: cd packages/ease_generator && pana --no-warning
+      - name: Run pana on ease_state_helper
+        run: cd packages/ease_state_helper && pana --no-warning
