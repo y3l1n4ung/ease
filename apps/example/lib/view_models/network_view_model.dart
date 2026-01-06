@@ -60,7 +60,7 @@ class NetworkStatus {
 }
 
 /// Network ViewModel - demonstrates real API calls with caching
-@ease()
+@ease
 class NetworkViewModel extends StateNotifier<NetworkStatus> {
   NetworkViewModel() : super(const NetworkStatus());
 

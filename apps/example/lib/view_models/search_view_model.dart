@@ -45,7 +45,7 @@ class SearchStatus {
 }
 
 /// Search ViewModel - demonstrates debounced search with async operations
-@ease()
+@ease
 class SearchViewModel extends StateNotifier<SearchStatus> {
   SearchViewModel() : super(const SearchStatus());
 

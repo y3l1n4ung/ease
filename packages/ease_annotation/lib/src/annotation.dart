@@ -50,10 +50,16 @@
 /// // Access within the subtree
 /// final form = context.formState;
 /// ```
-class ease {
+class Ease {
   /// If true, the provider will NOT be registered in the global Ease widget.
   /// Use for scoped state that should be manually placed in the widget tree.
   final bool local;
 
-  const ease({this.local = false});
+  const Ease({this.local = false});
 }
+
+/// Annotation for marking StateNotifier classes for code generation.
+///
+/// Use `@ease` for global providers (default behavior).
+/// Use `@Ease(local: true)` for local/scoped providers.
+const ease = Ease();

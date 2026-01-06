@@ -8,7 +8,7 @@ import 'package:shopping_app/main.dart';
 void main() {
   testWidgets('Shopping app loads', (WidgetTester tester) async {
     await tester.pumpWidget(
-      Ease(providers: $easeProviders, child: const ShoppingApp()),
+      EaseScope(providers: $easeProviders, child: const ShoppingApp()),
     );
     await tester.pump();
 

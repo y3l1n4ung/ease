@@ -9,7 +9,7 @@ import 'utils.dart';
 ///
 /// Uses InheritedModel for optimal performance - supports selective rebuilds
 /// via aspects so only widgets that depend on specific state will rebuild.
-class EaseGenerator extends GeneratorForAnnotation<ease> {
+class EaseGenerator extends GeneratorForAnnotation<Ease> {
   @override
   String generateForAnnotatedElement(
     Element element,
@@ -155,7 +155,7 @@ extension ${className}Context on BuildContext {
       throw StateError(
         'No $className found in widget tree.\\n'
         'Make sure you:\\n'
-        '1. Wrapped your app with Ease widget: Ease(providers: [...], child: MyApp())\\n'
+        '1. Wrapped your app with EaseScope widget: EaseScope(providers: [...], child: MyApp())\\n'
         '2. Added ${className}Provider to your providers list',
       );
     }
@@ -168,7 +168,7 @@ extension ${className}Context on BuildContext {
       throw StateError(
         'No $className found in widget tree.\\n'
         'Make sure you:\\n'
-        '1. Wrapped your app with Ease widget: Ease(providers: [...], child: MyApp())\\n'
+        '1. Wrapped your app with EaseScope widget: EaseScope(providers: [...], child: MyApp())\\n'
         '2. Added ${className}Provider to your providers list',
       );
     }
@@ -184,7 +184,7 @@ extension ${className}Context on BuildContext {
       throw StateError(
         'No $className found in widget tree.\\n'
         'Make sure you:\\n'
-        '1. Wrapped your app with Ease widget: Ease(providers: [...], child: MyApp())\\n'
+        '1. Wrapped your app with EaseScope widget: EaseScope(providers: [...], child: MyApp())\\n'
         '2. Added ${className}Provider to your providers list',
       );
     }

@@ -41,7 +41,7 @@ class AuthStatus {
 }
 
 /// Auth ViewModel - demonstrates navigation guards with persistence
-@ease()
+@ease
 class AuthViewModel extends StateNotifier<AuthStatus> {
   AuthViewModel() : super(const AuthStatus());
 

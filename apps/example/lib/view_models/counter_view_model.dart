@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 part 'counter_view_model.ease.dart';
 
 /// Counter ViewModel - demonstrates basic usage
-@ease()
+@ease
 class CounterViewModel extends StateNotifier<int> {
   CounterViewModel() : super(0);
 

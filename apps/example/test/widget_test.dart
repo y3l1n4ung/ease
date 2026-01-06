@@ -183,7 +183,7 @@ void main() {
     testWidgets('provides all states', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Ease(
+          home: EaseScope(
             providers: $easeProviders,
             child: Builder(
               builder: (context) {
@@ -212,7 +212,7 @@ void main() {
     testWidgets('generic get<T>() works', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Ease(
+          home: EaseScope(
             providers: $easeProviders,
             child: Builder(
               builder: (context) {
@@ -232,7 +232,7 @@ void main() {
 
       await tester.pumpWidget(
         MaterialApp(
-          home: Ease(
+          home: EaseScope(
             providers: $easeProviders,
             child: Builder(
               builder: (context) {

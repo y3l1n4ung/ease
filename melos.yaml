@@ -12,11 +12,6 @@ command:
   version:
     linkToCommits: true
     workspaceChangelog: true
-    # Tag format: package_name-vX.Y.Z (matches pub.dev pattern)
-    tagPrefix: ""
-  publish:
-    hooks:
-      pre: melos run analyze
 
 scripts:
   # Dependencies
@@ -136,6 +131,15 @@ scripts:
       flutter: true
       noPrivate: true
 
+
+  # Package scoring
+  pana:
+    description: Run pana scoring analysis
+    run: pana --no-warning
+    exec:
+      concurrency: 1
+    packageFilters:
+      noPrivate: true
 
   # Maintenance
   clean:

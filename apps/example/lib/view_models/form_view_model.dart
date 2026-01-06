@@ -7,7 +7,7 @@ import '../models/form_field.dart';
 part 'form_view_model.ease.dart';
 
 /// Registration form ViewModel - demonstrates complex form handling
-@ease()
+@ease
 class RegistrationFormViewModel extends StateNotifier<RegistrationForm> {
   RegistrationFormViewModel() : super(const RegistrationForm());
 

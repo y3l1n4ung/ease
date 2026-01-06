@@ -46,7 +46,7 @@ import 'counter_view_model.dart';
 
 void main() {
   runApp(
-    Ease(
+    EaseScope(
       providers: [
         (child) => CounterViewModelProvider(child: child),
         // ... other providers

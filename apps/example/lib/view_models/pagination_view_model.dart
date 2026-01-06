@@ -50,7 +50,7 @@ class PaginationStatus {
 }
 
 /// Pagination ViewModel - demonstrates infinite scroll with load more
-@ease()
+@ease
 class PaginationViewModel extends StateNotifier<PaginationStatus> {
   PaginationViewModel() : super(const PaginationStatus());
 

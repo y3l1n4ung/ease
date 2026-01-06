@@ -16,7 +16,7 @@ typedef ProviderBuilder = Widget Function(Widget child);
 ///
 /// ```dart
 /// // Generated ease.g.dart provides providers automatically
-/// void main() => runApp(Ease(child: MyApp()));
+/// void main() => runApp(EaseScope(child: MyApp()));
 /// ```
 ///
 /// ## Without Code Generation (manual registration)
@@ -25,7 +25,7 @@ typedef ProviderBuilder = Widget Function(Widget child);
 ///
 /// ```dart
 /// void main() => runApp(
-///   Ease(
+///   EaseScope(
 ///     providers: [
 ///       (child) => CartViewModelProvider(child: child),
 ///       (child) => AuthViewModelProvider(child: child),
@@ -39,7 +39,7 @@ typedef ProviderBuilder = Widget Function(Widget child);
 ///
 /// Note: Local providers (`@ease(local: true)`) are not included here.
 /// They must be manually placed in your widget tree.
-class Ease extends StatelessWidget {
+class EaseScope extends StatelessWidget {
   /// The child widget to wrap with all providers.
   final Widget child;
 
@@ -49,12 +49,12 @@ class Ease extends StatelessWidget {
   /// For manual registration, pass your providers here.
   final List<ProviderBuilder> providers;
 
-  /// Creates an Ease root widget.
+  /// Creates an EaseScope root widget.
   ///
   /// [providers] - List of provider builder functions. Empty by default
   /// for code-generated usage where providers are added to `_providers`.
   /// [child] - The widget tree to wrap with providers.
-  const Ease({
+  const EaseScope({
     super.key,
     required this.child,
     this.providers = const [],

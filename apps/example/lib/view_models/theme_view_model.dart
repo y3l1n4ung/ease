@@ -7,7 +7,7 @@ import '../models/theme.dart';
 part 'theme_view_model.ease.dart';
 
 /// Theme ViewModel - demonstrates app-wide state management
-@ease()
+@ease
 class ThemeViewModel extends StateNotifier<AppTheme> {
   ThemeViewModel() : super(const AppTheme());
 
