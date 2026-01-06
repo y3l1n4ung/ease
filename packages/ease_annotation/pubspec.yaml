@@ -1,6 +1,6 @@
 name: ease_annotation
 description: Annotations for ease_state_helper Flutter state management library. Use @Ease() to mark StateNotifier classes for code generation.
-version: 0.1.2
+version: 0.1.2+1
 homepage: https://github.com/y3l1n4ung/ease
 repository: https://github.com/y3l1n4ung/ease
 issue_tracker: https://github.com/y3l1n4ung/ease/issues

@@ -15,6 +15,46 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`ease_annotation` - `v0.1.2+1`](#ease_annotation---v0121)
+ - [`ease_devtools_extension` - `v0.1.1`](#ease_devtools_extension---v011)
+ - [`ease_generator` - `v0.1.2+1`](#ease_generator---v0121)
+ - [`ease_state_helper` - `v0.1.2+1`](#ease_state_helper---v0121)
+
+---
+
+#### `ease_annotation` - `v0.1.2+1`
+
+ - **DOCS**: improve documentation and add Flutter example for ease_state_helper. ([be6b65f3](https://github.com/y3l1n4ung/ease/commit/be6b65f31926c8fe40050eae60319df1794383f6))
+
+#### `ease_devtools_extension` - `v0.1.1`
+
+ - **REFACTOR**: rename ease package to ease_state_helper and separate annotation. ([4d546763](https://github.com/y3l1n4ung/ease/commit/4d5467639bf578ef4972e05b22082efdd236532b))
+ - **FEAT**: add context.select method and open-source setup. ([2e26ae70](https://github.com/y3l1n4ung/ease/commit/2e26ae700deed1be8751867cabdd0dda79f6c53f))
+ - **FEAT**: add DevTools extension for state inspection. ([5bbf1b28](https://github.com/y3l1n4ung/ease/commit/5bbf1b28c8497623b8fe8032cacad6ef035e4231))
+ - **DOCS**: improve documentation and add Flutter example for ease_state_helper. ([be6b65f3](https://github.com/y3l1n4ung/ease/commit/be6b65f31926c8fe40050eae60319df1794383f6))
+ - **DOCS**: simplify documentation and fix InheritedModel references. ([91d1b9cd](https://github.com/y3l1n4ung/ease/commit/91d1b9cd6ab5a18502853934ee2800dec51fbc3b))
+
+#### `ease_generator` - `v0.1.2+1`
+
+ - **DOCS**: improve documentation and add Flutter example for ease_state_helper. ([be6b65f3](https://github.com/y3l1n4ung/ease/commit/be6b65f31926c8fe40050eae60319df1794383f6))
+
+#### `ease_state_helper` - `v0.1.2+1`
+
+ - **DOCS**: improve documentation and add Flutter example for ease_state_helper. ([be6b65f3](https://github.com/y3l1n4ung/ease/commit/be6b65f31926c8fe40050eae60319df1794383f6))
+
+
+## 2026-01-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`ease_annotation` - `v0.1.2`](#ease_annotation---v012)
  - [`ease_generator` - `v0.1.2`](#ease_generator---v012)
  - [`ease_state_helper` - `v0.1.2`](#ease_state_helper---v012)
