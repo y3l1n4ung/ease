@@ -52,7 +52,7 @@ lib/
 
 **Persisted Auth State**
 ```dart
-@ease()
+@Ease()
 class AuthViewModel extends StateNotifier<AuthState> {
   AuthViewModel() : super(_loadInitialState());
 
@@ -68,7 +68,7 @@ class AuthViewModel extends StateNotifier<AuthState> {
 
 **Cart with Logging**
 ```dart
-@ease()
+@Ease()
 class CartViewModel extends StateNotifier<CartState> {
   void addToCart(Product product) {
     logger.userAction('add_to_cart', {'productId': product.id});

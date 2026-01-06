@@ -1,8 +1,15 @@
 name: ease_state_helper
-description: A simple Flutter state management helper that makes using Flutter's internal state management easier.
+description: A simple Flutter state management helper that makes using Flutter's internal state management easier with InheritedWidget and code generation.
 version: 0.1.2
 homepage: https://github.com/y3l1n4ung/ease
 repository: https://github.com/y3l1n4ung/ease
+issue_tracker: https://github.com/y3l1n4ung/ease/issues
+
+topics:
+  - state-management
+  - flutter
+  - inherited-widget
+  - code-generation
 
 environment:
   sdk: '>=3.5.0 <4.0.0'

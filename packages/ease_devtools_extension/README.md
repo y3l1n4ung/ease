@@ -1,6 +1,9 @@
 # Ease DevTools Extension
 
-Flutter DevTools extension for debugging Ease state management.
+[![pub package](https://img.shields.io/pub/v/ease_devtools_extension.svg)](https://pub.dev/packages/ease_devtools_extension)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
+Flutter DevTools extension for debugging [Ease State Helper](https://pub.dev/packages/ease_state_helper) state management.
 
 ## Features
 
@@ -27,7 +30,7 @@ import 'package:ease_state_helper/ease_state_helper.dart';
 
 void main() {
   initializeEase();
-  runApp(const Ease(child: MyApp()));
+  runApp(const EaseScope(child: MyApp()));
 }
 ```
 
@@ -39,7 +42,7 @@ void main() {
 
 ### Viewing States
 
-The extension displays all `@ease()` annotated states currently in the widget tree. Each state shows:
+The extension displays all `@Ease()` annotated states currently in the widget tree. Each state shows:
 
 - Class name
 - Current state value (JSON formatted)

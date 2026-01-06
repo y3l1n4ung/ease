@@ -52,6 +52,6 @@ Generator tests use `source_gen_test`:
 
 ```dart
 @ShouldGenerate(r'''expected output''')
-@ease()
+@ease
 class TestClass extends StateNotifier<int> { ... }
 ```

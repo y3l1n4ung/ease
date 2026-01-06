@@ -8,7 +8,7 @@
 /// ## Parameters
 ///
 /// [local] - If true, the provider will NOT be registered in the global
-/// `Ease` widget. Use for scoped state that should be manually placed
+/// `EaseScope` widget. Use for scoped state that should be manually placed
 /// in the widget tree. Defaults to false.
 ///
 /// ## Example - Global Provider (default)
@@ -23,8 +23,8 @@
 ///
 /// After running `dart run build_runner build`, you can use:
 /// ```dart
-/// // In main.dart - automatically included in Ease widget
-/// void main() => runApp(Ease(child: MyApp()));
+/// // In main.dart - automatically included in EaseScope widget
+/// void main() => runApp(EaseScope(child: MyApp()));
 ///
 /// // In any widget
 /// final counter = context.counterState;  // typed getter
@@ -51,7 +51,7 @@
 /// final form = context.formState;
 /// ```
 class Ease {
-  /// If true, the provider will NOT be registered in the global Ease widget.
+  /// If true, the provider will NOT be registered in the global EaseScope widget.
   /// Use for scoped state that should be manually placed in the widget tree.
   final bool local;
 

@@ -38,7 +38,7 @@ This creates two files:
 
 ### Registering the Provider
 
-Add your provider to the `Ease` widget in `main.dart`:
+Add your provider to the `EaseScope` widget in `main.dart`:
 
 ```dart
 import 'package:ease_state_helper/ease_state_helper.dart';

@@ -31,7 +31,7 @@ flutter run
 
 ```dart
 // view_models/counter_view_model.dart
-@ease()
+@Ease()
 class CounterViewModel extends StateNotifier<int> {
   CounterViewModel() : super(0);
 
@@ -61,7 +61,7 @@ class CartStatus {
   CartStatus copyWith({List<CartItem>? items, bool? isLoading}) { ... }
 }
 
-@ease()
+@Ease()
 class CartViewModel extends StateNotifier<CartStatus> {
   void addToCart(Product product) {
     state = state.copyWith(items: [...state.items, CartItem(product: product)]);
@@ -84,7 +84,7 @@ class CartBadge extends StatelessWidget {
 ### Persistence (Auth)
 
 ```dart
-@ease()
+@Ease()
 class AuthViewModel extends StateNotifier<AuthStatus> {
   Future<void> login(String email, String password) async {
     state = state.copyWith(isLoading: true);

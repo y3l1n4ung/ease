@@ -1,6 +1,9 @@
 # Ease Annotation
 
-Annotation package for [Ease State Helper](https://github.com/y3l1n4ung/ease).
+[![pub package](https://img.shields.io/pub/v/ease_annotation.svg)](https://pub.dev/packages/ease_annotation)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
+Annotation package for [Ease State Helper](https://pub.dev/packages/ease_state_helper).
 
 ## Installation
 
@@ -17,7 +20,7 @@ import 'package:ease_state_helper/ease_state_helper.dart';
 
 part 'counter_view_model.ease.dart';
 
-@ease()
+@Ease()
 class CounterViewModel extends StateNotifier<int> {
   CounterViewModel() : super(0);
 

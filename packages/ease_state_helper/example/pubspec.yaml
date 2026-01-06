@@ -1,0 +1,33 @@
+name: ease_state_helper_example
+description: Example app demonstrating ease_state_helper usage
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.5.0
+  flutter: '>=3.22.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  ease_state_helper:
+    path: ../
+  ease_annotation:
+    path: ../../ease_annotation
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  ease_generator:
+    path: ../../ease_generator
+  build_runner: ^2.4.0
+
+dependency_overrides:
+  ease_annotation:
+    path: ../../ease_annotation
+  ease_state_helper:
+    path: ../
+
+flutter:
+  uses-material-design: true
