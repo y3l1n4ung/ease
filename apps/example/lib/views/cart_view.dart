@@ -43,7 +43,7 @@ class _ProductsTab extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: 0.75,
+        childAspectRatio: 0.65,
         crossAxisSpacing: 12,
         mainAxisSpacing: 12,
       ),
@@ -101,11 +101,13 @@ class _ProductsTab extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            '\$${product.price.toStringAsFixed(2)}',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.primary,
+                          Flexible(
+                            child: Text(
+                              '\$${product.price.toStringAsFixed(2)}',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
                             ),
                           ),
                           IconButton(
@@ -114,6 +116,7 @@ class _ProductsTab extends StatelessWidget {
                                   ? Icons.check_circle
                                   : Icons.add_shopping_cart,
                               color: inCart ? Colors.green : null,
+                              size: 20,
                             ),
                             onPressed: () {
                               cartViewModel.addToCart(product);
@@ -126,6 +129,9 @@ class _ProductsTab extends StatelessWidget {
                               );
                             },
                             tooltip: 'Add to cart',
+                            iconSize: 20,
+                            padding: EdgeInsets.zero,
+                            constraints: const BoxConstraints(),
                           ),
                         ],
                       ),

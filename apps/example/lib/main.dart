@@ -3,17 +3,42 @@ import 'package:ease_example/view_models/theme_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'ease.g.dart';
+import 'middleware/time_machine_middleware.dart';
 import 'router/app_router.dart';
 import 'view_models/auth_view_model.dart';
+import 'view_models/cart_view_model.dart';
+import 'view_models/chat_view_model.dart';
+import 'view_models/counter_view_model.dart';
+import 'view_models/drawing_view_model.dart';
+import 'view_models/form_view_model.dart';
+import 'view_models/network_view_model.dart';
+import 'view_models/pagination_view_model.dart';
+import 'view_models/search_view_model.dart';
+import 'view_models/side_effect_view_model.dart';
+import 'view_models/todo_view_model.dart';
+
+final provders = <ProviderBuilder>[
+  (child) => AuthViewModelProvider(child: child),
+  (child) => CartViewModelProvider(child: child),
+  (child) => ChatViewModelProvider(child: child),
+  (child) => CounterViewModelProvider(child: child),
+  (child) => DrawingViewModelProvider(child: child),
+  (child) => RegistrationFormViewModelProvider(child: child),
+  (child) => NetworkViewModelProvider(child: child),
+  (child) => PaginationViewModelProvider(child: child),
+  (child) => SearchViewModelProvider(child: child),
+  (child) => SideEffectViewModelProvider(child: child),
+  (child) => ThemeViewModelProvider(child: child),
+  (child) => TodoViewModelProvider(child: child),
+];
 
 void main() {
   initializeEaseDevTool(); // Initialize DevTools (debug mode only)
   StateNotifier.middleware = [
     LoggingMiddleware(),
-    // Add your custom middleware
+    TimeMachineMiddleware(), // Undo/redo support
   ];
-  runApp(EaseScope(providers: $easeProviders, child: const MyApp()));
+  runApp(EaseScope(providers: provders, child: const MyApp()));
 }
 
 class MyApp extends StatefulWidget {

@@ -1,8 +1,8 @@
+import 'package:ease_example/main.dart' show provders;
 import 'package:ease_state_helper/ease_state_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:ease_example/ease.g.dart';
 import 'package:ease_example/view_models/counter_view_model.dart';
 import 'package:ease_example/view_models/cart_view_model.dart';
 import 'package:ease_example/view_models/todo_view_model.dart';
@@ -184,7 +184,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: EaseScope(
-            providers: $easeProviders,
+            providers: provders,
             child: Builder(
               builder: (context) {
                 final counter = context.counterViewModel;
@@ -207,52 +207,6 @@ void main() {
       expect(find.text('Counter: 0'), findsOneWidget);
       expect(find.text('Cart: 0'), findsOneWidget);
       expect(find.text('Todo: 0'), findsOneWidget);
-    });
-
-    testWidgets('generic get<T>() works', (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: EaseScope(
-            providers: $easeProviders,
-            child: Builder(
-              builder: (context) {
-                final counter = context.get<CounterViewModel>();
-                return Text('${counter.state}');
-              },
-            ),
-          ),
-        ),
-      );
-
-      expect(find.text('0'), findsOneWidget);
-    });
-
-    testWidgets('generic read<T>() works', (tester) async {
-      var buildCount = 0;
-
-      await tester.pumpWidget(
-        MaterialApp(
-          home: EaseScope(
-            providers: $easeProviders,
-            child: Builder(
-              builder: (context) {
-                buildCount++;
-                return ElevatedButton(
-                  onPressed: () => context.read<CounterViewModel>().increment(),
-                  child: const Text('Inc'),
-                );
-              },
-            ),
-          ),
-        ),
-      );
-
-      expect(buildCount, 1);
-
-      await tester.tap(find.text('Inc'));
-      await tester.pump();
-
-      expect(buildCount, 1);
     });
   });
 

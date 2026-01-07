@@ -6,9 +6,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'core/logging/logger.dart';
 import 'core/router/app_router.dart';
 import 'core/services/storage_service.dart';
-import 'ease.g.dart';
 import 'features/auth/view_models/auth_view_model.dart';
+import 'features/cart/view_models/cart_view_model.dart';
+import 'features/checkout/view_models/checkout_view_model.dart';
+import 'features/orders/view_models/orders_view_model.dart';
+import 'features/products/view_models/products_view_model.dart';
 
+final providers = <ProviderBuilder>[
+  (child) => AuthViewModelProvider(child: child),
+  (child) => CartViewModelProvider(child: child),
+  (child) => CheckoutViewModelProvider(child: child),
+  (child) => OrdersViewModelProvider(child: child),
+  (child) => ProductsViewModelProvider(child: child),
+];
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -19,7 +29,7 @@ void main() async {
   final prefs = await SharedPreferences.getInstance();
   StorageService.initialize(prefs);
 
-  runApp(EaseScope(providers: $easeProviders, child: const ShoppingApp()));
+  runApp(EaseScope(providers: providers, child: const ShoppingApp()));
 }
 
 class ShoppingApp extends StatefulWidget {

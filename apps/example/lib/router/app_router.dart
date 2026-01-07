@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../views/counter_view.dart';
-import '../views/todo_view.dart';
-import '../views/form_view.dart';
-import '../views/theme_view.dart';
-import '../views/login_view.dart';
-import '../views/profile_view.dart';
 import '../views/cart_view.dart';
-import '../views/search_view.dart';
-import '../views/pagination_view.dart';
+import '../views/chat_view.dart';
+import '../views/counter_view.dart';
+import '../views/drawing_view.dart';
+import '../views/form_view.dart';
+import '../views/login_view.dart';
 import '../views/network_view.dart';
+import '../views/pagination_view.dart';
+import '../views/profile_view.dart';
+import '../views/search_view.dart';
+import '../views/side_effect_view.dart';
+import '../views/theme_view.dart';
+import '../views/todo_view.dart';
 import '../view_models/auth_view_model.dart';
 
 /// App routes
@@ -26,6 +29,9 @@ class AppRoutes {
   static const search = '/search';
   static const pagination = '/pagination';
   static const network = '/network';
+  static const drawing = '/drawing';
+  static const sideEffects = '/side-effects';
+  static const chat = '/chat';
 }
 
 /// Creates the app router with auth viewmodel for navigation guards
@@ -116,6 +122,21 @@ GoRouter createRouter(AuthViewModel authViewModel) {
         path: AppRoutes.network,
         name: 'network',
         builder: (context, state) => const NetworkView(),
+      ),
+      GoRoute(
+        path: AppRoutes.drawing,
+        name: 'drawing',
+        builder: (context, state) => const DrawingView(),
+      ),
+      GoRoute(
+        path: AppRoutes.sideEffects,
+        name: 'side-effects',
+        builder: (context, state) => const SideEffectView(),
+      ),
+      GoRoute(
+        path: AppRoutes.chat,
+        name: 'chat',
+        builder: (context, state) => const ChatView(),
       ),
     ],
 
@@ -254,6 +275,34 @@ class HomeView extends StatelessWidget {
             icon: Icons.cloud_download,
             color: Colors.cyan,
             route: AppRoutes.network,
+          ),
+          const SizedBox(height: 24),
+
+          // Section: Advanced Features
+          _SectionHeader(title: 'Advanced Features'),
+          const SizedBox(height: 8),
+          _NavCard(
+            title: 'Drawing (Undo/Redo)',
+            subtitle: 'Time machine middleware demo',
+            icon: Icons.undo,
+            color: Colors.deepOrange,
+            route: AppRoutes.drawing,
+          ),
+          const SizedBox(height: 12),
+          _NavCard(
+            title: 'Side Effects & Streaming',
+            subtitle: 'Async, debounce, streams, timers',
+            icon: Icons.bolt,
+            color: Colors.amber,
+            route: AppRoutes.sideEffects,
+          ),
+          const SizedBox(height: 12),
+          _NavCard(
+            title: 'Chat Example',
+            subtitle: 'WebSocket-like streaming',
+            icon: Icons.chat,
+            color: Colors.pink,
+            route: AppRoutes.chat,
           ),
           const SizedBox(height: 24),
 
