@@ -33,7 +33,11 @@ jobs:
         run: vsce package
 
       - name: Publish to VS Code Marketplace
-        run: vsce publish -p ${{ secrets.VSCE_PAT }}
+        run: vsce publish
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
 
       - name: Publish to Open VSX
-        run: ovsx publish -p ${{ secrets.OVSX_PAT }}
+        run: ovsx publish
+        env:
+          OVSX_PAT: ${{ secrets.OVSX_PAT }}
