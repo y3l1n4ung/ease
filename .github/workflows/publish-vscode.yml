@@ -40,24 +40,23 @@ jobs:
             exit 1
           fi
 
-      - name: Install vsce and ovsx
-        run: npm install -g @vscode/vsce ovsx
-
-      - name: Package extension
-        run: vsce package --out ease-state-helper.vsix
+      - name: Publish to Open VSX
+        uses: HaaLeo/publish-vscode-extension@v2
+        id: publishToOpenVSX
+        with:
+          pat: ${{ secrets.OVSX_PAT }}
+          packagePath: extensions/ease-state-helper
 
       - name: Publish to VS Code Marketplace
-        run: vsce publish --packagePath ease-state-helper.vsix
-        env:
-          VSCE_PAT: ${{ secrets.VSCE_PAT }}
-
-      - name: Publish to Open VSX
-        run: ovsx publish ease-state-helper.vsix
-        env:
-          OVSX_PAT: ${{ secrets.OVSX_PAT }}
+        uses: HaaLeo/publish-vscode-extension@v2
+        with:
+          pat: ${{ secrets.VSCE_PAT }}
+          registryUrl: https://marketplace.visualstudio.com
+          extensionFile: ${{ steps.publishToOpenVSX.outputs.vsixPath }}
 
       - name: Upload VSIX artifact
         uses: actions/upload-artifact@v4
         with:
           name: ease-state-helper-vsix
-          path: extensions/ease-state-helper/ease-state-helper.vsix
+          path: ${{ steps.publishToOpenVSX.outputs.vsixPath }}
+
