@@ -51,10 +51,9 @@ void main() {
     }
   });
 
-  tearDownAll(() async {
-    // Clean up generated files after tests
-    await _cleanGeneratedFiles(fixtureDir);
-  });
+  // Note: We don't clean up in tearDownAll because:
+  // 1. Generated files in test fixture don't affect anything
+  // 2. Cleaning causes issues when pre-commit hooks re-run tests
 
   group('EaseGenerator (per-file)', () {
     test('generates .ease.dart for CounterState', () {
