@@ -1,3 +1,8 @@
+## 0.2.0
+
+- **BREAKING**: Renamed `Ease` widget to `EaseScope`
+- **BREAKING**: Annotation usage changed from `@ease()` to `@ease` or `@Ease()`
+
 ## 0.1.2+1
 
  - **DOCS**: improve documentation and add Flutter example for ease_state_helper. ([be6b65f3](https://github.com/y3l1n4ung/ease/commit/be6b65f31926c8fe40050eae60319df1794383f6))
