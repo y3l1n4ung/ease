@@ -418,6 +418,11 @@ class InvalidClass {
         }),
       );
     });
+
+    // Note: AggregatorBuilder integration tests are limited because
+    // build_test has global state issues when running multiple tests.
+    // The core aggregation logic is tested through the example app's
+    // generated ease.g.dart file being used in widget tests.
   });
 
   group('EaseGenerator edge cases', () {

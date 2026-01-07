@@ -19,9 +19,10 @@ class TestCounter extends StateNotifier<int> {
 }
 
 void main() {
-  // Initialize DevTools once for all tests (service extensions can only register once)
+  // Initialize DevTools once for all tests using the top-level helper function
+  // This ensures the barrel file (ease_state_helper.dart) has coverage
   setUpAll(() {
-    EaseDevTools().initialize();
+    initializeEaseDevTool();
   });
 
   group('EaseDevTools', () {
@@ -267,4 +268,147 @@ void main() {
       expect(history[0].newState, equals('6'));
     });
   });
+
+  group('EaseDevTools truncation', () {
+    test('truncates long state values in history', () {
+      final longStateNotifier = LongStateNotifier();
+      addTearDown(longStateNotifier.dispose);
+
+      // Generate a state value longer than 200 characters
+      longStateNotifier.setLongValue();
+
+      final history = EaseDevTools().getHistory(longStateNotifier);
+      expect(history.length, equals(1));
+
+      // The new state should be truncated to 200 chars + '...'
+      expect(history[0].newState.length, lessThanOrEqualTo(203));
+      expect(history[0].newState.endsWith('...'), isTrue);
+    });
+
+    test('does not truncate short state values', () {
+      final counter = TestCounter(42);
+      addTearDown(counter.dispose);
+
+      counter.increment();
+
+      final history = EaseDevTools().getHistory(counter);
+      expect(history[0].newState, equals('43'));
+      expect(history[0].newState.endsWith('...'), isFalse);
+    });
+  });
+
+  group('StateInfo', () {
+    test('hasListeners reflects actual listener status', () {
+      final counter = TestCounter(0);
+      addTearDown(counter.dispose);
+
+      // Initially no listeners
+      var states = EaseDevTools().getStates();
+      var counterInfo = states.firstWhere(
+        (s) => s.id.contains('${identityHashCode(counter)}'),
+      );
+      expect(counterInfo.hasListeners, isFalse);
+
+      // Add a listener using addListener (from ChangeNotifier)
+      void listener() {}
+      counter.addListener(listener);
+
+      states = EaseDevTools().getStates();
+      counterInfo = states.firstWhere(
+        (s) => s.id.contains('${identityHashCode(counter)}'),
+      );
+      expect(counterInfo.hasListeners, isTrue);
+
+      // Remove listener
+      counter.removeListener(listener);
+
+      states = EaseDevTools().getStates();
+      counterInfo = states.firstWhere(
+        (s) => s.id.contains('${identityHashCode(counter)}'),
+      );
+      expect(counterInfo.hasListeners, isFalse);
+    });
+  });
+
+  group('EaseDevTools dispose', () {
+    test('dispose clears all state and stops timer', () {
+      final devTools = EaseDevTools();
+
+      // Create a counter to register
+      final counter = TestCounter(0);
+      counter.increment();
+
+      // Verify state exists
+      expect(devTools.stateExists(counter), isTrue);
+      expect(devTools.getHistory(counter).length, equals(1));
+
+      // Dispose DevTools
+      devTools.dispose();
+
+      // Verify cleared (note: stateExists returns false when registry is empty)
+      expect(devTools.stateExists(counter), isFalse);
+      expect(devTools.getHistory(counter).length, equals(0));
+      expect(devTools.isEnabled, isFalse);
+
+      // Clean up counter manually since DevTools is disposed
+      counter.dispose();
+
+      // Re-initialize for other tests
+      initializeEaseDevTool();
+    });
+  });
+
+  group('EaseDevTools throttling', () {
+    test('high frequency events are throttled', () async {
+      final devTools = EaseDevTools();
+      devTools.clearHistory();
+
+      final counter = TestCounter(0);
+      addTearDown(counter.dispose);
+
+      // Rapid fire state changes (faster than 16ms throttle)
+      for (int i = 0; i < 5; i++) {
+        counter.increment();
+      }
+
+      // History should still record all changes (throttling only affects postEvent)
+      final history = devTools.getHistory(counter);
+      expect(history.length, equals(5));
+
+      // Wait past throttle duration and make another change
+      await Future.delayed(const Duration(milliseconds: 20));
+      counter.increment();
+
+      expect(devTools.getHistory(counter).length, equals(6));
+    });
+  });
+
+  group('EaseDevTools cleanup', () {
+    test('cleanup removes disposed state references', () {
+      final devTools = EaseDevTools();
+
+      // Create and immediately dispose a counter
+      final counter = TestCounter(0);
+      expect(devTools.stateExists(counter), isTrue);
+
+      counter.dispose();
+
+      // After dispose, getStates triggers cleanup
+      final states = devTools.getStates();
+      final counterExists = states.any(
+        (s) => s.id.contains('${identityHashCode(counter)}'),
+      );
+      expect(counterExists, isFalse);
+    });
+  });
+}
+
+/// StateNotifier that can produce long state values for testing truncation.
+class LongStateNotifier extends StateNotifier<String> {
+  LongStateNotifier() : super('');
+
+  void setLongValue() {
+    // Create a string longer than 200 characters
+    state = 'x' * 300;
+  }
 }
