@@ -1,0 +1,21 @@
+name: test_fixture
+description: Test fixture for ease_generator integration tests
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: ^3.5.0
+  flutter: ">=3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  ease_annotation:
+    path: ../../../../../ease_annotation
+  ease_state_helper:
+    path: ../../../../../ease_state_helper
+
+dev_dependencies:
+  build_runner: ^2.4.0
+  ease_generator:
+    path: ../../../../

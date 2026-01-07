@@ -1,7 +1,6 @@
 import 'package:build/build.dart';
 import 'package:build_test/build_test.dart';
 import 'package:ease_generator/ease_generator.dart';
-import 'package:ease_generator/src/aggregator_builder.dart';
 import 'package:ease_generator/src/utils.dart';
 import 'package:test/test.dart';
 
@@ -406,23 +405,6 @@ class InvalidClass {
         reason: 'Expected error about StateNotifier requirement',
       );
     });
-  });
-
-  group('AggregatorBuilder', () {
-    test('buildExtensions returns correct extensions', () {
-      final builder = AggregatorBuilder();
-      expect(
-        builder.buildExtensions,
-        equals({
-          r'lib/$lib$': ['lib/ease.g.dart'],
-        }),
-      );
-    });
-
-    // Note: AggregatorBuilder integration tests are limited because
-    // build_test has global state issues when running multiple tests.
-    // The core aggregation logic is tested through the example app's
-    // generated ease.g.dart file being used in widget tests.
   });
 
   group('EaseGenerator edge cases', () {

@@ -1,0 +1,15 @@
+import 'package:ease_annotation/ease_annotation.dart';
+import 'package:ease_state_helper/ease_state_helper.dart';
+import 'package:flutter/widgets.dart';
+
+part 'counter_state.ease.dart';
+
+/// A simple counter state for testing.
+@ease
+class CounterState extends StateNotifier<int> {
+  CounterState() : super(0);
+
+  void increment() => state++;
+  void decrement() => state--;
+  void reset() => state = 0;
+}

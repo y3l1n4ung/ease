@@ -1,6 +1,6 @@
 # Ease State Helper
 
-A lightweight Flutter state management library built on `InheritedWidget` with code generation support.
+A lightweight helper library that makes Flutter’s built-in state management easier to use.
 
 [![pub package](https://img.shields.io/pub/v/ease_state_helper.svg)](https://pub.dev/packages/ease_state_helper)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
@@ -93,19 +93,16 @@ dart run build_runner build
 
 This generates:
 - `counter_view_model.ease.dart` - Provider and context extensions
-- `ease.g.dart` - Aggregated `$easeProviders` list
 
 ### 3. Register Providers
 
 ```dart
 import 'package:flutter/material.dart';
-import 'package:ease_state_helper/ease_state_helper.dart';
-import 'ease.g.dart';
+import 'counter_view_model.dart';
 
 void main() {
   runApp(
-    EaseScope(
-      providers: $easeProviders,
+    CounterViewModelProvider(
       child: const MyApp(),
     ),
   );
@@ -170,27 +167,36 @@ class CartViewModel extends StateNotifier<CartState> {
 }
 ```
 
-### EaseScope
+### Provider Nesting
 
-Root widget that provides all registered ViewModels to the widget tree.
+Use `EaseScope` to nest multiple providers:
 
 ```dart
-EaseScope(
-  providers: $easeProviders, // Auto-generated list
-  child: const MyApp(),
-)
+void main() {
+  runApp(
+    EaseScope(
+      providers: [
+        (child) => CounterViewModelProvider(child: child),
+        (child) => CartViewModelProvider(child: child),
+      ],
+      child: const MyApp(),
+    ),
+  );
+}
 ```
 
-Or register providers manually:
+Or nest them manually:
 
 ```dart
-EaseScope(
-  providers: [
-    (child) => CounterViewModelProvider(child: child),
-    (child) => CartViewModelProvider(child: child),
-  ],
-  child: const MyApp(),
-)
+void main() {
+  runApp(
+    CounterViewModelProvider(
+      child: CartViewModelProvider(
+        child: const MyApp(),
+      ),
+    ),
+  );
+}
 ```
 
 ### @ease Annotation
@@ -347,7 +353,14 @@ void main() {
     LoggingMiddleware(),
     // Add custom middleware
   ];
-  runApp(EaseScope(providers: $easeProviders, child: const MyApp()));
+  runApp(
+    EaseScope(
+      providers: [
+        (child) => CounterViewModelProvider(child: child),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 ```
 
@@ -367,7 +380,14 @@ dev_dependencies:
 ```dart
 void main() {
   initializeEaseDevTool(); // Enable DevTools integration
-  runApp(EaseScope(providers: $easeProviders, child: const MyApp()));
+  runApp(
+    EaseScope(
+      providers: [
+        (child) => CounterViewModelProvider(child: child),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 ```
 

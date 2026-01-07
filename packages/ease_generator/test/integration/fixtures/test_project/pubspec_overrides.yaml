@@ -1,0 +1,6 @@
+# Override dependencies to use local packages during testing
+dependency_overrides:
+  ease_annotation:
+    path: ../../../../../ease_annotation
+  ease_state_helper:
+    path: ../../../../../ease_state_helper

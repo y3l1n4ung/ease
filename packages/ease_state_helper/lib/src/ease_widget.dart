@@ -7,21 +7,9 @@ typedef ProviderBuilder = Widget Function(Widget child);
 
 /// Root widget that provides all registered states to descendants.
 ///
-/// This widget supports both code-generated and manual provider registration.
+/// This widget nests multiple providers together for cleaner code.
 ///
-/// ## With Code Generation
-///
-/// When using `@ease` annotation and code generation, the `ease.g.dart` file
-/// generates a subclass with pre-registered providers:
-///
-/// ```dart
-/// // Generated ease.g.dart provides providers automatically
-/// void main() => runApp(EaseScope(child: MyApp()));
-/// ```
-///
-/// ## Without Code Generation (manual registration)
-///
-/// For manual provider registration without code generation:
+/// ## Usage
 ///
 /// ```dart
 /// void main() => runApp(
@@ -35,10 +23,22 @@ typedef ProviderBuilder = Widget Function(Widget child);
 /// );
 /// ```
 ///
+/// This is equivalent to manually nesting providers:
+///
+/// ```dart
+/// void main() => runApp(
+///   CartViewModelProvider(
+///     child: AuthViewModelProvider(
+///       child: MyApp(),
+///     ),
+///   ),
+/// );
+/// ```
+///
 /// The VS Code extension can scaffold the Provider files for you.
 ///
-/// Note: Local providers (`@ease(local: true)`) are not included here.
-/// They must be manually placed in your widget tree.
+/// Note: Local providers (`@Ease(local: true)`) should be manually
+/// placed in the widget tree where they are needed.
 class EaseScope extends StatelessWidget {
   /// The child widget to wrap with all providers.
   final Widget child;

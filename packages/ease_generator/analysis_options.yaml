@@ -1,0 +1,11 @@
+analyzer:
+  exclude:
+    # Integration test fixtures are separate Flutter projects
+    # They are analyzed within their own context during integration tests
+    - test/integration/fixtures/**
+
+linter:
+  rules:
+    - avoid_print
+    - prefer_const_constructors
+    - prefer_final_locals
