@@ -17,7 +17,7 @@ dependencies:
   ease_annotation: ^0.2.0
   build: ^4.0.3
   source_gen: ^4.1.1
-  analyzer: ^8.1.1
+  analyzer: ">=8.1.1 <10.0.0"
 
 dev_dependencies:
   test: ^1.24.0

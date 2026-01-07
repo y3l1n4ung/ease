@@ -46,7 +46,7 @@ class EaseGenerator extends GeneratorForAnnotation<Ease> {
     return false;
   }
 
-  /// Extracts the state type T from StateNotifier<T>.
+  /// Extracts the state type `T` from `StateNotifier<T>`.
   String? _getStateType(ClassElement element) {
     var current = element.supertype;
     while (current != null) {

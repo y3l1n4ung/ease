@@ -2,6 +2,7 @@
 ///
 /// Case conversion logic adapted from the recase package:
 /// https://github.com/techniboogie-dart/recase
+library;
 
 final _upperAlphaRegex = RegExp(r'[A-Z]');
 const _symbolSet = {' ', '.', '/', '_', '\\', '-'};
