@@ -19,6 +19,9 @@ coverage/
 *.g.dart
 !ease.g.dart
 *.ease.dart
+# Allow generated files in examples for pub.dev
+!packages/*/example/**/*.ease.dart
+!packages/*/example/**/ease.g.dart
 
 # macOS
 .DS_Store
