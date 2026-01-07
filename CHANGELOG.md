@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-01-07
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - [`ease_generator` - `v0.3.0`](#ease_generator---v030)
+ - [`ease_state_helper` - `v0.3.0`](#ease_state_helper---v030)
+
+Packages with other changes:
+
+ - [`ease_devtools_extension` - `v0.1.1+1`](#ease_devtools_extension---v0111)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `ease_devtools_extension` - `v0.1.1+1`
+
+---
+
+#### `ease_generator` - `v0.3.0`
+
+ - **FIX**: remove tearDownAll cleanup in integration tests. ([ca489297](https://github.com/y3l1n4ung/ease/commit/ca4892978e225d7076076f54e1acddede7f501aa))
+ - **BREAKING** **FEAT**: remove ease.g.dart aggregator. ([8d1c6e13](https://github.com/y3l1n4ung/ease/commit/8d1c6e13b6895eac5778ccaa3c1d7436e4c97e66))
+
+#### `ease_state_helper` - `v0.3.0`
+
+ - **BREAKING** **FEAT**: remove ease.g.dart aggregator. ([8d1c6e13](https://github.com/y3l1n4ung/ease/commit/8d1c6e13b6895eac5778ccaa3c1d7436e4c97e66))
+
+
 ## 2026-01-06
 
 ### Changes

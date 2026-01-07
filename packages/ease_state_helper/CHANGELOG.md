@@ -1,3 +1,9 @@
+## 0.3.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **FEAT**: remove ease.g.dart aggregator. ([8d1c6e13](https://github.com/y3l1n4ung/ease/commit/8d1c6e13b6895eac5778ccaa3c1d7436e4c97e66))
+
 ## 0.2.0
 
 - **BREAKING**: Renamed `Ease` widget to `EaseScope`

@@ -1,3 +1,7 @@
+## 0.1.1+1
+
+ - Update a dependency to the latest release.
+
 ## 0.1.1
 
  - **REFACTOR**: rename ease package to ease_state_helper and separate annotation. ([4d546763](https://github.com/y3l1n4ung/ease/commit/4d5467639bf578ef4972e05b22082efdd236532b))

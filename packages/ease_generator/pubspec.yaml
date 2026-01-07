@@ -1,6 +1,6 @@
 name: ease_generator
 description: Code generator for ease_state_helper Flutter state management library. Generates providers and context extensions from @Ease() annotations.
-version: 0.2.0
+version: 0.3.0
 homepage: https://github.com/y3l1n4ung/ease
 repository: https://github.com/y3l1n4ung/ease
 issue_tracker: https://github.com/y3l1n4ung/ease/issues
