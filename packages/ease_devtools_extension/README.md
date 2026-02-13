@@ -14,22 +14,25 @@ Flutter DevTools extension for debugging [Ease State Helper](https://pub.dev/pac
 
 ## Installation
 
-Add to your `pubspec.yaml` dev dependencies:
+> **Note**: This package is not yet released on pub.dev. You can use it via git:
 
 ```yaml
 dev_dependencies:
-  ease_devtools_extension: ^1.0.0
+  ease_devtools_extension:
+    git:
+      url: https://github.com/y3l1n4ung/ease.git
+      path: packages/ease_devtools_extension
 ```
 
 ## Setup
 
-1. Call `initializeEase()` before `runApp()`:
+1. Call `initializeEaseDevTool()` before `runApp()`:
 
 ```dart
 import 'package:ease_state_helper/ease_state_helper.dart';
 
 void main() {
-  initializeEase();
+  initializeEaseDevTool();
   runApp(const EaseScope(child: MyApp()));
 }
 ```

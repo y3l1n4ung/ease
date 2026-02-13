@@ -376,11 +376,16 @@ void main() {
 
 Debug your Ease states in Flutter DevTools.
 
-### Setup
+### Setup (Coming Soon to pub.dev)
+
+Currently, you can use the DevTools extension by adding it as a git dependency:
 
 ```yaml
 dev_dependencies:
-  ease_devtools_extension: ^0.3.0
+  ease_devtools_extension:
+    git:
+      url: https://github.com/y3l1n4ung/ease.git
+      path: packages/ease_devtools_extension
 ```
 
 ```dart
@@ -408,12 +413,12 @@ void main() {
 
 ## Packages
 
-| Package | Description | pub.dev |
+| Package | Description | Status |
 |---------|-------------|---------|
 | [ease_state_helper](packages/ease_state_helper) | Core runtime library | [![pub](https://img.shields.io/pub/v/ease_state_helper.svg?label=0.3.0)](https://pub.dev/packages/ease_state_helper) |
 | [ease_annotation](packages/ease_annotation) | `@Ease()` annotation | [![pub](https://img.shields.io/pub/v/ease_annotation.svg?label=0.2.0)](https://pub.dev/packages/ease_annotation) |
 | [ease_generator](packages/ease_generator) | Code generator | [![pub](https://img.shields.io/pub/v/ease_generator.svg?label=0.3.0)](https://pub.dev/packages/ease_generator) |
-| [ease_devtools_extension](packages/ease_devtools_extension) | DevTools integration | [![pub](https://img.shields.io/pub/v/ease_devtools_extension.svg?label=0.3.0)](https://pub.dev/packages/ease_devtools_extension) |
+| [ease_devtools_extension](packages/ease_devtools_extension) | DevTools integration | ⏳ Coming Soon |
 
 ---
 

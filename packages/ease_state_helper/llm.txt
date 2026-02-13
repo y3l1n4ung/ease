@@ -10,11 +10,17 @@ Ease provides type-safe state management with minimal boilerplate through code g
 
 ```yaml
 dependencies:
-  ease: ^1.0.0
+  ease_state_helper: ^0.3.0
+  ease_annotation: ^0.2.0
 
 dev_dependencies:
-  ease_generator: ^1.0.0
+  ease_generator: ^0.3.0
   build_runner: ^2.4.0
+  # DevTools extension (coming soon to pub.dev)
+  ease_devtools_extension:
+    git:
+      url: https://github.com/y3l1n4ung/ease.git
+      path: packages/ease_devtools_extension
 ```
 
 ## Quick Start
@@ -49,7 +55,7 @@ import 'package:ease/ease.dart';
 import 'ease.g.dart';
 
 void main() {
-  initializeEase(); // Optional: enables DevTools
+  initializeEaseDevTool(); // Optional: enables DevTools
   runApp(Ease(providers: $easeProviders, child: const MyApp()));
 }
 ```
@@ -326,7 +332,7 @@ import 'package:ease/ease.dart';
 import 'ease.g.dart';
 
 void main() {
-  initializeEase(); // Call before runApp
+  initializeEaseDevTool(); // Call before runApp
   runApp(Ease(providers: $easeProviders, child: const MyApp()));
 }
 ```
