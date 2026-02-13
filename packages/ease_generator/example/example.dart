@@ -6,11 +6,11 @@
 // Add to your pubspec.yaml:
 // ```yaml
 // dependencies:
-//   ease_state_helper: ^0.1.0
-//   ease_annotation: ^0.1.0
+//   ease_state_helper: ^0.3.0
+//   ease_annotation: ^0.2.0
 //
 // dev_dependencies:
-//   ease_generator: ^0.1.0
+//   ease_generator: ^0.3.0
 //   build_runner: ^2.4.0
 // ```
 //

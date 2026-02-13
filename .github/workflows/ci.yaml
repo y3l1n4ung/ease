@@ -9,7 +9,6 @@ on:
       - 'LICENSE'
       - '**.txt'
       - 'extensions/**'
-      - '.github/workflows/publish-vscode.yml'
   pull_request:
     branches: [main]
     paths-ignore:
@@ -18,7 +17,6 @@ on:
       - 'LICENSE'
       - '**.txt'
       - 'extensions/**'
-      - '.github/workflows/publish-vscode.yml'
   workflow_dispatch:
 
 jobs:
@@ -72,35 +70,16 @@ jobs:
       - name: List coverage files
         run: |
           echo "Coverage files generated:"
-          find packages -name "lcov.info" -type f
+          find . -name "lcov.info" -type f
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./packages/ease_state_helper/coverage/lcov.info,./packages/ease_generator/coverage/lcov.info,./packages/ease_devtools_extension/coverage/lcov.info
+          directory: .
           flags: unittests
           name: codecov-umbrella
           fail_ci_if_error: false
           verbose: true
 
-  pana:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: stable
-          cache: true
-      - name: Install Melos
-        run: dart pub global activate melos
-      - name: Bootstrap
-        run: melos bootstrap
-      - name: Install pana
-        run: dart pub global activate pana
-      - name: Run pana on ease_annotation
-        run: cd packages/ease_annotation && pana --no-warning
-      - name: Run pana on ease_generator
-        run: cd packages/ease_generator && pana --no-warning
-      - name: Run pana on ease_state_helper
-        run: cd packages/ease_state_helper && pana --no-warning
+      

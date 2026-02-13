@@ -9,11 +9,11 @@ Code generator for [Ease State Helper](https://pub.dev/packages/ease_state_helpe
 
 ```yaml
 dependencies:
-  ease_state_helper: ^0.2.0
+  ease_state_helper: ^0.3.0
   ease_annotation: ^0.2.0
 
 dev_dependencies:
-  ease_generator: ^0.2.0
+  ease_generator: ^0.3.0
   build_runner: ^2.4.0
 ```
 

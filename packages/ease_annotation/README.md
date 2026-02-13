@@ -9,7 +9,7 @@ Annotation package for [Ease State Helper](https://pub.dev/packages/ease_state_h
 
 ```yaml
 dependencies:
-  ease_annotation: ^0.1.0
+  ease_annotation: ^0.2.0
 ```
 
 ## Usage

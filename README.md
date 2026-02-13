@@ -42,26 +42,30 @@ A lightweight helper library that makes Flutter’s built-in state management ea
 - Simple state management without heavy dependencies
 - Flutter's native patterns (InheritedWidget) with less boilerplate
 
+Read the introductory article: [Modern Flutter State Management: Introducing Ease](https://medium.com/@y3l1n4ung/aefcfae26b01)
+
 ---
 
 ## Installation
 
 ### Minimal Setup (VS Code Extension)
 
+Add the latest version to your `pubspec.yaml`:
+
 ```yaml
 dependencies:
-  ease_state_helper: ^0.1.0
+  ease_state_helper: ^0.3.0
 ```
 
 ### Full Setup (Code Generation)
 
 ```yaml
 dependencies:
-  ease_state_helper: ^0.1.0
-  ease_annotation: ^0.1.0
+  ease_state_helper: ^0.3.0
+  ease_annotation: ^0.2.0
 
 dev_dependencies:
-  ease_generator: ^0.1.0
+  ease_generator: ^0.3.0
   build_runner: ^2.4.0
 ```
 
@@ -376,7 +380,7 @@ Debug your Ease states in Flutter DevTools.
 
 ```yaml
 dev_dependencies:
-  ease_devtools_extension: ^0.1.0
+  ease_devtools_extension: ^0.3.0
 ```
 
 ```dart
@@ -406,10 +410,10 @@ void main() {
 
 | Package | Description | pub.dev |
 |---------|-------------|---------|
-| [ease_state_helper](packages/ease_state_helper) | Core runtime library | [![pub](https://img.shields.io/pub/v/ease_state_helper.svg)](https://pub.dev/packages/ease_state_helper) |
-| [ease_annotation](packages/ease_annotation) | `@Ease()` annotation | [![pub](https://img.shields.io/pub/v/ease_annotation.svg)](https://pub.dev/packages/ease_annotation) |
-| [ease_generator](packages/ease_generator) | Code generator | [![pub](https://img.shields.io/pub/v/ease_generator.svg)](https://pub.dev/packages/ease_generator) |
-| [ease_devtools_extension](packages/ease_devtools_extension) | DevTools integration | [![pub](https://img.shields.io/pub/v/ease_devtools_extension.svg)](https://pub.dev/packages/ease_devtools_extension) |
+| [ease_state_helper](packages/ease_state_helper) | Core runtime library | [![pub](https://img.shields.io/pub/v/ease_state_helper.svg?label=0.3.0)](https://pub.dev/packages/ease_state_helper) |
+| [ease_annotation](packages/ease_annotation) | `@Ease()` annotation | [![pub](https://img.shields.io/pub/v/ease_annotation.svg?label=0.2.0)](https://pub.dev/packages/ease_annotation) |
+| [ease_generator](packages/ease_generator) | Code generator | [![pub](https://img.shields.io/pub/v/ease_generator.svg?label=0.3.0)](https://pub.dev/packages/ease_generator) |
+| [ease_devtools_extension](packages/ease_devtools_extension) | DevTools integration | [![pub](https://img.shields.io/pub/v/ease_devtools_extension.svg?label=0.3.0)](https://pub.dev/packages/ease_devtools_extension) |
 
 ---
 
