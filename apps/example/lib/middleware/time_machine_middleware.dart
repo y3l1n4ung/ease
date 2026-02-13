@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:ease_state_helper/ease_state_helper.dart';
-import 'package:flutter/foundation.dart';
 
 /// A recorded state change event.
 class StateEvent {

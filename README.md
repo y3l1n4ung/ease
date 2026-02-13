@@ -7,6 +7,8 @@ A lightweight helper library that makes Flutter’s built-in state management ea
 [![Flutter](https://img.shields.io/badge/Flutter-3.22+-blue.svg)](https://flutter.dev)
 [![Dart](https://img.shields.io/badge/Dart-3.5+-blue.svg)](https://dart.dev)
 [![codecov](https://codecov.io/github/y3l1n4ung/ease/graph/badge.svg?token=EZDDCOCOAT)](https://codecov.io/github/y3l1n4ung/ease)
+[![Discord](https://img.shields.io/badge/Discord-Join%20Chat-5865F2?logo=discord&logoColor=white)](https://discord.gg/8NcC7cn3)
+
 
 ---
 

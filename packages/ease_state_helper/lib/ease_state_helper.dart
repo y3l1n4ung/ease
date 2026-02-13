@@ -26,6 +26,8 @@ import 'package:flutter/foundation.dart';
 
 import 'src/devtools.dart';
 
+export 'package:flutter/foundation.dart';
+export 'package:flutter/widgets.dart';
 export 'src/devtools.dart' show EaseDevTools, StateChangeRecord, StateInfo;
 export 'src/ease_widget.dart';
 export 'src/middleware.dart';

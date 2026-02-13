@@ -1,7 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
 
-import 'package:flutter/widgets.dart';
 import 'package:ease_state_helper/ease_state_helper.dart';
 
 import 'view_models/counter_view_model.dart';
