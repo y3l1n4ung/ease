@@ -2,7 +2,6 @@ import 'package:ease_annotation/ease_annotation.dart';
 import 'dart:async';
 
 import 'package:ease_state_helper/ease_state_helper.dart';
-import 'package:flutter/widgets.dart';
 
 import '../models/search_result.dart';
 

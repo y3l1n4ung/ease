@@ -7,67 +7,62 @@ A lightweight helper library that makes Flutter’s built-in state management ea
 [![Flutter](https://img.shields.io/badge/Flutter-3.22+-blue.svg)](https://flutter.dev)
 [![Dart](https://img.shields.io/badge/Dart-3.5+-blue.svg)](https://dart.dev)
 [![codecov](https://codecov.io/github/y3l1n4ung/ease/graph/badge.svg?token=EZDDCOCOAT)](https://codecov.io/github/y3l1n4ung/ease)
+[![Discord](https://img.shields.io/badge/Discord-Join%20Chat-5865F2?logo=discord&logoColor=white)](https://discord.gg/8NcC7cn3)
+
+---
+
+## Motivation
+
+Flutter's `InheritedWidget` and `InheritedModel` are powerful but boilerplate-heavy. **Ease** provides a modern, Riverpod-like Developer Experience (DX) directly on top of these native primitives.
+
+It aims to be the "Standard Library" extension for Flutter state management—zero extra dependencies, native performance, and type safety out of the box.
+
+---
+
+## The Model
+
+If you've used Riverpod or Provider, Ease will feel familiar:
+
+```dart
+// context.counterViewModel      => Watch (rebuilds widget)
+// context.readCounterViewModel() => Read (no rebuild, for callbacks)
+// context.selectCounterViewModel => Select (rebuilds only on specific field change)
+```
 
 ---
 
 ## Table of Contents
 
-- [Why Ease?](#why-ease)
-- [Installation](#installation)
-- [Quick Start](#quick-start)
+- [Motivation](#motivation)
+- [Getting Started](#getting-started)
 - [Core Concepts](#core-concepts)
 - [API Reference](#api-reference)
 - [Advanced Usage](#advanced-usage)
 - [DevTools Support](#devtools-support)
 - [Packages](#packages)
 - [Examples](#examples)
+- [Community & Support](#community--support)
 - [Contributing](#contributing)
 
 ---
 
-## Why Ease?
+## Getting Started
 
-| Feature | Ease | Provider | Riverpod | Bloc |
-|---------|------|----------|----------|------|
-| Built on Flutter primitives | ✅ InheritedModel | ✅ | ❌ | ❌ |
-| Code generation optional | ✅ | ✅ | ⚠️ Recommended | ❌ |
-| Selective rebuilds | ✅ `select()` | ✅ | ✅ | ✅ |
-| DevTools integration | ✅ | ✅ | ✅ | ✅ |
-| Learning curve | Low | Low | Medium | High |
-| Boilerplate | Minimal | Minimal | Medium | High |
+### 1. Installation
 
-**Ease is ideal when you want:**
-- Simple state management without heavy dependencies
-- Flutter's native patterns (InheritedWidget) with less boilerplate
-
----
-
-## Installation
-
-### Minimal Setup (VS Code Extension)
+Add the latest version to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  ease_state_helper: ^0.1.0
-```
-
-### Full Setup (Code Generation)
-
-```yaml
-dependencies:
-  ease_state_helper: ^0.1.0
-  ease_annotation: ^0.1.0
+  ease_state_helper: ^0.3.0
+  ease_annotation: ^0.2.0
 
 dev_dependencies:
-  ease_generator: ^0.1.0
+  ease_generator: ^0.3.0
   build_runner: ^2.4.0
 ```
 
----
-
-## Quick Start
-
-### 1. Create a ViewModel
+### 2. Create a ViewModel
 
 ```dart
 import 'package:ease_annotation/ease_annotation.dart';
@@ -80,61 +75,32 @@ class CounterViewModel extends StateNotifier<int> {
   CounterViewModel() : super(0);
 
   void increment() => state++;
-  void decrement() => state--;
-  void reset() => state = 0;
 }
 ```
 
-### 2. Run Code Generation
+### 3. Generate & Register
 
 ```bash
 dart run build_runner build
 ```
 
-This generates:
-- `counter_view_model.ease.dart` - Provider and context extensions
-
-### 3. Register Providers
-
 ```dart
-import 'package:flutter/material.dart';
-import 'counter_view_model.dart';
-
 void main() {
   runApp(
-    CounterViewModelProvider(
+    EaseScope(
+      providers: [(child) => CounterViewModelProvider(child: child)],
       child: const MyApp(),
     ),
   );
 }
 ```
 
-### 4. Use in Widgets
+### 4. Use
 
 ```dart
-class CounterScreen extends StatelessWidget {
-  const CounterScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    // Watch - rebuilds when state changes
-    final counter = context.counterViewModel;
-
-    return Scaffold(
-      appBar: AppBar(title: const Text('Counter')),
-      body: Center(
-        child: Text(
-          '${counter.state}',
-          style: Theme.of(context).textTheme.displayLarge,
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        // Read - no rebuild, use in callbacks
-        onPressed: () => context.readCounterViewModel().increment(),
-        child: const Icon(Icons.add),
-      ),
-    );
-  }
+Widget build(BuildContext context) {
+  final counter = context.counterViewModel;
+  return Text('${counter.state}');
 }
 ```
 
@@ -150,17 +116,18 @@ Base class for all ViewModels. Extends `ChangeNotifier` with a typed `state` pro
 class CartViewModel extends StateNotifier<CartState> {
   CartViewModel() : super(const CartState());
 
-  // Direct assignment
+  // Direct assignment - auto-notifies
   void clear() => state = const CartState();
 
-  // Update based on current state
+  // Named action - better DevTools visibility
   void addItem(Product product) {
-    state = state.copyWith(
-      items: [...state.items, CartItem(product: product)],
+    setState(
+      state.copyWith(items: [...state.items, product]),
+      action: 'addItem',
     );
   }
 
-  // Using update helper
+  // Functional update
   void toggleLoading() {
     update((current) => current.copyWith(isLoading: !current.isLoading));
   }
@@ -263,14 +230,14 @@ final items = context.selectCartViewModel(
 );
 ```
 
-### Listen (Side Effects)
+### Context-Safe Listeners (Side Effects)
+
+Use `listenOnYourViewModel` for context-aware side effects (snackbars, navigation). It automatically handles unmounting and cleanup.
 
 ```dart
 @override
 void initState() {
   super.initState();
-
-  // Listen for errors and show snackbar
   context.listenOnCartViewModel((prev, next) {
     if (next.error != null && prev.error != next.error) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -278,8 +245,6 @@ void initState() {
       );
     }
   });
-
-  // No dispose needed - auto-cleanup when widget unmounts
 }
 ```
 
@@ -370,11 +335,16 @@ void main() {
 
 Debug your Ease states in Flutter DevTools.
 
-### Setup
+### Setup (Coming Soon to pub.dev)
+
+Currently, you can use the DevTools extension by adding it as a git dependency:
 
 ```yaml
 dev_dependencies:
-  ease_devtools_extension: ^0.1.0
+  ease_devtools_extension:
+    git:
+      url: https://github.com/y3l1n4ung/ease.git
+      path: packages/ease_devtools_extension
 ```
 
 ```dart
@@ -402,12 +372,27 @@ void main() {
 
 ## Packages
 
-| Package | Description | pub.dev |
+| Package | Description | Status |
 |---------|-------------|---------|
-| [ease_state_helper](packages/ease_state_helper) | Core runtime library | [![pub](https://img.shields.io/pub/v/ease_state_helper.svg)](https://pub.dev/packages/ease_state_helper) |
-| [ease_annotation](packages/ease_annotation) | `@Ease()` annotation | [![pub](https://img.shields.io/pub/v/ease_annotation.svg)](https://pub.dev/packages/ease_annotation) |
-| [ease_generator](packages/ease_generator) | Code generator | [![pub](https://img.shields.io/pub/v/ease_generator.svg)](https://pub.dev/packages/ease_generator) |
-| [ease_devtools_extension](packages/ease_devtools_extension) | DevTools integration | [![pub](https://img.shields.io/pub/v/ease_devtools_extension.svg)](https://pub.dev/packages/ease_devtools_extension) |
+| [ease_state_helper](packages/ease_state_helper) | Core runtime library | [![pub](https://img.shields.io/pub/v/ease_state_helper.svg?label=0.3.0)](https://pub.dev/packages/ease_state_helper) |
+| [ease_annotation](packages/ease_annotation) | `@Ease()` annotation | [![pub](https://img.shields.io/pub/v/ease_annotation.svg?label=0.2.0)](https://pub.dev/packages/ease_annotation) |
+| [ease_generator](packages/ease_generator) | Code generator | [![pub](https://img.shields.io/pub/v/ease_generator.svg?label=0.3.0)](https://pub.dev/packages/ease_generator) |
+| [ease_devtools_extension](packages/ease_devtools_extension) | DevTools integration | ⏳ Coming Soon |
+
+---
+
+## Project Structure
+
+Ease is maintained as a monorepo using [Melos](https://melos.invertase.dev/).
+
+| Path | Package | Description |
+|------|---------|-------------|
+| `packages/ease_state_helper` | [ease_state_helper](packages/ease_state_helper) | Core runtime library. |
+| `packages/ease_annotation` | [ease_annotation](packages/ease_annotation) | Annotations for code generation. |
+| `packages/ease_generator` | [ease_generator](packages/ease_generator) | `build_runner` based code generator. |
+| `packages/ease_devtools_extension` | [ease_devtools_extension](packages/ease_devtools_extension) | Flutter DevTools extension. |
+| `apps/example` | - | General examples and integration tests. |
+| `apps/shopping_app` | - | Real-world example application. |
 
 ---
 
@@ -428,6 +413,15 @@ flutter pub get
 dart run build_runner build
 flutter run
 ```
+
+---
+
+## Community & Support
+
+- **Need help?** Check out our [Support Guide](SUPPORT.md).
+- **Found a bug?** [Open an issue](https://github.com/y3l1n4ung/ease/issues/new?template=bug_report.md).
+- **Want to chat?** Join our [Discord](https://discord.gg/8NcC7cn3).
+- **Code of Conduct**: Please read and follow our [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ---
 

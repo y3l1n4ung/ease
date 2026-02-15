@@ -1,25 +1,48 @@
 # Ease Generator
 
-[![pub package](https://img.shields.io/pub/v/ease_generator.svg)](https://pub.dev/packages/ease_generator)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+Code generator for the [Ease State Helper](https://pub.dev/packages/ease_state_helper) library. It generates `InheritedModel` providers and type-safe `BuildContext` extensions for classes annotated with `@ease`.
 
-Code generator for [Ease State Helper](https://pub.dev/packages/ease_state_helper).
+---
 
-## Installation
+## Ease Ecosystem
+
+This package is the "engine" of the **Ease State Helper** ecosystem. It automates the boilerplate required to make Flutter's native state management feel modern and intuitive.
+
+| Package | Role | Dependency Type |
+|---------|------|-----------------|
+| [ease_state_helper](../ease_state_helper) | Core runtime logic | `dependencies` |
+| [ease_annotation](../ease_annotation) | Metadata for codegen | `dependencies` |
+| **ease_generator** | Code generator | `dev_dependencies` |
+| [ease_devtools_extension](../ease_devtools_extension) | Debugging tools | `dev_dependencies` |
+
+---
+
+## Features
+
+- **Automatic Provider Generation** - Creates `CounterViewModelProvider` for your `CounterViewModel`.
+- **Type-safe Context Extensions** - Generate `.counterViewModel`, `.readCounterViewModel()`, and `.selectCounterViewModel()`.
+- **InheritedModel Support** - Leverages Flutter's most efficient state propagation mechanism.
+- **Side Effect Listeners** - Generates `.listenOnCounterViewModel()` for snackbars, navigation, etc.
+
+## How it Works
+
+The generator scans your codebase for classes extending `StateNotifier<T>` and annotated with `@ease`. It then generates a companion `.ease.dart` file containing all the "glue" code needed to integrate your ViewModel with the Flutter widget tree.
 
 ```yaml
 dependencies:
-  ease_state_helper: ^0.2.0
+  ease_state_helper: ^0.3.0
   ease_annotation: ^0.2.0
 
 dev_dependencies:
-  ease_generator: ^0.2.0
+  ease_generator: ^0.3.0
   build_runner: ^2.4.0
 ```
 
 ## Usage
 
 ### 1. Annotate your ViewModel
+
+The class must extend `StateNotifier<T>`.
 
 ```dart
 import 'package:ease_annotation/ease_annotation.dart';
@@ -30,83 +53,45 @@ part 'counter_view_model.ease.dart';
 @ease
 class CounterViewModel extends StateNotifier<int> {
   CounterViewModel() : super(0);
+
   void increment() => state++;
 }
 ```
 
-### 2. Run generator
+### 2. Generate the code
+
+Run the build command:
 
 ```bash
 dart run build_runner build
 ```
 
-### 3. Use generated code
+### 3. Use the generated extensions
+
+The generator creates type-safe extensions on `BuildContext`:
 
 ```dart
-import 'counter_view_model.dart';
+// 1. Watch (Subscribes to all changes)
+final notifier = context.counterViewModel;
 
-void main() {
-  runApp(
-    CounterViewModelProvider(
-      child: const MyApp(),
-    ),
-  );
-}
+// 2. Read (No subscription, for callbacks)
+context.readCounterViewModel().increment();
 
-// In widgets:
-final counter = context.counterViewModel; // Watch (rebuilds on change)
-context.readCounterViewModel().increment(); // Read (no rebuild)
+// 3. Select (Subscribes to specific field)
+final value = context.selectCounterViewModel((state) => state);
+
+// 4. Listen (Side effects)
+context.listenOnCounterViewModel((prev, next) {
+  print('Changed from $prev to $next');
+});
 ```
 
-## Generated Files
+## Generated Code
 
-- `*.ease.dart` - Provider widget and context extensions per ViewModel
-
-## What Gets Generated
-
-For each `@ease` annotated class, the generator creates:
-
-- **`{ClassName}Provider`** - StatefulWidget that manages the ViewModel lifecycle
-- **`_{ClassName}Inherited`** - InheritedModel for efficient state propagation
-- **Context extensions**:
-  - `context.className` - Watch state (rebuilds widget on changes)
-  - `context.readClassName()` - Read state without subscribing
-  - `context.selectClassName((s) => s.field)` - Selective rebuilds
-
-## Nesting Multiple Providers
-
-Use `EaseScope` to nest multiple providers:
-
-```dart
-void main() {
-  runApp(
-    EaseScope(
-      providers: [
-        (child) => CounterViewModelProvider(child: child),
-        (child) => UserViewModelProvider(child: child),
-        (child) => CartViewModelProvider(child: child),
-      ],
-      child: const MyApp(),
-    ),
-  );
-}
-```
-
-Or nest them manually:
-
-```dart
-void main() {
-  runApp(
-    CounterViewModelProvider(
-      child: UserViewModelProvider(
-        child: CartViewModelProvider(
-          child: const MyApp(),
-        ),
-      ),
-    ),
-  );
-}
-```
+For a class `CounterViewModel`, the generator creates:
+- `CounterViewModelProvider`: A `StatefulWidget` that manages the lifecycle.
+- `_CounterViewModelInherited`: An `InheritedModel` for state propagation.
+- `CounterViewModelContext`: An extension on `BuildContext` with `counterViewModel`, `readCounterViewModel()`, `selectCounterViewModel()`, and `listenOnCounterViewModel()`.
 
 ## License
 

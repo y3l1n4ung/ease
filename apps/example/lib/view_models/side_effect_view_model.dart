@@ -3,7 +3,6 @@ import 'dart:math';
 
 import 'package:ease_annotation/ease_annotation.dart';
 import 'package:ease_state_helper/ease_state_helper.dart';
-import 'package:flutter/widgets.dart';
 
 part 'side_effect_view_model.ease.dart';
 

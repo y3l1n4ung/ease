@@ -5,14 +5,30 @@
 
 Annotation package for [Ease State Helper](https://pub.dev/packages/ease_state_helper).
 
-## Installation
+---
 
-```yaml
-dependencies:
-  ease_annotation: ^0.1.0
-```
+## Ease Ecosystem
 
-## Usage
+This package is part of the **Ease State Helper** ecosystem. Ease is divided into multiple packages to keep your production dependencies as light as possible:
+
+| Package | Role | Dependency Type |
+|---------|------|-----------------|
+| [ease_state_helper](../ease_state_helper) | Core runtime logic | `dependencies` |
+| **ease_annotation** | Metadata for codegen | `dependencies` |
+| [ease_generator](../ease_generator) | Code generator | `dev_dependencies` |
+| [ease_devtools_extension](../ease_devtools_extension) | Debugging tools | `dev_dependencies` |
+
+---
+
+## Features
+
+- **@Ease()** - Mark classes for code generation.
+- **Local Scoping** - Use `@Ease(local: true)` for scoped providers.
+- **Lightweight** - Zero dependencies other than `meta`.
+
+## Why Ease Annotation?
+
+This package provides the metadata needed by `ease_generator` to create type-safe `BuildContext` extensions and `InheritedModel` providers. By separating annotations from the generator and core library, we keep your app's runtime dependencies minimal.
 
 ```dart
 import 'package:ease_annotation/ease_annotation.dart';

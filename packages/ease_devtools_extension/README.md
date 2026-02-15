@@ -5,6 +5,21 @@
 
 Flutter DevTools extension for debugging [Ease State Helper](https://pub.dev/packages/ease_state_helper) state management.
 
+---
+
+## Ease Ecosystem
+
+This package provides a visual interface for inspecting your Ease states during development. It is part of the broader **Ease State Helper** ecosystem:
+
+| Package | Role | Dependency Type |
+|---------|------|-----------------|
+| [ease_state_helper](../ease_state_helper) | Core runtime logic | `dependencies` |
+| [ease_annotation](../ease_annotation) | Metadata for codegen | `dependencies` |
+| [ease_generator](../ease_generator) | Code generator | `dev_dependencies` |
+| **ease_devtools_extension** | Debugging tools | `dev_dependencies` |
+
+---
+
 ## Features
 
 - **State Inspector** - View all registered states and their current values
@@ -14,22 +29,25 @@ Flutter DevTools extension for debugging [Ease State Helper](https://pub.dev/pac
 
 ## Installation
 
-Add to your `pubspec.yaml` dev dependencies:
+> **Note**: This package is not yet released on pub.dev. You can use it via git:
 
 ```yaml
 dev_dependencies:
-  ease_devtools_extension: ^1.0.0
+  ease_devtools_extension:
+    git:
+      url: https://github.com/y3l1n4ung/ease.git
+      path: packages/ease_devtools_extension
 ```
 
 ## Setup
 
-1. Call `initializeEase()` before `runApp()`:
+1. Call `initializeEaseDevTool()` before `runApp()`:
 
 ```dart
 import 'package:ease_state_helper/ease_state_helper.dart';
 
 void main() {
-  initializeEase();
+  initializeEaseDevTool();
   runApp(const EaseScope(child: MyApp()));
 }
 ```
