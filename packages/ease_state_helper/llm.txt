@@ -28,7 +28,8 @@ dev_dependencies:
 ### 1. Create a ViewModel
 
 ```dart
-import 'package:ease/ease.dart';
+import 'package:ease_annotation/ease_annotation.dart';
+import 'package:ease_state_helper/ease_state_helper.dart';
 
 part 'counter_view_model.ease.dart';
 
@@ -48,15 +49,21 @@ class CounterViewModel extends StateNotifier<int> {
 dart run build_runner build
 ```
 
-### 3. Wrap App with Ease Widget
+### 3. Register Providers
 
 ```dart
-import 'package:ease/ease.dart';
-import 'ease.g.dart';
+import 'package:flutter/material.dart';
+import 'counter_view_model.dart';
 
 void main() {
-  initializeEaseDevTool(); // Optional: enables DevTools
-  runApp(Ease(providers: $easeProviders, child: const MyApp()));
+  runApp(
+    EaseScope(
+      providers: [
+        (child) => CounterViewModelProvider(child: child),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 ```
 
@@ -201,15 +208,19 @@ class CartState {
 Intercept state changes for logging, persistence, analytics:
 
 ```dart
-import 'package:ease/ease.dart';
-import 'ease.g.dart';
-
 void main() {
   StateNotifier.middleware = [
     LoggingMiddleware(),
     MyCustomMiddleware(),
   ];
-  runApp(Ease(providers: $easeProviders, child: const MyApp()));
+  runApp(
+    EaseScope(
+      providers: [
+        (child) => CounterViewModelProvider(child: child),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 ```
 
@@ -260,9 +271,6 @@ class PersistenceMiddleware extends EaseMiddleware {
 ## Generated Files
 
 - Per-class: `my_view_model.ease.dart` (part file with Provider + InheritedModel + context extensions)
-- Aggregated: `ease.g.dart`:
-  - `$easeProviders` - list of all provider builders for use with `Ease` widget
-  - `EaseContext` extension - generic `get<T>()` and `read<T>()` methods
 
 ## Common Patterns
 
@@ -328,12 +336,16 @@ class CartState {
 ## DevTools Integration
 
 ```dart
-import 'package:ease/ease.dart';
-import 'ease.g.dart';
-
 void main() {
   initializeEaseDevTool(); // Call before runApp
-  runApp(Ease(providers: $easeProviders, child: const MyApp()));
+  runApp(
+    EaseScope(
+      providers: [
+        (child) => CounterViewModelProvider(child: child),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 ```
 

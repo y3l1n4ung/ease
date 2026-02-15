@@ -5,6 +5,21 @@
 
 Flutter DevTools extension for debugging [Ease State Helper](https://pub.dev/packages/ease_state_helper) state management.
 
+---
+
+## Ease Ecosystem
+
+This package provides a visual interface for inspecting your Ease states during development. It is part of the broader **Ease State Helper** ecosystem:
+
+| Package | Role | Dependency Type |
+|---------|------|-----------------|
+| [ease_state_helper](../ease_state_helper) | Core runtime logic | `dependencies` |
+| [ease_annotation](../ease_annotation) | Metadata for codegen | `dependencies` |
+| [ease_generator](../ease_generator) | Code generator | `dev_dependencies` |
+| **ease_devtools_extension** | Debugging tools | `dev_dependencies` |
+
+---
+
 ## Features
 
 - **State Inspector** - View all registered states and their current values
