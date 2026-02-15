@@ -3,9 +3,9 @@ name: Publish to pub.dev
 on:
   push:
     tags:
-      - 'ease_annotation-v[0-9]+.[0-9]+.[0-9]+*'
-      - 'ease_generator-v[0-9]+.[0-9]+.[0-9]+*'
-      - 'ease_state_helper-v[0-9]+.[0-9]+.[0-9]+*'
+      - 'ease_annotation-v*'
+      - 'ease_generator-v*'
+      - 'ease_state_helper-v*'
 
 jobs:
   publish-ease-annotation:
