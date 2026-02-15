@@ -3,6 +3,43 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-02-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`ease_annotation` - `v0.2.0+1`](#ease_annotation---v0201)
+ - [`ease_devtools_extension` - `v0.1.1+2`](#ease_devtools_extension---v0112)
+ - [`ease_generator` - `v0.3.0+1`](#ease_generator---v0301)
+ - [`ease_state_helper` - `v0.3.0+1`](#ease_state_helper---v0301)
+
+---
+
+#### `ease_annotation` - `v0.2.0+1`
+
+ - **DOCS**: add medium article and update versions to latest, ci: fix coverage and pana jobs. ([7745ee07](https://github.com/y3l1n4ung/ease/commit/7745ee0779a130b75df3968bd589631b3f3545d4))
+
+#### `ease_devtools_extension` - `v0.1.1+2`
+
+ - **DOCS**: mark devtools extension as unreleased and use git dependency. ([1295971a](https://github.com/y3l1n4ung/ease/commit/1295971a414e1ff45813fec54f10f08825e683e6))
+
+#### `ease_generator` - `v0.3.0+1`
+
+ - **DOCS**: add medium article and update versions to latest, ci: fix coverage and pana jobs. ([7745ee07](https://github.com/y3l1n4ung/ease/commit/7745ee0779a130b75df3968bd589631b3f3545d4))
+
+#### `ease_state_helper` - `v0.3.0+1`
+
+ - **REFACTOR**: export flutter symbols from ease_state_helper. ([40302c71](https://github.com/y3l1n4ung/ease/commit/40302c7174f7a6287671a0bd438edd319f7fbc47))
+ - **DOCS**: mark devtools extension as unreleased and use git dependency. ([1295971a](https://github.com/y3l1n4ung/ease/commit/1295971a414e1ff45813fec54f10f08825e683e6))
+
+
 ## 2026-01-07
 
 ### Changes

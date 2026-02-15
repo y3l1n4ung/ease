@@ -1,3 +1,7 @@
+## 0.1.1+2
+
+ - **DOCS**: mark devtools extension as unreleased and use git dependency. ([1295971a](https://github.com/y3l1n4ung/ease/commit/1295971a414e1ff45813fec54f10f08825e683e6))
+
 ## 0.1.1+1
 
  - Update a dependency to the latest release.

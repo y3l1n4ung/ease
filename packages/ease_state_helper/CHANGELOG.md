@@ -1,3 +1,8 @@
+## 0.3.0+1
+
+ - **REFACTOR**: export flutter symbols from ease_state_helper. ([40302c71](https://github.com/y3l1n4ung/ease/commit/40302c7174f7a6287671a0bd438edd319f7fbc47))
+ - **DOCS**: mark devtools extension as unreleased and use git dependency. ([1295971a](https://github.com/y3l1n4ung/ease/commit/1295971a414e1ff45813fec54f10f08825e683e6))
+
 ## 0.3.0
 
 > Note: This release has breaking changes.

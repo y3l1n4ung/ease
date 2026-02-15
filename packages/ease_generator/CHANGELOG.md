@@ -1,3 +1,7 @@
+## 0.3.0+1
+
+ - **DOCS**: add medium article and update versions to latest, ci: fix coverage and pana jobs. ([7745ee07](https://github.com/y3l1n4ung/ease/commit/7745ee0779a130b75df3968bd589631b3f3545d4))
+
 ## 0.3.0
 
 > Note: This release has breaking changes.
